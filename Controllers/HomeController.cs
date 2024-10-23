@@ -20,7 +20,7 @@ public class HomeController : Controller
 
     public IActionResult Usuario()
     {
-        ViewBag.usuario = BD.ObtenerInfoUsuario(0);
+        ViewBag.usuario = BD.ObtenerInfoUsuario(1);
         return View();
     }
 
