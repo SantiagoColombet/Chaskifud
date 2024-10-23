@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\48458914\\Desktop\\Chaskifud\\Chaskifud.csproj": {}
+    "C:\\Users\\48386383\\Downloads\\Chaskifud\\Chaskifud.csproj": {}
   },
   "projects": {
-    "C:\\Users\\48458914\\Desktop\\Chaskifud\\Chaskifud.csproj": {
+    "C:\\Users\\48386383\\Downloads\\Chaskifud\\Chaskifud.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\48458914\\Desktop\\Chaskifud\\Chaskifud.csproj",
+        "projectUniqueName": "C:\\Users\\48386383\\Downloads\\Chaskifud\\Chaskifud.csproj",
         "projectName": "Chaskifud",
-        "projectPath": "C:\\Users\\48458914\\Desktop\\Chaskifud\\Chaskifud.csproj",
-        "packagesPath": "C:\\Users\\48458914\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\48458914\\Desktop\\Chaskifud\\obj\\",
+        "projectPath": "C:\\Users\\48386383\\Downloads\\Chaskifud\\Chaskifud.csproj",
+        "packagesPath": "C:\\Users\\48386383\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\48386383\\Downloads\\Chaskifud\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\48458914\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\48386383\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
