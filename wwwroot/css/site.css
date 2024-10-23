@@ -1,3 +1,10 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+  /* border: 1px black solid; */
+}
 html {
   font-size: 14px;
 }
@@ -20,3 +27,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+
+
+  
