@@ -18,6 +18,12 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult Usuario()
+    {
+        ViewBag.usuario = BD.ObtenerInfoUsuario(0);
+        return View();
+    }
+
     public IActionResult Privacy()
     {
         return View();
