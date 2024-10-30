@@ -1,20 +1,31 @@
 body {
-
-  width: 100%;
-  height: 100vh; 
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   margin: 0;
 }
-  
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.containerIndexInfo, .food-container {
+  flex: 1;
+}
+
+
 .containerIndexInfo {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 20px 0;
   text-align: center;
   width: 100%; 
 }
+
 
 .containerIndexInfo div {
   width: 900px;
@@ -24,8 +35,8 @@ body {
   border: 1px solid #333;
 }
 
-h2 {
-  text-align: center;
+.h2-index {
+  margin-left: 10%;
   font-size: 24px;
   margin-bottom: 20px;
   color: #333;
@@ -33,53 +44,60 @@ h2 {
 
 .food-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  flex-direction: row;
+  gap: 50px;
   margin-bottom: 20px;
 }
 
 .food-card {
   background-color: #fff;
-  border-radius: 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  width: 18%;
   text-align: center;
   overflow: hidden;
+  height: 220px;  
 }
 
 .food-card img {
   width: 100%;
-  height: 200px;
+  height: 150px;
   object-fit: cover;
 }
 
 .food-info {
-  padding: 15px;
+  display: flex;
+  margin-top: 15px;
+  padding: 0px;
 }
 
+.food-info img{
+  margin-left: 15px;
+  width: 40px;
+  height: 40px;
+}
+.sub-food-info{
+  margin-left: 7px;
+}
 .food-info h3 {
   font-size: 18px;
-  margin-bottom: 10px;
+  margin-bottom: 1px;
   color: #333;
 }
 
 .food-info p {
-  font-size: 14px;
+  font-size: 10px;
   color: #666;
-  margin-bottom: 5px;
+  margin-bottom: 1px;
 }
 
 .food-info span {
   font-size: 16px;
   color: #fbc02d;
   font-weight: bold;
+  margin-left: auto;
+  margin-right: 20px;
 }
 
-.ver-mas {
-  display: block;
-  text-align: center;
-  margin: 0 auto;
-  font-size: 18px;
-  color: #333;
-  text-decoration: none;
-  margin-top: 20px;
-}
