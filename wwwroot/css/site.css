@@ -14,6 +14,7 @@ body {
   
 }
 
+/*                                         INDEX                                         */
 main {
   flex: 1;
   display: flex;
@@ -40,7 +41,7 @@ main {
   background-color: #fbc02d;
   border-radius: 15px;
   padding: 40px;
-  border: 1px solid #333;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);;
 }
 
 .h2-index {
@@ -55,7 +56,7 @@ main {
   justify-content: center;
   flex-direction: row;
   gap: 50px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .food-card {
@@ -117,10 +118,66 @@ main {
   align-items: center;
 }
 .logo-chaski{
-width: 30%;
+  width: 30%;
 }
 
-/* Nosotros */
+.menu-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.menu-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+  filter: brightness(0.7);
+}
+
+.menu-label {
+  position: absolute;
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.large {
+  width: 700px;
+  height: 420px;
+}
+
+.menu-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.menu-column .menu-item {
+  width: 700px;
+  height: 200px;
+}
+.caption {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  color: white;
+  font-weight: bold;
+  font-size: 1.2em;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+}
+/*                                       NOSOTROS                                    */
 .section-intro {
   background-color: #f6efd9;
   padding: 50px;
@@ -352,4 +409,44 @@ margin-top: 10px;
 }
 .info-local-container{
   margin-right: 10%;
+}
+
+
+/* Mapa */  
+.Mapa{
+  margin-top: 10%;
+  width: 100%;
+  height: 495px;
+}
+.search-input{
+border-radius: 5px;
+}
+.search-inline--input{
+  margin-top: 17%;
+}
+.content-inline {
+  width: 35%;
+  position: absolute;
+  left: 50%;
+  top: 11%;
+  transform: translate(-50% , -50%);
+  display:inline-block
+}
+.search-inline {
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+.search-inline--input {
+  width: 100%;
+  padding: 10px 10px 10px 45px;
+  border: 1px solid #222222;
+  border-radius:10px;
+  outline: none;
+  color: #222222;
+  font-size:15px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1' viewBox='0 0 22 22' %3E%3Cpath d='M14.92 14.07l6.04 6.04c.23.24.23.62 0 .86-.24.23-.62.23-.85 0l-6.03-6.04C12.57 16.22 10.63 17 8.5 17 3.8 17 0 13.2 0 8.5S3.8 0 8.5 0 17 3.8 17 8.5c0 2.13-.78 4.08-2.08 5.57zM8.5 16c4.14 0 7.5-3.36 7.5-7.5C16 4.36 12.64 1 8.5 1 4.36 1 1 4.36 1 8.5 1 12.64 4.36 16 8.5 16z' fill='black' /%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 8px center;
+  background-size: 1.675em;
 }

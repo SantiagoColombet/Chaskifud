@@ -23,8 +23,16 @@ public class HomeController : Controller
         ViewBag.usuario = BD.ObtenerInfoUsuario(1);
         return View();
     }
-
+    public IActionResult Mapa()
+    {
+        return View();
+    }
     public IActionResult Restaurante()
+    {
+        ViewBag.Restaurantes = BD.ObtenerRestaurantes();
+        return View();
+    }
+    public IActionResult Privacy()
     {
         ViewBag.Restaurantes = BD.ObtenerRestaurantes();
         return View();
