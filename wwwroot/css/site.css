@@ -1,12 +1,17 @@
 *{
   padding: 0;
   margin: 0
+  
 }
+
 body {
+  font-family: 'Montserrat', sans-serif;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   min-height: 100vh;
   margin: 0;
+  
 }
 
 main {
@@ -132,9 +137,12 @@ width: 30%;
   font-size: 2.5rem;
   color: #333; 
   text-align: left;
-
+ 
 }
 
+.intro-title{
+  font-weight: bold;
+}
 .section-intro .intro-text {
   font-size: 1.2rem;
   max-width: 800px;
@@ -149,6 +157,9 @@ width: 30%;
 .section-intro .founders-images {
 max-width: 30%;}
 
+.intro-title, .intro-text{
+  margin-left: 30px;
+}
 .founders-images img {
   width: 400px;
   height: auto;
@@ -220,7 +231,7 @@ max-width: 30%;}
 
 .section-join {
   display: flex;  
-  
+  margin-bottom: 8%;
   align-items: center;
   width: 100%;
   height: 300px;
@@ -267,8 +278,6 @@ max-width: 30%;}
   margin-left: auto;
 }
 
-
-
 .nosotros-container{
   display: flex;
   font-family: Arial, sans-serif;
@@ -279,4 +288,68 @@ max-width: 30%;}
   justify-content: center;
   flex-direction: column;
 
+}
+
+/* Restaurante */
+.restaurante-container{
+  width: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+
+}
+.locales-title-container{
+  margin-top: 30px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+}
+.locales-title-container h1{
+  font-weight: bold;
+}
+.info-local-container{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.info-local-container h3{
+font-weight: bold;
+}
+.local-container{
+  overflow: hidden;
+  background-color: #FCC10E;
+  width: 75%;
+  border-radius: 10px;
+  display: flex;
+  justify-content: left;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  text-decoration: none;
+  color: black;
+}
+.local-container:hover{
+  background-color: #dba80f;
+}
+.local-container-logo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 150px;
+  margin-left: 2%;
+}
+.puntuacion-container{
+margin-right: 20px;
+margin-top: 10px;
+  margin-left: auto;
+}
+.local-container img{
+  border-radius: 5px;
+  width: 125px;
+  height: 125px;
+}
+.info-local-container{
+  margin-right: 10%;
 }

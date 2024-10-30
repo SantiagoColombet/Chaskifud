@@ -24,8 +24,9 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Privacy()
+    public IActionResult Restaurante()
     {
+        ViewBag.Restaurantes = BD.ObtenerRestaurantes();
         return View();
     }
 

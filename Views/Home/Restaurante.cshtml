@@ -1,0 +1,27 @@
+
+<div class = "locales-title-container">
+<h1>Locales disponibles</h1>
+</div>
+
+<div class = "restaurante-container">
+@{
+    foreach(Restaurante local in ViewBag.Restaurantes)
+    {
+     
+    <a class = "local-container" href ="#">
+        <div class = "local-container-logo">
+            <img src = "../Images/@local.Imagen">
+        </div>
+            <div class = "info-local-container">
+                <h3>@local.Nombre</h3>
+                <p>No acepta mercado pago</p    >
+            </div>
+                <div class = "puntuacion-container">
+                    <h4>⭐ @local.Puntuacion </h4>
+                </div>
+            </a>
+
+    }
+}
+
+</div>
