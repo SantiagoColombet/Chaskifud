@@ -9,6 +9,7 @@ body {
   margin: 0;
 }
 
+/*                                         INDEX                                         */
 main {
   flex: 1;
   display: flex;
@@ -35,7 +36,7 @@ main {
   background-color: #fbc02d;
   border-radius: 15px;
   padding: 40px;
-  border: 1px solid #333;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);;
 }
 
 .h2-index {
@@ -50,7 +51,7 @@ main {
   justify-content: center;
   flex-direction: row;
   gap: 50px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .food-card {
@@ -112,10 +113,66 @@ main {
   align-items: center;
 }
 .logo-chaski{
-width: 30%;
+  width: 30%;
 }
 
-/* Nosotros */
+.menu-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.menu-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+  filter: brightness(0.7);
+}
+
+.menu-label {
+  position: absolute;
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.large {
+  width: 700px;
+  height: 420px;
+}
+
+.menu-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.menu-column .menu-item {
+  width: 700px;
+  height: 200px;
+}
+.caption {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  color: white;
+  font-weight: bold;
+  font-size: 1.2em;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+}
+/*                                       NOSOTROS                                    */
 .section-intro {
   background-color: #f6efd9;
   padding: 50px;
