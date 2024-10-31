@@ -18,25 +18,32 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Usuario()
+ 
+    public IActionResult Mapa()
     {
+        return View();
+    }
+    public IActionResult Perfil(){
         ViewBag.usuario = BD.ObtenerInfoUsuario(1);
         return View();
     }
-    public IActionResult Mapa()
+    public IActionResult PerfilPuntos()
     {
+        ViewBag.usuario = BD.ObtenerInfoUsuario(1);
         return View();
     }
     public IActionResult Restaurante()
     {
         ViewBag.Restaurantes = BD.ObtenerRestaurantes();
+
         return View();
     }
-    public IActionResult Privacy()
+    public IActionResult RestauranteElegido(int IdRestaurante)
     {
-        ViewBag.Restaurantes = BD.ObtenerRestaurantes();
-        return View();
+        ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(IdRestaurante);
+        return View("RestauranteElegido");
     }
+   
 
 public IActionResult Nosotros(){
     return View();

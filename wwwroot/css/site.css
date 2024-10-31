@@ -38,7 +38,7 @@ main {
 
 .containerIndexInfo div {
   width: 900px;
-  background-color: #fbc02d;
+  background-color: #FFD628;
   border-radius: 15px;
   padding: 40px;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);;
@@ -348,6 +348,14 @@ max-width: 30%;}
 }
 
 /* Restaurante */
+.enviar_rest {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: transparent;
+  border: none;
+}
+
 .restaurante-container{
   width: 100%;
 display: flex;
@@ -375,6 +383,7 @@ flex-direction: column;
 font-weight: bold;
 }
 .local-container{
+  position: relative;
   overflow: hidden;
   background-color: #FCC10E;
   width: 75%;
@@ -449,4 +458,138 @@ border-radius: 5px;
   background-repeat: no-repeat;
   background-position: 8px center;
   background-size: 1.675em;
+}
+
+
+/* Perfil */
+main{
+  display: flex;
+  justify-content: center;
+  
+}
+.perfil-container{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.perfil-container img{
+  width: 200px;
+  border-radius: 100px;
+  margin-bottom: auto;
+
+}
+.form-perfil{
+  border-radius: 10px;
+  background-color: #FFDA3C;
+  width: 40%;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.perfil-puntos-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: auto;
+  position: relative;
+  left: -10%;
+}
+.perfil-puntos-container p{
+  font-weight: bold;
+  font-size: 15px;
+  margin: 0;
+  margin-top: 5px;
+}
+/* Puntos y perfil de Perfil.cshtml */
+.perfil-ap{
+  display: flex;
+  width: 50%;
+  justify-content: center;
+  border-radius: 10px;
+  font-weight: 650;
+  padding: 7px;
+  background-color: #FFDA3C;
+  text-decoration: none;
+  color: black;
+  margin-top: 10px;
+}
+.perfil-pp{
+  display: flex;
+  width: 50%;
+  justify-content: center;
+  border-radius: 10px;
+  font-weight: 650;
+  padding: 7px;
+  text-decoration: none;
+  color: black;
+  margin-top: 10px;
+}
+/* Puntos y perfil de PerfilPuntos.cshtml */
+
+.form-perfil input[type="text" ] {
+  width: 90%;
+  background-color: transparent; 
+  margin-bottom: 20px;
+  margin-right: 15px;
+  border-radius: 10px;
+  margin-left: 20px;
+  outline: none;
+  border: 0.1px solid ; 
+  transition: background 0.3s ease, border-color 0.3s ease; 
+}
+.form-perfil input[type="tel" ] {
+  width: 90%;
+  background-color: transparent; 
+  margin-bottom: 20px;
+  margin-right: 15px;
+  border-radius: 10px;
+  margin-left: 20px;
+  outline: none;
+  border: 0.1px solid ; 
+  transition: background 0.3s ease, border-color 0.3s ease; 
+}
+.form-perfil input[type="text"]:focus {
+  background: linear-gradient(135deg, #FFDA3C, #ffe054); 
+  border-color: #ffffff;
+}
+.form-perfil input[type="tel"]:focus {
+  background: linear-gradient(135deg, #FFDA3C, #ffe054); 
+  border-color: #ffffff;
+}
+.form-perfil h5{
+  margin-top: 10px;
+  margin-left: 30px;
+  margin-right: auto;
+}
+
+.enviar{
+  background-color: #47EC15;
+  width: 150px;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  margin-bottom: 20px;
+  padding: 5px;
+}
+.enviar:hover{
+  background-color: #41d813;
+}
+
+
+
+/* PerfilPuntos.cshtml */
+.puntos-container{
+  border-radius: 10px;
+  background-color: #FFDA3C;
+  width: 40%;
+  border: 1px solid black;
+  height: auto;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

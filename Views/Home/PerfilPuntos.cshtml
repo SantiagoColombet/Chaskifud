@@ -1,0 +1,15 @@
+<!-- Esta view queda en stand by, se necesita del backend para que funcione -->
+
+<div class = "perfil-container">
+<div class = "perfil-puntos-container">
+
+<img src = "../Images/@ViewBag.usuario.Imagen" class = "foto-perfil">
+    <p>@ViewBag.usuario.Apellido</p>
+    <p>@ViewBag.usuario.Nombre</p>
+    <a href ='@Url.Action("Perfil", "Home")' class = "perfil-pp">🔒︎Perfil</a>
+    <a href ='@Url.Action("PerfilPuntos", "Home")' class = "perfil-ap">🪙Puntos</a>
+</div>
+    <div class = "puntos-container">
+        <h2>¡Tus puntos!</h2>
+    </div>
+</div>

@@ -5,5 +5,6 @@ public class Restaurante{
         public string Direccion {get; set;}
         public string Imagen {get; set;}        
         public string Puntuacion {get; set;}        
+        public bool Acepta {get; set;}        
         
 }

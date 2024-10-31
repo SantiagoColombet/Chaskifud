@@ -7,20 +7,41 @@
 @{
     foreach(Restaurante local in ViewBag.Restaurantes)
     {
-     
-    <a class = "local-container" href ="#">
-        <div class = "local-container-logo">
-            <img src = "../Images/@local.Imagen">
-        </div>
+     @if(local.Acepta)
+        {
+            <form class = "local-container" action = '@Url.Action("RestauranteElegido", "Home")'>
+                <div class = "local-container-logo">
+                    <img src = "../Images/@local.Imagen">
+                </div>
             <div class = "info-local-container">
                 <h3>@local.Nombre</h3>
-                <p>No acepta mercado pago</p    >
+                <p>No acepta mercado pago</p>
             </div>
                 <div class = "puntuacion-container">
-                    <h4>⭐ @local.Puntuacion </h4>
+                    <h4>★ @local.Puntuacion </h4>
                 </div>
-            </a>
+                <input type= "hidden" value = "@local.IdRestaurante" name ="IdRestaurante">
+                <input type="submit" value="" class="enviar_rest">
+            </form>
+        }
 
+        else{
+             <form class = "local-container" action = '@Url.Action("RestauranteElegido", "Home")'>
+                <div class = "local-container-logo">
+                    <img src = "../Images/@local.Imagen">
+                </div>
+            <div class = "info-local-container">
+                <h3>@local.Nombre</h3>
+                <p> Acepta mercado pago</p    >
+            </div>
+                <div class = "puntuacion-container">
+                    <h4>★ @local.Puntuacion </h4>
+                </div>
+                <input type= "hidden" value = "@local.IdRestaurante" name ="IdRestaurante">
+                <input type="submit" value="" class="enviar_rest">
+            </form>
+        }
+   
     }
 }
 
