@@ -616,6 +616,72 @@ font-weight: 600;
 }
 .info-restaurante-elegido div{
   display: flex;
+
   flex-direction: column;
   margin-left: 2%;
 }
+
+/* Comidas card */
+.comidas-container{
+  width: 100%;
+  height: auto;
+  border: 1px black;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: auto;
+}
+.comidas-card{
+  width: 15%;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #FCC10E;
+  
+}
+.comidas-card div{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.comidas-card h6{
+  margin-left: 5%;
+  font-size: 17px;
+}
+.comidas-card span{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.comidas-card h5{
+  margin-bottom: auto;
+  margin-top: 2%;
+  margin-left: 3%;
+  margin-top: 5%;
+}
+.comidas-card button{
+  width: 30%;
+  margin-left: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: none;
+  border-radius: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  background-color: black;
+  color: white;
+}
+.comidas-card img{
+  margin-left: auto;
+  width: 96px;
+  height: 96px;
+  border-radius: 10px;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+

@@ -8,15 +8,21 @@
         </div>
     </div>
 </div>
-
+<section class = "comidas-container">
 @{
     foreach (Comida alimento in ViewBag.Comida)
     {
-        <div class="comidas-container">
-        <img src = "../Images/@Alimento.Imagen">
-        <h5>@alimento.Nombre</h5>
-        <button class ="Comprar">comprar</button>
+        <div class="comidas-card">
+    <div>
+         <h5>@alimento.Nombre</h5>
+        <img src = "../Images/@alimento.Imagen">
+    </div>
 
-        </div>
+        <span>
+            <h6>$@alimento.Precio</h6>
+            <button class ="Comprar">comprar</button>
+        </span>
+    </div>
     }
 }
+</section>
