@@ -1,6 +1,22 @@
-<div class = "restaurante-elegido-container">
-|   <h1>@ViewBag.Restaurante.Nombre</h1>
-    <img src = "../Images/@ViewBag.Restaurante.Imagen" style = "Width : 175px;">
-    <h5>@ViewBag.Restaurante.Direccion</h5>
-    <h5>@ViewBag.Restaurante.Puntuacion</h5>
+<div class="restaurante-elegido-container">
+    <img src="../Images/@ViewBag.Restaurante.Imagen" style="width: 175px;">
+    <div class="info-restaurante-elegido">
+        <div>
+            <h1>@ViewBag.Restaurante.Nombre</h1>    
+            <h5>@ViewBag.Restaurante.Puntuacion ⭐</h5>
+            <h6>@ViewBag.Restaurante.Direccion</h6>
+        </div>
+    </div>
 </div>
+
+@{
+    foreach (Comida alimento in ViewBag.Comida)
+    {
+        <div class="comidas-container">
+        <img src = "../Images/@Alimento.Imagen">
+        <h5>@alimento.Nombre</h5>
+        <button class ="Comprar">comprar</button>
+
+        </div>
+    }
+}

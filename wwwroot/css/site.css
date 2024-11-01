@@ -535,10 +535,10 @@ main{
   background-color: transparent; 
   margin-bottom: 20px;
   margin-right: 15px;
-  border-radius: 10px;
   margin-left: 20px;
   outline: none;
-  border: 0.1px solid ; 
+  border: none ;
+  border-bottom: 1px solid black; 
   transition: background 0.3s ease, border-color 0.3s ease; 
 }
 .form-perfil input[type="tel" ] {
@@ -546,15 +546,16 @@ main{
   background-color: transparent; 
   margin-bottom: 20px;
   margin-right: 15px;
-  border-radius: 10px;
   margin-left: 20px;
   outline: none;
-  border: 0.1px solid ; 
+  border: none ;
+  border-bottom: 1px solid black  ; 
   transition: background 0.3s ease, border-color 0.3s ease; 
 }
 .form-perfil input[type="text"]:focus {
   background: linear-gradient(135deg, #FFDA3C, #ffe054); 
   border-color: #ffffff;
+  border-radius: 5px;
 }
 .form-perfil input[type="tel"]:focus {
   background: linear-gradient(135deg, #FFDA3C, #ffe054); 
@@ -594,15 +595,27 @@ main{
   align-items: center;
 }
 
-
+/* Restaurante elegido */
 .restaurante-elegido-container{
+  margin-top: 5%;
+  margin-left: 15%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: auto;
-  flex-direction: column;
   width: 100%;
 }
 .restaurante-elegido-container h1{
-margin-left: 10%;
-
+font-size: 35px;
+font-weight: 600;
+}
+.info-restaurante-elegido{
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+.info-restaurante-elegido div{
+  display: flex;
+  flex-direction: column;
+  margin-left: 2%;
 }

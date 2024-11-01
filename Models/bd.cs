@@ -38,4 +38,15 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
         }
         return locales;
     }
+     public static List<Comida>ObtenerComidasDeRestauranteElegido(int IdRestaurante)
+    {
+        List<Comida> comida = new List<Comida>();
+
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = "SELECT * FROM Comida WHERE IdRestaurante = @pIdRestaurante";
+            comida= db.Query<Comida>(sql, new{pIdRestaurante = IdRestaurante}).ToList();
+        }
+        return comida;
+    }
 }

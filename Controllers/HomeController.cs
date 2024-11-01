@@ -42,6 +42,7 @@ public class HomeController : Controller
     public IActionResult RestauranteElegido(int IdRestaurante)
     {
         ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(IdRestaurante);
+        ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(IdRestaurante);
         return View("RestauranteElegido");
     }
    
