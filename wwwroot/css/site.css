@@ -593,3 +593,16 @@ main{
   justify-content: center;
   align-items: center;
 }
+
+
+.restaurante-elegido-container{
+  display: flex;
+  justify-content: center;
+  margin-bottom: auto;
+  flex-direction: column;
+  width: 100%;
+}
+.restaurante-elegido-container h1{
+margin-left: 10%;
+
+}
