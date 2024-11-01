@@ -11,7 +11,7 @@ body {
   justify-content: center;
   min-height: 100vh;
   margin: 0;
-  
+
 }
 
 /*                                         INDEX                                         */
@@ -362,10 +362,10 @@ display: flex;
 justify-content: center;
 align-items: center;
 flex-direction: column;
-
 }
 .locales-title-container{
   margin-top: 30px;
+  height: auto;
   width: 100%;
   height: auto;
   display: flex;
