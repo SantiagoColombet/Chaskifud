@@ -12,17 +12,24 @@
 @{
     foreach (Comida alimento in ViewBag.Comida)
     {
-        <div class="comidas-card">
+        <form class="comidas-card" method = "Post" action = '@Url.Action("Comprar","Home")'>
     <div>
          <h5>@alimento.Nombre</h5>
         <img src = "../Images/@alimento.Imagen">
     </div>
-
         <span>
             <h6>$@alimento.Precio</h6>
-            <button class ="Comprar">comprar</button>
+            <input type = "submit" value="Agregar" class ="Comprar" href = '@Url.Action("Comprar", "Home")'>
         </span>
-    </div>
+        <input type = "hidden" name = "IdRestaurante" value = "@ViewBag.Restaurante.IdRestaurante"> 
+         <input type="hidden" name="comidaElegida.IdComida" value="@alimento.IdComida">
+        <input type="hidden" name="comidaElegida.IdRestriccionAlimenticia" value="@alimento.IdRestriccionAlimenticia">
+        <input type="hidden" name="comidaElegida.Nombre" value="@alimento.Nombre">
+        <input type="hidden" name="comidaElegida.Descripcion" value="@alimento.Descripcion">
+        <input type="hidden" name="comidaElegida.Imagen" value="@alimento.Imagen">
+        <input type="hidden" name="comidaElegida.Precio" value="@alimento.Precio">
+
+    </form>
     }
 }
 </section>

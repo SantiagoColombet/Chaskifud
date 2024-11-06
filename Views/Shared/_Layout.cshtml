@@ -25,15 +25,17 @@
                 <li><a href='@Url.Action("Nosotros", "Home")'>Nosotros</a></li>
                 <li><a href='@Url.Action("Restaurante", "Home")'>Locales</a></li>
             </ul>
-
-            <a href = '@Url.Action("Perfil", "Home")' class="profile">
-                <img src="../Images/fotoPerfil.png" alt="Profile Picture">
+            <div class = "profile">
+            <a href = '@Url.Action("Perfil", "Home")'>
+            <img src="../Images/fotoPerfil.png" alt="Profile Picture">
             </a>
+            <a href = '@Url.Action("Carrito", "Home")' >
+            <img src="../Images/carrito-de-compras.png" alt="Profile Picture">
+            </a>
+            </div>
         </nav>  
     </header>
-<main>
         @RenderBody()
-</main>
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-section">

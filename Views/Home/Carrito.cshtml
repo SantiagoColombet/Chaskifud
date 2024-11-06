@@ -1,0 +1,11 @@
+@{
+    foreach(Comida comida in ViewBag.ListaComida)
+    {
+        <form method ="post" action = 'Url.Action("EliminarCarrito", "Home")' class ="carrito-form">
+
+            <h1>@comida.Nombre</h1>
+            <input type ="hidden" value = "@comida.IdComida" name= "IdComida">
+            <input type = "submit" value = "eliminar">
+        </form>
+    }
+}
