@@ -1,5 +1,5 @@
 public class Comida{
-public static List<Comida> carrito = new List<Comida>(){};
+public static List<Comida> carrito = new List<Comida>();
 
 public int IdComida {get; set;}
 public int IdRestriccionAlimenticia {get; set;}

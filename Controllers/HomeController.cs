@@ -65,11 +65,12 @@ public class HomeController : Controller
         return View("RestauranteElegido");
     }
 
-    public IActionResult Carrito()
-    {
-        ViewBag.ListaComida = Comida.carrito;
-        return View();
-    }
+   public IActionResult Carrito()
+{
+    ViewBag.ListaComida = Comida.carrito;   
+    return View();
+}
+
     [HttpPost]
     public IActionResult EliminarCarrito(int IdComida)
     {
@@ -80,7 +81,7 @@ public class HomeController : Controller
             Comida.carrito.Remove(itemToRemove);
         }
 
-        return View("Carrito");
+        return RedirectToAction("Carrito");
     }
 
     public IActionResult Nosotros()

@@ -1,11 +1,35 @@
+@using System.Linq
 @{
-    foreach(Comida comida in ViewBag.ListaComida)
-    {
-        <form method ="post" action = 'Url.Action("EliminarCarrito", "Home")' class ="carrito-form">
+    var listaComida = ViewBag.ListaComida as List<Comida>;
 
-            <h1>@comida.Nombre</h1>
-            <input type ="hidden" value = "@comida.IdComida" name= "IdComida">
-            <input type = "submit" value = "eliminar">
-        </form>
+    if (listaComida != null)
+    {
+        var comidasAgrupadas = listaComida
+            .GroupBy(c => c.IdComida)
+            .Select(g => new 
+            { 
+                Comida = g.First(), 
+                Cantidad = g.Count() 
+            })
+            .ToList();
+
+        foreach (var item in comidasAgrupadas)
+        {
+            <form method="post" action='@Url.Action("EliminarCarrito", "Home")' class="carrito-card">
+                <div>
+                    <h5>@item.Comida.Nombre</h5>
+                    <img src="../Images/@item.Comida.Imagen" alt="@item.Comida.Nombre">
+                </div>
+                <span>
+                    <h6>$@item.Comida.Precio</h6>
+                </span>
+                <span>
+                    <strong>Cantidad:</strong> @item.Cantidad
+                </span>
+                <input type="hidden" value="@item.Comida.IdComida" name="IdComida">
+                <input type="submit" value="Eliminar" class="eliminar">
+            </form>
+        }
     }
 }
+</section>

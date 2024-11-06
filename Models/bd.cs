@@ -10,7 +10,7 @@ public class BD
     Usuario usuario = null; 
     using (SqlConnection db = new SqlConnection(_connectionString))
     {
-        string sql = "SELECT * FROM Usuario WHERE IdUsuario = @pIdUsuario"; // Agregar '@' antes del parámetro
+        string sql = "SELECT * FROM Usuario WHERE IdUsuario = @pIdUsuario"; 
         usuario = db.QueryFirstOrDefault<Usuario>(sql, new { pIdUsuario = IdUsuario });
     }
     return usuario;
