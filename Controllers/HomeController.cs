@@ -33,6 +33,16 @@ public class HomeController : Controller
         ViewBag.usuario = BD.ObtenerInfoUsuario(1);
         return View();
     }
+    public IActionResult PerfilEditar()
+    {
+        ViewBag.usuario = BD.ObtenerInfoUsuario(1);
+        return View();
+    }
+     public IActionResult GuardarPerfil()
+    {
+        ViewBag.usuario = BD.ObtenerInfoUsuario(1);
+        return View("Perfil");
+    }
     public IActionResult Restaurante()
     {
         ViewBag.Restaurantes = BD.ObtenerRestaurantes();
