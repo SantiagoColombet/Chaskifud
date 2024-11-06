@@ -472,6 +472,7 @@ main{
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 60px;
 }
 .perfil-container img{
   width: 200px;
@@ -479,16 +480,93 @@ main{
   margin-bottom: auto;
 
 }
-.form-perfil{
-  border-radius: 10px;
-  background-color: #FFDA3C;
-  width: 40%;
-  flex-direction: column;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
+.profile-card {
+  background-color: #fcd34d;
+  width: 70%;
+  max-width: 700px;
+  margin: 20px;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
 }
+
+.profile-card:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.field-group {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.field-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #4b5563;
+  width: 100%;
+}
+
+.field-wrapper {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #fbbf24;
+  padding-bottom: 8px;
+  width: 100%;
+}
+
+.field-value {
+  flex: 1;
+  font-size: 16px;
+  color: #1f2937;
+  padding: 4px 0;
+  background: transparent;
+  pointer-events: none;
+  user-select: none;
+  width: 100%;
+  display: block;
+}
+
+.icon {
+  min-width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  fill: #4b5563;
+  flex-shrink: 0;
+}
+
+.edit-button {
+  width: 100%;
+  background: #fbbf24;
+  text-decoration: none;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #1f2937;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.3s ease;
+  margin-top: 24px;
+}
+
+.edit-button:hover {
+  background: #f59e0b;
+}
+
+.edit-button svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
 .perfil-puntos-container{
   display: flex;
   justify-content: center;
@@ -530,7 +608,7 @@ main{
 }
 /* Puntos y perfil de PerfilPuntos.cshtml */
 
-.form-perfil input[type="text" ] {
+.form-perfil p {
   width: 90%;
   background-color: transparent; 
   margin-bottom: 20px;
@@ -686,3 +764,115 @@ font-weight: 600;
   margin-bottom: 10px;
 }
 
+
+.profile-card {
+  background-color: #fcd34d;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.profile-card:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.field-group {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.field-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #4b5563;
+  width: 100%;
+}
+
+.field-wrapper {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #fbbf24;
+  padding-bottom: 8px;
+  width: 100%;
+}
+
+.field-input {
+  flex: 1;
+  font-size: 16px;
+  color: #1f2937;
+  padding: 4px 0;
+  background: transparent;
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+.field-input:focus {
+  border-color: #f59e0b;
+}
+
+.icon {
+  min-width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  fill: #4b5563;
+  flex-shrink: 0;
+}
+
+.button {
+  width: 100%;
+  background: #fbbf24;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #1f2937;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.3s ease;
+  margin-top: 12px;
+  text-decoration: none;
+}
+
+.button:hover {
+  background: #f59e0b;
+}
+
+.button svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.button-save {
+  background: #34d399;
+}
+
+.button-save:hover {
+  background: #059669;
+}
+
+.button-cancel {
+  background: #f87171;
+}
+
+.button-cancel:hover {
+  background: #dc2626;
+}
