@@ -83,6 +83,11 @@ public class HomeController : Controller
         return View("Carrito");
     }
 
+    public IActionResult Pago()
+    {
+        
+        return View(); 
+    }
     public IActionResult Nosotros()
     {
         return View();

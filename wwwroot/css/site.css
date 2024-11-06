@@ -861,3 +861,39 @@ font-weight: 600;
 }
 
 
+/*            PAGO              */
+.container-pago {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+  width: 100%;
+  gap: 100px;
+  }
+  .card-pago-izq,
+  .card-pago-der {
+  background-color: rgb(255, 255, 255);
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  width: 25%;
+  height: auto;
+  }
+  .pago-metodo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  }
+  .pago-tiempo {
+  display: flex;
+  justify-content: space-between;
+  }
+  .pago-detalle {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  }
+  .pago-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  }
