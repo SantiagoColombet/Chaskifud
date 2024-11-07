@@ -6,7 +6,5 @@
 
 6) Llenar un toque la base de datos
 
-Importante:
 
-NO DESTRUIR EL PROGRAMA 
-POR FAVOR
+Cuando agrego una comida que no es del mismo resto, me devuelve IdRestaurante = 0

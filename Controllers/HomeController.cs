@@ -39,7 +39,7 @@ public class HomeController : Controller
         ViewBag.usuario = BD.ObtenerInfoUsuario(1);
         return View();
     }
-     public IActionResult GuardarPerfil()
+    public IActionResult GuardarPerfil()
     {
         ViewBag.usuario = BD.ObtenerInfoUsuario(1);
         return View("Perfil");
@@ -56,20 +56,40 @@ public class HomeController : Controller
         ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(IdRestaurante);
         return View("RestauranteElegido");
     }
-    [HttpPost]
     public IActionResult Comprar(Comida comidaElegida, int IdRestaurante)
     {
-        ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(IdRestaurante);
-        ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(IdRestaurante);
-        Comida.carrito.Add(comidaElegida);
-        return View("RestauranteElegido");
-    }
+        if (Comida.carrito.Any())
+        {
+            Console.WriteLine("Restaurante: " + Comida.carrito[0].IdRestaurante);
+            Console.WriteLine("Restaurante: " + comidaElegida.IdRestaurante);
+            if (Comida.carrito.Count != 0 && Comida.carrito[0].IdRestaurante != IdRestaurante)
+            {
+                TempData["Error"] = "Cannot add items from different restaurants to the cart.";
+                return RedirectToAction("RestauranteElegido", IdRestaurante);
+            }
+            else
+            {
+                ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(IdRestaurante);
+                ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(IdRestaurante);
+                Comida.carrito.Add(comidaElegida);
+                return View("RestauranteElegido");
+            }
+        }
+        else
+        {
+            ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(IdRestaurante);
+            ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(IdRestaurante);
+            Comida.carrito.Add(comidaElegida);
+            return View("RestauranteElegido");
+        }
 
-   public IActionResult Carrito()
-{
-    ViewBag.ListaComida = Comida.carrito;   
-    return View();
-}
+
+    }
+    public IActionResult Carrito()
+    {
+        ViewBag.ListaComida = Comida.carrito;
+        return View();
+    }
 
     [HttpPost]
     public IActionResult EliminarCarrito(int IdComida)
@@ -86,8 +106,8 @@ public class HomeController : Controller
 
     public IActionResult Pago()
     {
-        
-        return View(); 
+
+        return View();
     }
     public IActionResult Nosotros()
     {

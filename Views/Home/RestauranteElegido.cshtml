@@ -9,27 +9,34 @@
     </div>
 </div>
 <section class = "comidas-container">
-@{
-    foreach (Comida alimento in ViewBag.Comida)
+<div class="container">
+  <div class="info-restaurante-elegido">
+    @foreach (Comida alimento in ViewBag.Comida)
     {
-        <form class="comidas-card" method = "Post" action = '@Url.Action("Comprar","Home")'>
-    <div>
-         <h5>@alimento.Nombre</h5>
-        <img src = "../Images/@alimento.Imagen">
-    </div>
-        <span>
+      <div class="comidas-card">
+        <div class="card-content">
+          <h5>@alimento.Nombre</h5>
+          <img src="../Images/@alimento.Imagen" alt="@alimento.Nombre">
+        </div>
+        <div class="card-actions">
+          <div class="price">
             <h6>$@alimento.Precio</h6>
-            <input type = "submit" value="Agregar" class ="Comprar" href = '@Url.Action("Comprar", "Home")'>
-        </span>
-        <input type = "hidden" name = "IdRestaurante" value = "@ViewBag.Restaurante.IdRestaurante"> 
-         <input type="hidden" name="comidaElegida.IdComida" value="@alimento.IdComida">
-        <input type="hidden" name="comidaElegida.IdRestriccionAlimenticia" value="@alimento.IdRestriccionAlimenticia">
-        <input type="hidden" name="comidaElegida.Nombre" value="@alimento.Nombre">
-        <input type="hidden" name="comidaElegida.Descripcion" value="@alimento.Descripcion">
-        <input type="hidden" name="comidaElegida.Imagen" value="@alimento.Imagen">
-        <input type="hidden" name="comidaElegida.Precio" value="@alimento.Precio">
-
-    </form>
+          </div>
+          <div class="buy-button">
+            <form method="Post" action='@Url.Action("Comprar","Home")'>
+              <input type="submit" value="Agregar" class="btn-comprar">
+              <input type="hidden" name="IdRestaurante" value="@alimento.IdRestaurante">
+              <input type="hidden" name="IdComida" value="@alimento.IdComida">
+              <input type="hidden" name="IdRestriccionAlimenticia" value="@alimento.IdRestriccionAlimenticia">
+              <input type="hidden" name="Nombre" value="@alimento.Nombre">
+              <input type="hidden" name="Descripcion" value="@alimento.Descripcion">
+              <input type="hidden" name="Imagen" value="@alimento.Imagen">
+              <input type="hidden" name="Precio" value="@alimento.Precio">
+            </form>
+          </div>
+        </div>
+      </div>
     }
-}
+  </div>
+</div>
 </section>
