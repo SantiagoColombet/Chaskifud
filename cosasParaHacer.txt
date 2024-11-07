@@ -1,0 +1,12 @@
+1) Estilar boton de agregar en RestauranteElegido.cshtml
+2) Terminar la view Comprar.cshtml y su respectiva logica (sin la API)
+3) Hacer que unicamente se puedan agregar items al carrito de 1 restaurante 
+4) agregar que en el index funcionen las cards de los restaurantes (agregar carrousel si es posible)
+5) Estilar correctamente el carrito, para que las cards sean visualmente amigables.
+
+6) Llenar un toque la base de datos
+
+Importante:
+
+NO DESTRUIR EL PROGRAMA 
+POR FAVOR
