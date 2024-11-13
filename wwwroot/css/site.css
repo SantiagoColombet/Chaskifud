@@ -1106,3 +1106,19 @@ font-weight: 600;
 .left a:hover {
     text-decoration: underline;
 }
+
+.error-msg
+{
+display: flex;
+justify-content: center;
+align-items: center;
+width: 1%;
+margin-top: 30px;
+}
+.error-msg h1{
+  display: flex;
+  justify-content: center;
+  background-color: rgba(255, 0, 0, 0.714);
+  border-radius: 100px;
+  width: 70%;
+}

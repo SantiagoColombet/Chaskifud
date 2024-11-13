@@ -50,22 +50,21 @@ public class HomeController : Controller
 
         return View();
     }
-    public IActionResult RestauranteElegido(int IdRestaurante)
+    public IActionResult RestauranteElegido(int IdRestaurante, bool Error=false)
     {
         ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(IdRestaurante);
         ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(IdRestaurante);
+        ViewBag.Error = Error;
         return View("RestauranteElegido");
     }
     public IActionResult Comprar(Comida comidaElegida, int IdRestaurante)
     {
         if (Comida.carrito.Any())
         {
-            Console.WriteLine("Restaurante: " + Comida.carrito[0].IdRestaurante);
-            Console.WriteLine("Restaurante: " + comidaElegida.IdRestaurante);
+           
             if (Comida.carrito.Count != 0 && Comida.carrito[0].IdRestaurante != IdRestaurante)
             {
-                TempData["Error"] = "Cannot add items from different restaurants to the cart.";
-                return RedirectToAction("RestauranteElegido", IdRestaurante);
+                return RedirectToAction("RestauranteElegido", new { IdRestaurante = IdRestaurante, Error=true });
             }
             else
             {
