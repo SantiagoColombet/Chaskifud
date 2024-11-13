@@ -54,12 +54,18 @@ main {
 .food-container {
   display: flex;
   justify-content: center;
-  flex-direction: row;
   gap: 50px;
   margin-bottom: 40px;
 }
+.enviar2{
+  top: 0;
+  bottom: 0;
+}
+
+
 
 .food-card {
+  position: relative;
   background-color: #fff;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
@@ -1106,14 +1112,17 @@ font-weight: 600;
 .left a:hover {
     text-decoration: underline;
 }
-
+/* Mensaje de error/error-msg */
 .error-msg
 {
 display: flex;
 justify-content: center;
 align-items: center;
-width: 1%;
+width: 100%;
 margin-top: 30px;
+transform: scale(0);   
+opacity: 0;            
+transition: transform 0.18s ease-out, opacity 0.18s ease-out; 
 }
 .error-msg h1{
   display: flex;
@@ -1122,3 +1131,4 @@ margin-top: 30px;
   border-radius: 100px;
   width: 70%;
 }
+

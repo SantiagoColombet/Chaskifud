@@ -16,9 +16,12 @@
 <div class="food-container">  
     @{
 
-    foreach(Restaurante local in ViewBag.Restaurantes){
+    foreach(Restaurante local in ViewBag.Restaurantes)
+{
     
-    <div class="food-card">
+    <form class="food-card" action = '@Url.Action("RestauranteElegido", "Home")'>
+    <input type= "hidden" value = "@local.IdRestaurante" name ="IdRestaurante">
+    <input type="submit" value="" class="enviar_rest" id = "enviar2">
         <img src="../Images/@local.Imagen" alt="GRA-HU">
         <div class="food-info">
             <img src="../Images/@local.Imagen" alt="GRA-HU">
@@ -27,11 +30,12 @@
                 <p>12-20 Minutos</p>
                 <p>$2.500 - $4.000</p>  
             </div>
-            <span>★5</span>
+            <span>★5</span>    
         </div>
-    </div>
+            
+    </form>
     
-    }
+}
     }
 </div>
 
