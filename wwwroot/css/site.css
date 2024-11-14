@@ -848,6 +848,27 @@ font-weight: 600;
 .btn-comprar:hover {
   background: #f59e0b;
 }
+.btn-mensaje {
+  width: 15%;
+  background: #FBDB54;
+  text-decoration: none;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #1f2937;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 1;
+  transition: background-color 0.3s ease;
+ 
+}
+.btn-mensaje:hover {
+  background: #f59e0b;
+}
 /* Comidas card */
 .comidas-container{
   width: 100%;
@@ -1118,4 +1139,19 @@ transition: transform 0.18s ease-out, opacity 0.18s ease-out;
 {
 visibility: hidden;   
 font-size: 0px;
+}
+
+/*                               CHAT                                  */
+.chat{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.chat-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: black 3px solid;
 }

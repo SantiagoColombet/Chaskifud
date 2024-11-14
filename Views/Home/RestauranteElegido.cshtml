@@ -1,12 +1,15 @@
 <div class="restaurante-elegido-container">
-    <img src="../Images/@ViewBag.Restaurante.Imagen" style="width: 175px;">
-    <div class="info-restaurante-elegido">
-        <div>
-            <h1>@ViewBag.Restaurante.Nombre</h1>    
-            <h5>@ViewBag.Restaurante.Puntuacion ⭐</h5>
-            <h6>@ViewBag.Restaurante.Direccion</h6>
-        </div>
-    </div>
+  <img src="../Images/@ViewBag.Restaurante.Imagen" style="width: 175px;">
+  <div class="info-restaurante-elegido">
+      <div>
+          <h1>@ViewBag.Restaurante.Nombre</h1>    
+          <h5>@ViewBag.Restaurante.Puntuacion ⭐</h5>
+          <h6>@ViewBag.Restaurante.Direccion</h6>
+      </div>
+      <div>
+      <a href='@Url.Action("Chat","Home")' class ="btn-mensaje">Chatear</a>
+      </div>
+  </div>
 </div>
 
 <section class = "comidas-container">

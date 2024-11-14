@@ -90,6 +90,12 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult Chat()
+    {
+
+        return View("Chat");
+    }
+
     [HttpPost]
     public IActionResult EliminarCarrito(int IdComida)
     {
