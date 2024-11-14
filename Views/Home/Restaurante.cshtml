@@ -3,46 +3,58 @@
 <h1>Locales disponibles</h1>
 </div>
 
-<div class = "restaurante-container">
 @{
-    foreach(Restaurante local in ViewBag.Restaurantes)
+    if(ViewBag.Error == true )
     {
-     @if(local.Acepta)
-        {
-            <form class = "local-container" action = '@Url.Action("RestauranteElegido", "Home")'>
-                <div class = "local-container-logo">
-                    <img src = "../Images/@local.Imagen">
-                </div>
-            <div class = "info-local-container">
-                <h3>@local.Nombre</h3>
-                <p>No acepta mercado pago</p>
-            </div>
-                <div class = "puntuacion-container">
-                    <h4>★ @local.Puntuacion </h4>
-                </div>
-                <input type= "hidden" value = "@local.IdRestaurante" name ="IdRestaurante">
-                <input type="submit" value="" class="enviar_rest">
-            </form>
-        }
-
-        else{
-             <form class = "local-container" action = '@Url.Action("RestauranteElegido", "Home")'>
-                <div class = "local-container-logo">
-                    <img src = "../Images/@local.Imagen">
-                </div>
-            <div class = "info-local-container">
-                <h3>@local.Nombre</h3>
-                <p> Acepta mercado pago</p    >
-            </div>
-                <div class = "puntuacion-container">
-                    <h4>★ @local.Puntuacion </h4>
-                </div>
-                <input type= "hidden" value = "@local.IdRestaurante" name ="IdRestaurante">
-                <input type="submit" value="" class="enviar_rest">
-            </form>
-        }
-   
+        <h1 class = "js">@ViewBag.Error</h1>
     }
 }
 
+  
+
+<div class = "restaurante-container">
+    @{
+        foreach(Restaurante local in ViewBag.Restaurantes)
+        {
+        @if(local.Acepta)
+            {
+                <form class = "local-container" action = '@Url.Action("RestauranteElegido", "Home")'>
+                    <h1 class ="id-restaurante">@local.IdRestaurante</h1>
+                    <div class = "local-container-logo">
+                        <img src = "../Images/@local.Imagen">
+                    </div>
+                <div class = "info-local-container">
+                    <h3>@local.Nombre</h3>
+                    <p>No acepta mercado pago</p>
+                </div>
+                    <div class = "puntuacion-container">
+                        <h4>★ @local.Puntuacion </h4>
+                    </div>
+                    <input type= "hidden" value = "@local.IdRestaurante" name ="IdRestaurante">
+                    <input type="submit" value="" class="enviar_rest">
+                </form>
+            }
+
+            else{
+                <h1 class ="id-restaurante">@local.IdRestaurante</h1>
+                <form class = "local-container" action = '@Url.Action("RestauranteElegido", "Home")'>
+                    <div class = "local-container-logo">
+                        <img src = "../Images/@local.Imagen">
+                    </div>
+                <div class = "info-local-container">
+                    <h3>@local.Nombre</h3>
+                    <p> Acepta mercado pago</p>
+                </div>
+                    <div class = "puntuacion-container">
+                        <h4>★ @local.Puntuacion </h4>
+                    </div>
+                    <input type= "hidden" value = "@local.IdRestaurante" name ="IdRestaurante">
+                    <input type="submit" value="" class="enviar_rest">
+                </form>
+            }
+    
+        }
+    }
 </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

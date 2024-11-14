@@ -50,13 +50,13 @@ public class HomeController : Controller
 
         return View();
     }
-    public IActionResult RestauranteElegido(int IdRestaurante, bool Error=false)
-    {
-        ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(IdRestaurante);
-        ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(IdRestaurante);
-        ViewBag.Error = Error;
-        return View("RestauranteElegido");
-    }
+   public IActionResult RestauranteElegido(int IdRestaurante)
+{
+    ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(IdRestaurante);
+    ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(IdRestaurante);
+    return View("RestauranteElegido");
+}
+
     public IActionResult Comprar(Comida comidaElegida, int IdRestaurante)
     {
         if (Comida.carrito.Any())

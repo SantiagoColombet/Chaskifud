@@ -1132,3 +1132,8 @@ transition: transform 0.18s ease-out, opacity 0.18s ease-out;
   width: 70%;
 }
 
+.js 
+{
+visibility: hidden;   
+font-size: 0px;
+}
