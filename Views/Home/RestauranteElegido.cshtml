@@ -24,10 +24,8 @@
     @foreach (Comida alimento in ViewBag.Comida)
     {
       <div class="comidas-card">
-        <div class="card-content">
           <h5>@alimento.Nombre</h5>
           <img src="../Images/@alimento.Imagen" alt="@alimento.Nombre">
-        </div>
         <div class="card-actions">
           <div class="price">
             <h6>$@alimento.Precio</h6>
