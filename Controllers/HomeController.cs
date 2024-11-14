@@ -44,12 +44,14 @@ public class HomeController : Controller
         ViewBag.usuario = BD.ObtenerInfoUsuario(1);
         return View("Perfil");
     }
-    public IActionResult Restaurante()
-    {
-        ViewBag.Restaurantes = BD.ObtenerRestaurantes();
+public IActionResult Restaurante()
+{
+    ViewBag.Carrito = Comida.carrito; // Ya inicializado como lista vacía
+    ViewBag.Restaurantes = BD.ObtenerRestaurantes();
+    return View();
+}
 
-        return View();
-    }
+
    public IActionResult RestauranteElegido(int IdRestaurante)
 {
     ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(IdRestaurante);
@@ -59,6 +61,12 @@ public class HomeController : Controller
 
     public IActionResult Comprar(Comida comidaElegida, int IdRestaurante)
     {
+        if(Comida.carrito == null)
+        {
+        Comida.carrito = new List<Comida>();
+        }
+
+
         if (Comida.carrito.Any())
         {
            

@@ -38,5 +38,48 @@
 
 // })
 
-const a = document.querySelector(".id-restaurante")
-console.log(a+ "holaaa")
+document.addEventListener("DOMContentLoaded", () => {
+    // Obtenemos el ID del primer restaurante en el carrito, si existe
+    const idRestauranteCarrito = document.getElementById("IdRestauranteCarrito")
+        ? parseInt(document.getElementById("IdRestauranteCarrito").value)
+        : null;
+
+    // Seleccionamos todos los botones de envío
+    const submitButtons = document.querySelectorAll(".enviar_rest");
+
+    submitButtons.forEach((submitBtn) => {
+        submitBtn.addEventListener("click", function (event) {
+            // Previene el envío del formulario de inmediato
+            event.preventDefault();
+            // Obtenemos el formulario actual
+            const form = this.closest("form");
+            console.log(form)
+            // Intentamos obtener el elemento con clase .id-restaurante dentro del formulario
+
+
+            const idRestauranteElement = form.querySelector(".id-restaurante");
+
+            // Verificamos si el elemento con .id-restaurante existe
+            if (!idRestauranteElement) {
+                console.error("No se encontró el elemento con clase .id-restaurante en el formulario.");
+                return;
+            }
+
+            // Obtenemos el ID del restaurante seleccionado
+            const idRestauranteSeleccionado = parseInt(idRestauranteElement.innerText);
+            // Lógica para verificar el carrito
+            if (idRestauranteCarrito !== null && idRestauranteCarrito !== idRestauranteSeleccionado) {
+                // Si el carrito no está vacío y el ID no coincide, muestra el mensaje de error
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "No puedes seleccionar un restaurante diferente al del carrito.",
+                    footer: "<a href='#'>¿Necesitas ayuda?</a>",
+                });
+            } else {
+                // Si el carrito está vacío o los IDs coinciden, envía el formulario
+                form.submit();
+            }
+        });
+    });
+});

@@ -361,7 +361,10 @@ max-width: 30%;}
   background-color: transparent;
   border: none;
 }
-
+.id-restaurante{
+  visibility: hidden;
+  font-size: 0;
+}
 .restaurante-container{
   width: 100%;
 display: flex;
