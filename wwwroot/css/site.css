@@ -361,6 +361,13 @@ max-width: 30%;}
   background-color: transparent;
   border: none;
 }
+.enviar_rest2 {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: transparent;
+  border: none;
+}
 .id-restaurante{
   visibility: hidden;
   font-size: 0;

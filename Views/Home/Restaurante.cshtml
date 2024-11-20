@@ -22,20 +22,20 @@
             if (local.Acepta)
             {
                 <form class="local-container" action='@Url.Action("RestauranteElegido", "Home")' method="get">
-                    <h1 class="id-restaurante">@local.IdRestaurante</h1>
-                    <div class="local-container-logo">
-                        <img src="../Images/@local.Imagen">
-                    </div>
-                    <div class="info-local-container">
-                        <h3>@local.Nombre</h3>
-                        <p>No acepta mercado pago</p>
-                    </div>
-                    <div class="puntuacion-container">
-                        <h4>★ @local.Puntuacion</h4>
-                    </div>
-                    <input type="hidden" name="IdRestaurante" value="@local.IdRestaurante" class = "id-restaurante">
-                    <input type="submit" value="" class="enviar_rest">
-                </form>
+    <input type="hidden" name="IdRestaurante" value="@local.IdRestaurante" class="id-restaurante">
+    <div class="local-container-logo">
+        <img src="../Images/@local.Imagen">
+    </div>
+    <div class="info-local-container">
+        <h3>@local.Nombre</h3>
+        <p>No acepta mercado pago</p>
+    </div>
+    <div class="puntuacion-container">
+        <h4>★ @local.Puntuacion</h4>
+    </div>
+    <input type="submit" value="" class="enviar_rest">
+</form>
+
             }
             else
             {

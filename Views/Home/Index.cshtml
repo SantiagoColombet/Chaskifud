@@ -1,4 +1,9 @@
-﻿<div class = "logo-chaski-container">
+﻿@if (ViewBag.Carrito != null && ViewBag.Carrito.Count > 0)
+{
+    <input type="hidden" id="IdRestauranteCarrito" value="@ViewBag.Carrito[0].IdRestaurante" />
+}
+
+<div class = "logo-chaski-container">
 <img src="../Images/Logo-Chaskifud.png" class = "logo-chaski">
 </div>
 <div class="containerIndexInfo">
@@ -19,21 +24,22 @@
     foreach(Restaurante local in ViewBag.Restaurantes)
 {
     
-    <form class="food-card" action = '@Url.Action("RestauranteElegido", "Home")'>
-    <input type= "hidden" value = "@local.IdRestaurante" name ="IdRestaurante">
-    <input type="submit" value="" class="enviar_rest" id = "enviar2">
+    <form class="food-card" action='@Url.Action("RestauranteElegido", "Home")' method="get">
+    <input type="hidden" value="@local.IdRestaurante" name="IdRestaurante" class="id-restaurante">
+    <input type="submit" value="" class="enviar_rest enviar_rest2" id="enviar2">
+
+    <img src="../Images/@local.Imagen" alt="GRA-HU">
+    <div class="food-info">
         <img src="../Images/@local.Imagen" alt="GRA-HU">
-        <div class="food-info">
-            <img src="../Images/@local.Imagen" alt="GRA-HU">
-            <div class="sub-food-info">
-                <h3>@local.Nombre</h3>
-                <p>12-20 Minutos</p>
-                <p>$2.500 - $4.000</p>  
-            </div>
-            <span>★5</span>    
+        <div class="sub-food-info">
+            <h3>@local.Nombre</h3>
+            <p>12-20 Minutos</p>
+            <p>$2.500 - $4.000</p>
         </div>
-            
-    </form>
+        <span>★5</span>
+    </div>
+</form>
+
     
 }
     }

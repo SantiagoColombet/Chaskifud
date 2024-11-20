@@ -15,6 +15,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        ViewBag.Carrito = Comida.carrito; // Ya inicializado como lista vacía
         ViewBag.Restaurantes = BD.ObtenerRestaurantes();
         return View();
     }

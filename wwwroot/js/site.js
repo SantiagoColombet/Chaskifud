@@ -37,26 +37,26 @@
 
 
 // })
-
 document.addEventListener("DOMContentLoaded", () => {
-    // Obtenemos el ID del primer restaurante en el carrito, si existe
+    // Obtenemos el ID del restaurante en el carrito, si existe
     const idRestauranteCarrito = document.getElementById("IdRestauranteCarrito")
-        ? parseInt(document.getElementById("IdRestauranteCarrito").value)
+        ? parseInt(document.getElementById("IdRestauranteCarrito").value.trim())
         : null;
 
-    // Seleccionamos todos los botones de envío
-    const submitButtons = document.querySelectorAll(".enviar_rest");
+    console.log("ID Restaurante en Carrito:", idRestauranteCarrito);
+
+    // Seleccionamos todos los botones de envío en cualquier formulario
+    const submitButtons = document.querySelectorAll(".enviar_rest, .enviar_rest2");
 
     submitButtons.forEach((submitBtn) => {
         submitBtn.addEventListener("click", function (event) {
             // Previene el envío del formulario de inmediato
             event.preventDefault();
+
             // Obtenemos el formulario actual
             const form = this.closest("form");
-            console.log(form)
+
             // Intentamos obtener el elemento con clase .id-restaurante dentro del formulario
-
-
             const idRestauranteElement = form.querySelector(".id-restaurante");
 
             // Verificamos si el elemento con .id-restaurante existe
@@ -66,10 +66,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // Obtenemos el ID del restaurante seleccionado
-            const idRestauranteSeleccionado = parseInt(idRestauranteElement.innerText);
-            // Lógica para verificar el carrito
+            const idRestauranteSeleccionado = parseInt(idRestauranteElement.value.trim());
+
+            // Logs para depuración
+            console.log("ID Restaurante Seleccionado:", idRestauranteSeleccionado);
+
+            // Validación del carrito
             if (idRestauranteCarrito !== null && idRestauranteCarrito !== idRestauranteSeleccionado) {
-                // Si el carrito no está vacío y el ID no coincide, muestra el mensaje de error
                 Swal.fire({
                     icon: "error",
                     title: "Error",
