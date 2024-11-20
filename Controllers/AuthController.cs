@@ -23,19 +23,29 @@ public class AuthController : Controller
     }
 
     [HttpPost]
-    public IActionResult VerificarLogin(string email, string contrasena)
+    [HttpPost]
+public IActionResult VerificarLogin(string email, string contrasena)
+{
+    Usuario usuario = BD.ObtenerUsuarioPorEmail(email); // Método para obtener el usuario desde la BD
+    
+    if (usuario != null && usuario.Contrasena == contrasena)
     {
-        if (email == Usuario.Email && contrasena == Usuario.Contrasena)
-        {
-            HttpContext.Session.SetString("user", new Usuario(email, contrasena).ToString());
-            return RedirectToAction("Index", "Home");
-        }
-        else
-        {
-            ViewBag.Error = "Email o contraseña incorrectos.";
-            return View("Login");
-        }
+        // Guarda el usuario en la sesión
+        HttpContext.Session.SetString("user", usuario.ToString());
+        return RedirectToAction("Index", "Home");
     }
+     else if (usuario == null)
+        {
+            return RedirectToAction("Registrar", "Home");
+
+        }
+    else
+    {
+        ViewBag.Error = "Email o contraseña incorrectos.";
+        return View("Login");
+    }
+}
+
 
     public IActionResult Logout()
     {

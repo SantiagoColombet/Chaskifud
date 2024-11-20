@@ -16,12 +16,17 @@
     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
   </div>
   <div class="mb-3">
-    <label for="password" class="form-label">Password</label>
-    <input type="password" class="form-control" id="password" name="password" required>
+    <label for="contrasena" class="form-label">contrasena</label>
+    <input type="contrasena" class="form-control" id="contrasena" name="contrasena" required>
   </div>
   <div class="mb-3 form-check">
     <input type="checkbox" class="form-check-input" id="exampleCheck1">
     <label class="form-check-label" for="exampleCheck1">Check me out</label>
   </div>
   <button type="submit" class="btn btn-primary" on>Login</button>
+</form>
+
+<form action='@Url.Action("VerificarLogin", "Auth")' method="post">
+<h6>No tienes una cuenta? </h6>
+<input type = "submit" value = "Registrate" class = "Register">
 </form>

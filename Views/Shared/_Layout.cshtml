@@ -27,7 +27,7 @@
             </ul>
             <div class = "profile">
             <a href = '@Url.Action("Perfil", "Home")'>
-            <img src="../Images/fotoPerfil.png" alt="Profile Picture">
+            <img src="../Images/@ViewBag.UserName" alt="@ViewBag.UserName">
             </a>
             <a href = '@Url.Action("Carrito", "Home")' >
             <img src="../Images/carrito-de-compras.png" alt="Profile Picture">

@@ -49,4 +49,14 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
         }
         return comida;
     }
+  public static Usuario ObtenerUsuarioPorEmail(string Email)
+{
+    Usuario usuario = null; 
+    using (SqlConnection db = new SqlConnection(_connectionString))
+    {
+        string sql = "SELECT * FROM Usuario WHERE Email = @pEmail"; 
+        usuario = db.QueryFirstOrDefault<Usuario>(sql, new { pEmail = Email });
+    }
+    return usuario;
+}
 }

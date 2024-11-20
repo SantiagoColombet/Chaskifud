@@ -23,12 +23,21 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public IActionResult VerificarLogin(string email, string password)
+    public IActionResult VerificarLogin(string email, string contrasena)
     {
-        if (email == Usuario.Email && password == Usuario.Contrasena)
+        // Simula o implementa el acceso a la base de datos para obtener al usuario
+        var usuario = BD.ObtenerUsuarioPorEmail(email); // Método que retorna un Usuario o null
+
+        if (usuario != null && usuario.Contrasena == contrasena)
         {
-            HttpContext.Session.SetString("user", new Usuario(email, password).ToString());
+            // Serializa y guarda el usuario en la sesión
+            HttpContext.Session.SetString("user", usuario.ToString());
             return RedirectToAction("Index", "Home");
+        }
+        else if (usuario == null && usuario.Contrasena == null)
+        {
+            return RedirectToAction("Registrar", "Home");
+
         }
         else
         {
@@ -36,18 +45,34 @@ public class HomeController : Controller
             return View("Login");
         }
     }
+
     public IActionResult Logout()
     {
         HttpContext.Session.Remove("user");
         return RedirectToAction("Login");
     }
     public IActionResult Index()
+{
+    var userJson = HttpContext.Session.GetString("user");
+    var usuario = Usuario.FromString(userJson);
+
+    if (usuario == null)
     {
-        ViewBag.Carrito = Comida.carrito; // Ya inicializado como lista vacía
-        ViewBag.Restaurantes = BD.ObtenerRestaurantes();
-        return View();
+        return RedirectToAction("Login", "Auth");
     }
 
+    ViewBag.UserName = usuario.Nombre + " " + usuario.Apellido;
+    ViewBag.Carrito = Comida.carrito;
+    ViewBag.Restaurantes = BD.ObtenerRestaurantes();
+
+    return View();
+}
+
+
+    public IActionResult Registrar()
+    {
+        return View();
+    }
 
     public IActionResult Mapa()
     {
@@ -73,35 +98,35 @@ public class HomeController : Controller
         ViewBag.usuario = BD.ObtenerInfoUsuario(1);
         return View("Perfil");
     }
-public IActionResult Restaurante()
-{
-    ViewBag.Carrito = Comida.carrito; // Ya inicializado como lista vacía
-    ViewBag.Restaurantes = BD.ObtenerRestaurantes();
-    return View();
-}
+    public IActionResult Restaurante()
+    {
+        ViewBag.Carrito = Comida.carrito; // Ya inicializado como lista vacía
+        ViewBag.Restaurantes = BD.ObtenerRestaurantes();
+        return View();
+    }
 
 
-   public IActionResult RestauranteElegido(int IdRestaurante)
-{
-    ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(IdRestaurante);
-    ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(IdRestaurante);
-    return View("RestauranteElegido");
-}
+    public IActionResult RestauranteElegido(int IdRestaurante)
+    {
+        ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(IdRestaurante);
+        ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(IdRestaurante);
+        return View("RestauranteElegido");
+    }
 
     public IActionResult Comprar(Comida comidaElegida, int IdRestaurante)
     {
-        if(Comida.carrito == null)
+        if (Comida.carrito == null)
         {
-        Comida.carrito = new List<Comida>();
+            Comida.carrito = new List<Comida>();
         }
 
 
         if (Comida.carrito.Any())
         {
-           
+
             if (Comida.carrito.Count != 0 && Comida.carrito[0].IdRestaurante != IdRestaurante)
             {
-                return RedirectToAction("RestauranteElegido", new { IdRestaurante = IdRestaurante, Error=true });
+                return RedirectToAction("RestauranteElegido", new { IdRestaurante = IdRestaurante, Error = true });
             }
             else
             {
@@ -151,10 +176,10 @@ public IActionResult Restaurante()
 
         return View();
     }
-     public IActionResult IniciarSesion()
+    public IActionResult IniciarSesion()
     {
-        
-        return View(); 
+
+        return View();
     }
     public IActionResult Nosotros()
     {

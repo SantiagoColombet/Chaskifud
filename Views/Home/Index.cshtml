@@ -65,3 +65,14 @@
 </div>
 
 
+@{
+    ViewData["Title"] = "Login";
+}
+
+@if(ViewBag.Error != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.Error
+    </div>
+}
+

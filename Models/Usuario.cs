@@ -3,18 +3,19 @@ using System.Text.Json;
 [Serializable]
 public class Usuario
 {
-    public static int IdUsuario {get; set;}
-    public static string Nombre{get; set;}
-    public static string Apellido{get; set;}
-    public static string Email{get; set;}
-    public static DateTime FechaNacimiento{get; set;}
-    public static string Contrasena{get; set;}
-    public static string NumeroTelefono{get; set;}
-    public static int Puntos {get; set;}
-    public static string Imagen{get; set;}
+    public int IdUsuario { get; set; }
+    public string Nombre { get; set; }
+    public string Apellido { get; set; }
+    public string Email { get; set; }
+    public DateTime FechaNacimiento { get; set; }
+    public string Contrasena { get; set; }
+    public string NumeroTelefono { get; set; }
+    public int Puntos { get; set; }
+    public string Imagen { get; set; }
 
+    public Usuario() { }
 
-     public Usuario(string email, string contrasena)
+    public Usuario(string email, string contrasena)
     {
         Email = email;
         Contrasena = contrasena;
@@ -22,7 +23,7 @@ public class Usuario
 
     public override string ToString()
     {
-        return JsonSerializer.Serialize(this);
+        return System.Text.Json.JsonSerializer.Serialize(this);
     }
 
     public static Usuario? FromString(string? json)
@@ -31,10 +32,6 @@ public class Usuario
         {
             return null;
         }
-
-        return JsonSerializer.Deserialize<Usuario>(json);
+        return System.Text.Json.JsonSerializer.Deserialize<Usuario>(json);
     }
-
 }
-
-  
