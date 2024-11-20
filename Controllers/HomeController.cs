@@ -61,7 +61,7 @@ public class HomeController : Controller
         return RedirectToAction("Login", "Auth");
     }
 
-    ViewBag.UserName = usuario.Nombre + " " + usuario.Apellido;
+    ViewBag.UserImg = usuario.Imagen;
     ViewBag.Carrito = Comida.carrito;
     ViewBag.Restaurantes = BD.ObtenerRestaurantes();
 

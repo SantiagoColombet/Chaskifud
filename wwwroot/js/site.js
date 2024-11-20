@@ -86,3 +86,19 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+let contador;
+sessionStorage.setItem("contador", contador);
+
+if(sessionStorage.getItem("contador")<1){
+const stringBasico = document.querySelector(".imagen-global").value;
+// Guardar en localStorage
+localStorage.setItem("stringBasico", stringBasico);
+contador++;
+}
+// Recuperar el valor cuando sea necesario
+const recuperado = localStorage.getItem("stringBasico");
+console.log(recuperado); // Muestra el valor guardado
+
+const imagenPerfil = document.querySelector("#imagen_perfil")
+
+imagenPerfil.src = "../Images/"+ recuperado;
