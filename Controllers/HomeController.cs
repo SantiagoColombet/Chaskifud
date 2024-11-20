@@ -13,6 +13,34 @@ public class HomeController : Controller
         _logger = logger;
     }
 
+    public IActionResult Login()
+    {
+        if (HttpContext.Session.GetString("user") != null)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult VerificarLogin(string email, string password)
+    {
+        if (email == Usuario.Email && password == Usuario.Contrasena)
+        {
+            HttpContext.Session.SetString("user", new Usuario(email, password).ToString());
+            return RedirectToAction("Index", "Home");
+        }
+        else
+        {
+            ViewBag.Error = "Email o contraseña incorrectos.";
+            return View("Login");
+        }
+    }
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Remove("user");
+        return RedirectToAction("Login");
+    }
     public IActionResult Index()
     {
         ViewBag.Carrito = Comida.carrito; // Ya inicializado como lista vacía
