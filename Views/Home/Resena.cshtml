@@ -1,0 +1,24 @@
+<div class="contenedor-resenas">
+    <h2 class="titulo-contenedor">Reseñas de los usuarios</h2>
+    @foreach (var resena in ViewBag.Resena)
+    {
+        <div class="tarjeta-resena">
+            <div class="encabezado-resena">
+                <div class="detalles-resena">
+                    <h3 class="autor-resena">SKIBIDI TOILER</h3>
+                    <p class="aporte-resena">@resena.CantidadAportes aporte(s)</p>
+                </div>
+            </div>
+            <div class="contenido-resena">
+                <h4 class="titulo-resena">Valoración: @resena.Valoracion</h4>
+                <p class="fecha-resena">@resena.FechaEscrita</p>
+                <p class="texto-resena">
+                    @resena.Opinion
+                </p>
+            </div>
+            <div class="pie-resena">
+                <p class="escrito-resena">Escrita el @resena.FechaEscrita</p>
+            </div>
+        </div>
+    }
+</div>
