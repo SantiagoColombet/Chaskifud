@@ -48,25 +48,32 @@ public class HomeController : Controller
 
     public IActionResult Logout()
     {
+
         HttpContext.Session.Remove("user");
         return RedirectToAction("Login");
+
     }
     public IActionResult Index()
-{
-    var userJson = HttpContext.Session.GetString("user");
-    var usuario = Usuario.FromString(userJson);
-
-    if (usuario == null)
     {
-        return RedirectToAction("Login", "Auth");
+
+        var userJson = HttpContext.Session.GetString("user");
+        var usuario = Usuario.FromString(userJson);
+
+        if (usuario != null)
+        {
+            Contador.contador++;
+        }
+
+        if (usuario != null && Contador.contador > 0)
+        {
+            ViewBag.UserImg = usuario.Imagen;
+        }
+
+        ViewBag.Carrito = Comida.carrito;
+        ViewBag.Restaurantes = BD.ObtenerRestaurantes();
+
+        return View();
     }
-
-    ViewBag.UserImg = usuario.Imagen;
-    ViewBag.Carrito = Comida.carrito;
-    ViewBag.Restaurantes = BD.ObtenerRestaurantes();
-
-    return View();
-}
 
 
     public IActionResult Registrar()
@@ -80,17 +87,32 @@ public class HomeController : Controller
     }
     public IActionResult Perfil()
     {
-        ViewBag.usuario = BD.ObtenerInfoUsuario(1);
+        var userJson = HttpContext.Session.GetString("user");
+        var usuario = Usuario.FromString(userJson);
+        if (usuario != null)
+        {
+            ViewBag.usuario = BD.ObtenerInfoUsuario(usuario.IdUsuario);
+        }
         return View();
     }
     public IActionResult PerfilPuntos()
     {
-        ViewBag.usuario = BD.ObtenerInfoUsuario(1);
+        var userJson = HttpContext.Session.GetString("user");
+        var usuario = Usuario.FromString(userJson);
+        if (usuario != null)
+        {
+            ViewBag.usuario = BD.ObtenerInfoUsuario(usuario.IdUsuario);
+        }
         return View();
     }
     public IActionResult PerfilEditar()
     {
-        ViewBag.usuario = BD.ObtenerInfoUsuario(1);
+        var userJson = HttpContext.Session.GetString("user");
+        var usuario = Usuario.FromString(userJson);
+        if (usuario != null)
+        {
+            ViewBag.usuario = BD.ObtenerInfoUsuario(usuario.IdUsuario);
+        }
         return View();
     }
     public IActionResult GuardarPerfil()

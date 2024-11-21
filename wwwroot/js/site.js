@@ -43,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ? parseInt(document.getElementById("IdRestauranteCarrito").value.trim())
         : null;
 
-    console.log("ID Restaurante en Carrito:", idRestauranteCarrito);
 
     // Seleccionamos todos los botones de envío en cualquier formulario
     const submitButtons = document.querySelectorAll(".enviar_rest, .enviar_rest2");
@@ -86,19 +85,53 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-let contador;
-sessionStorage.setItem("contador", contador);
 
-if(sessionStorage.getItem("contador")<1){
-const stringBasico = document.querySelector(".imagen-global").value;
-// Guardar en localStorage
-localStorage.setItem("stringBasico", stringBasico);
-contador++;
+
+
+
+// Inicializar el contador solo si no existe en sessionStorage
+if (!sessionStorage.getItem("contador")) {
+    sessionStorage.setItem("contador", "0");
 }
-// Recuperar el valor cuando sea necesario
-const recuperado = localStorage.getItem("stringBasico");
-console.log(recuperado); // Muestra el valor guardado
 
-const imagenPerfil = document.querySelector("#imagen_perfil")
+// Verifica el contador y guarda la imagen solo la primera vez
+if (parseInt(sessionStorage.getItem("contador")) < 1) {
+    const imagenInput = document.querySelector(".imagen-global-index");
+    if (imagenInput) {
+        const imagenIndex = imagenInput.value; // Verificar que el elemento existe antes de acceder al valor
+        console.log(imagenIndex + " Hola siiiii");
 
-imagenPerfil.src = "../Images/"+ recuperado;
+        // Guardar en localStorage
+        localStorage.setItem("imagenIndex", imagenIndex);
+        console.log("Imagen guardada en localStorage: " + imagenIndex);
+
+        // Incrementar el contador en sessionStorage
+        sessionStorage.setItem("contador", "1");
+    } else {
+        console.error("No se encontró el elemento .imagen-global-index");
+    }
+}
+
+// Recuperar el valor guardado en localStorage
+const recuperado = localStorage.getItem("imagenIndex");
+if (recuperado) {
+    console.log("Valor recuperado: " + recuperado);
+
+    // Configurar la imagen de perfil
+    const imagenPerfil = document.querySelector("#imagen_perfil");
+    if (imagenPerfil) {
+        imagenPerfil.src = "../Images/" + recuperado; // Asegúrate de que la ruta sea válida en tu proyecto MVC
+    } else {
+        console.error("No se encontró el elemento #imagen_perfil");
+    }
+} else {
+    console.error("No se encontró ninguna imagen guardada en localStorage");
+}
+
+const Logut = () => {
+    contador--;
+    localStorage.removeItem("imagenIndex");
+    sessionStorage.setItem("contador");
+}
+
+

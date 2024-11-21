@@ -17,7 +17,7 @@ public class AuthController : Controller
     {
         if (HttpContext.Session.GetString("user") != null)
         {
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Perfil", "Home");
         }
         return View();
     }
