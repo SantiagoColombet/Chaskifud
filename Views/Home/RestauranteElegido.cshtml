@@ -9,6 +9,12 @@
       <div>
       <a href='@Url.Action("Chat","Home")' class ="btn-mensaje">Chatear</a>
       </div>
+      <div>
+          <form method="Post" action='@Url.Action("Resena","Home")'>
+            <input type="hidden" name="IdRestaurante" value="@ViewBag.Restaurante.IdRestaurante">
+            <input type="submit" value="Reseñas" class="btn-mensaje">
+          </form>
+      </div>
   </div>
 </div>
 

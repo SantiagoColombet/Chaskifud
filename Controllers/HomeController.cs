@@ -203,6 +203,11 @@ public class HomeController : Controller
 
         return View();
     }
+    public IActionResult Resena(int IdRestaurante)
+    {   
+        ViewBag.resena = BD.ObtenerResenasRestaurante(IdRestaurante);
+        return View();
+    }
     public IActionResult Nosotros()
     {
         return View();
