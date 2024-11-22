@@ -89,49 +89,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// Inicializar el contador solo si no existe en sessionStorage
-if (!sessionStorage.getItem("contador")) {
-    sessionStorage.setItem("contador", "0");
-}
+// // Inicializar el contador solo si no existe en sessionStorage
+// if (!sessionStorage.getItem("contador")) {
+//     sessionStorage.setItem("contador", "0");
+// }
+// const imgCheck = document.querySelector(".imagen-global-index")
+// // Verifica el contador y guarda la imagen solo la primera vez
+// let imgValue = imgCheck.value
+// console.log(imgCheck)
+// if (parseInt(sessionStorage.getItem("contador")) < 1 &&  imgCheck.value == imgValue) {
+//     const imagenInput = document.querySelector(".imagen-global-index");
+//     if (imagenInput) {
+//         const imagenIndex = imagenInput.value; // Verificar que el elemento existe antes de acceder al valor
+//         console.log(" Hola siiiii" +imagenIndex );
 
-// Verifica el contador y guarda la imagen solo la primera vez
-if (parseInt(sessionStorage.getItem("contador")) < 1) {
-    const imagenInput = document.querySelector(".imagen-global-index");
-    if (imagenInput) {
-        const imagenIndex = imagenInput.value; // Verificar que el elemento existe antes de acceder al valor
-        console.log(imagenIndex + " Hola siiiii");
+//         // Guardar en localStorage
+//         localStorage.setItem("imagenIndex", imagenIndex);
+//         console.log("Imagen guardada en localStorage: " + imagenIndex);
 
-        // Guardar en localStorage
-        localStorage.setItem("imagenIndex", imagenIndex);
-        console.log("Imagen guardada en localStorage: " + imagenIndex);
+//         // Incrementar el contador en sessionStorage
+//         sessionStorage.setItem("contador", "1");
+//     } else {
+//         console.error("No se encontró el elemento .imagen-global-index");
+//     }
+// }
 
-        // Incrementar el contador en sessionStorage
-        sessionStorage.setItem("contador", "1");
-    } else {
-        console.error("No se encontró el elemento .imagen-global-index");
-    }
-}
+// // Recuperar el valor guardado en localStorage
+// const recuperado = localStorage.getItem("imagenIndex");
+// if (recuperado) {
+//     console.log("Valor recuperado: " + recuperado);
 
-// Recuperar el valor guardado en localStorage
-const recuperado = localStorage.getItem("imagenIndex");
-if (recuperado) {
-    console.log("Valor recuperado: " + recuperado);
+//     // Configurar la imagen de perfil
+//     const imagenPerfil = document.querySelector("#imagen_perfil");
+//     if (imagenPerfil) {
+//         imagenPerfil.src = "../Images/" + recuperado; // Asegúrate de que la ruta sea válida en tu proyecto MVC
+//     } else {
+//         console.error("No se encontró el elemento #imagen_perfil");
+//     }
+// } else {
+//     console.error("No se encontró ninguna imagen guardada en localStorage");
+// }
 
-    // Configurar la imagen de perfil
-    const imagenPerfil = document.querySelector("#imagen_perfil");
-    if (imagenPerfil) {
-        imagenPerfil.src = "../Images/" + recuperado; // Asegúrate de que la ruta sea válida en tu proyecto MVC
-    } else {
-        console.error("No se encontró el elemento #imagen_perfil");
-    }
-} else {
-    console.error("No se encontró ninguna imagen guardada en localStorage");
-}
-
-const Logut = () => {
-    contador--;
-    localStorage.removeItem("imagenIndex");
-    sessionStorage.setItem("contador");
-}
+// const Logut = () => {
+//     contador--;
+//     localStorage.removeItem("imagenIndex");
+//     sessionStorage.setItem("contador");
+// }
 
 

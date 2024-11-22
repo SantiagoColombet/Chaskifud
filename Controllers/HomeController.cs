@@ -1,66 +1,31 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Chaskifud.Models;
+using Chaskifud.Services; 
 
 namespace Chaskifud.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    private readonly GlobalVariableService _globalVariableService;
+    // Modificar el constructor para inyectar el servicio
+    public HomeController(ILogger<HomeController> logger, GlobalVariableService globalVariableService)
     {
         _logger = logger;
+        _globalVariableService = globalVariableService; // Inicializar el servicio
     }
 
-    public IActionResult Login()
-    {
-        if (HttpContext.Session.GetString("user") != null)
-        {
-            return RedirectToAction("Index", "Home");
-        }
-        return View();
-    }
-
-    [HttpPost]
-    public IActionResult VerificarLogin(string email, string contrasena)
-    {
-        // Simula o implementa el acceso a la base de datos para obtener al usuario
-        var usuario = BD.ObtenerUsuarioPorEmail(email); // Método que retorna un Usuario o null
-
-        if (usuario != null && usuario.Contrasena == contrasena)
-        {
-            // Serializa y guarda el usuario en la sesión
-            HttpContext.Session.SetString("user", usuario.ToString());
-            return RedirectToAction("Index", "Home");
-        }
-        else if (usuario == null && usuario.Contrasena == null)
-        {
-            return RedirectToAction("Registrar", "Home");
-
-        }
-        else
-        {
-            ViewBag.Error = "Email o contraseña incorrectos.";
-            return View("Login");
-        }
-    }
-
-    public IActionResult Logout()
-    {
-
-        HttpContext.Session.Remove("user");
-        return RedirectToAction("Login");
-
-    }
+ 
     public IActionResult Index()
     {
 
         var userJson = HttpContext.Session.GetString("user");
         var usuario = Usuario.FromString(userJson);
-
+        
         if (usuario != null)
         {
+            _globalVariableService.nombreUsuario = usuario.Nombre;
             Contador.contador++;
         }
 
@@ -211,6 +176,46 @@ public class HomeController : Controller
     public IActionResult Nosotros()
     {
         return View();
+    }
+       public IActionResult Login()
+    {
+        if (HttpContext.Session.GetString("user") != null)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult VerificarLogin(string email, string contrasena)
+    {
+        // Simula o implementa el acceso a la base de datos para obtener al usuario
+        var usuario = BD.ObtenerUsuarioPorEmail(email); // Método que retorna un Usuario o null
+
+        if (usuario != null && usuario.Contrasena == contrasena)
+        {
+            // Serializa y guarda el usuario en la sesión
+            HttpContext.Session.SetString("user", usuario.ToString());
+            return RedirectToAction("Index", "Home");
+        }
+        else if (usuario == null && usuario.Contrasena == null)
+        {
+            return RedirectToAction("Registrar", "Home");
+
+        }
+        else
+        {
+            ViewBag.Error = "Email o contraseña incorrectos.";
+            return View("Login");
+        }
+    }
+
+    public IActionResult Logout()
+    {
+
+        HttpContext.Session.Remove("user");
+        return RedirectToAction("Login");
+
     }
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

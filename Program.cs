@@ -1,5 +1,8 @@
 var builder = WebApplication.CreateBuilder(args);
 
+// Registro del servicio global
+
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
@@ -7,6 +10,7 @@ builder.Services.AddSession();
 // {
 //     options.Filters.Add<SessionCheckFilter>();
 // });
+builder.Services.AddSingleton<Chaskifud.Services.GlobalVariableService>();
 
 var app = builder.Build();
 
@@ -34,3 +38,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
