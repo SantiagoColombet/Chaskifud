@@ -16,7 +16,7 @@
 <body>
     <header>
       <nav class="navbar">
-                    <h1>@GlobalVariableService.nombreUsuario</h1>
+                    <h1></h1>
 
             <a href='@Url.Action("Index", "Home")' class="logo-container"><img src = "../Images/C_Chaskifud.png"></a>
 
@@ -28,7 +28,7 @@
             </ul>
             <div class = "profile">
             <a href = '@Url.Action("Login", "Auth")'>
-            <img src="../Images/@ViewBag.UserImg" alt="@ViewBag.UserImg" id = "imagen_perfil">
+            <img src="../Images/@GlobalVariableService.nombreUsuario" alt="@GlobalVariableService.nombreUsuario" id = "imagen_perfil">
             </a>
             <a href = '@Url.Action("Carrito", "Home")' >
             <img src="../Images/carrito-de-compras.png" alt="Profile Picture">

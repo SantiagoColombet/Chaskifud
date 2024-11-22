@@ -25,7 +25,7 @@ public class HomeController : Controller
         
         if (usuario != null)
         {
-            _globalVariableService.nombreUsuario = usuario.Nombre;
+            _globalVariableService.nombreUsuario = usuario.Imagen;
             Contador.contador++;
         }
 
