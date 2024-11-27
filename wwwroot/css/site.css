@@ -743,6 +743,17 @@ background-color: #37b112;
   color: black;
   margin-top: 10px;
 }
+.perfil-logout{
+  text-decoration: none;
+  color: red;
+  padding: 10px;
+}
+.perfil-logout:hover{
+  background-color: rgba(255, 0, 0, 0.438);
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+}
 /* Puntos y perfil de PerfilPuntos.cshtml */
 
 .form-perfil p {

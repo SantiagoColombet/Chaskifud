@@ -1,16 +1,20 @@
 using System.Diagnostics;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using Chaskifud.Services; 
 
 namespace test_session.Controllers;
 
 public class AuthController : Controller
 {
     private readonly ILogger<AuthController> _logger;
+    private readonly GlobalVariableService _globalVariableService;
 
-    public AuthController(ILogger<AuthController> logger)
+    public AuthController(ILogger<AuthController> logger, GlobalVariableService globalVariableService)
     {
         _logger = logger;
+        _globalVariableService = globalVariableService; // Inicializar el servicio
+
     }
 
     public IActionResult Login()
@@ -50,6 +54,7 @@ public IActionResult VerificarLogin(string email, string contrasena)
     public IActionResult Logout()
     {
         HttpContext.Session.Remove("user");
+        _globalVariableService.nombreUsuario = "anonimo.png";
         return RedirectToAction("Login");
     }
 

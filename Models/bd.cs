@@ -1,9 +1,9 @@
 using System.Data.SqlClient;
 using Dapper;
-
+using System.Data;
 public class BD
 {
-    private static string _connectionString = @"Server=DESKTOP-D34G2CV\SQLEXPRESS; DataBase=ChaskiBase; Trusted_Connection=True;";
+    private static string _connectionString = @"Server=A-PHZ2-CIDI-11; DataBase=ChaskiBase; Trusted_Connection=True;";
 
   public static Usuario ObtenerInfoUsuario(int IdUsuario)
 {
@@ -64,8 +64,12 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
         List<Resena> resenas;
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
-            string sql = "SELECT * FROM Resenas WHERE IdRestaurante = @pIdRestaurante";
-            resenas = db.Query<Resena>(sql, new { pIdRestaurante = IdRestaurante }).ToList();
+            string storedProcedure = "ObtenerResenasPorRestaurante";
+            resenas = db.Query<Resena>(
+                storedProcedure, 
+                new { IdRestaurante = IdRestaurante }, 
+                commandType: CommandType.StoredProcedure
+            ).ToList();
         }
         return resenas;
     }
@@ -88,6 +92,26 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
                 pCantidadVotosArriba = 0,
                 pCantidadVotosAbajo = 0
             });
+        }
+    }
+    public static void DarLike(int IdResena)
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = @"UPDATE Resenas
+            SET CantidadVotosArriba = CantidadVotosArriba + 1
+            WHERE IdResena = @pIdResena";
+            db.Execute(sql, new{pIdResena = IdResena});
+        }
+    }
+        public static void DarDislike(int IdResena)
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = @"UPDATE Resenas
+            SET CantidadVotosAbajo = CantidadVotosAbajo + 1
+            WHERE IdResena = @pIdResena";
+            db.Execute(sql, new{pIdResena = IdResena});
         }
     }
 }

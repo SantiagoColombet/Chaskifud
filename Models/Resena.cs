@@ -6,7 +6,8 @@ public class Resena
     public string Valoracion { get; set; }
     public int IdResena { get; set; }
     public DateTime FechaEscrita { get; set;}
-    public int CantidadAportes { get; set;}
     public int CantidadVotosArriba { get; set;}
     public int CantidadVotosAbajo { get; set;}
+    public string? Nombre { get; set;}
+
 }

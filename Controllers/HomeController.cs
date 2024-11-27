@@ -26,6 +26,7 @@ public class HomeController : Controller
         if (usuario != null)
         {
             _globalVariableService.nombreUsuario = usuario.Imagen;
+            
             Contador.contador++;
         }
 
@@ -214,8 +215,20 @@ public class HomeController : Controller
     {
 
         HttpContext.Session.Remove("user");
+        _globalVariableService.nombreUsuario = "anonimo.png";
         return RedirectToAction("Login");
 
+    }
+[HttpPost]
+    public IActionResult VotarArriba(int IdResena, int IdRestaurante)
+    {
+        BD.DarLike(IdResena);
+        return RedirectToAction("Resena", new { IdRestaurante = IdRestaurante} );
+    }
+     public IActionResult VotarAbajo(int IdResena, int IdRestaurante)
+    {
+        BD.DarDislike(IdResena);
+        return RedirectToAction("Resena", new { IdRestaurante = IdRestaurante} );
     }
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

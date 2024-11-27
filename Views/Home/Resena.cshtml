@@ -14,8 +14,8 @@
             <div class="encabezado-resena">
                 <div class="avatar-usuario"></div>
                 <div class="detalles-resena">
-                    <h3 class="autor-resena">esta parte no la hice</h3>
-                    <p class="aporte-resena">@resena.CantidadAportes aporte(s)</p>
+                    <h3 class="autor-resena">@resena.Nombre</h3>
+                    <p class="aporte-resena"> aporte(s)</p>
                 </div>
             </div>
             <div class="contenido-resena">
@@ -29,8 +29,21 @@
                 </div>
                 <div class="votar-resena">
                     <ul>
-                        <li><span class="icon thumbs-up">@resena.CantidadVotosArriba</span></li>
-                        <li><span class="icon thumbs-down">@resena.CantidadVotosAbajo</span></li>
+                    <form action = '@Url.Action("VotarArriba", "Home")' method = "Post">
+                        <li><input type ="submit" class="icon thumbs-up">@resena.CantidadVotosArriba</li>
+                        <input type = "hidden" value= "@resena.IdResena" name = "IdResena">
+                        <input type = "hidden" value= "@resena.IdRestaurante" name = "IdRestaurante">
+
+
+                    </form>
+
+                    <form action = '@Url.Action("VotarAbajo", "Home")' method = "Post">
+                        <li><input type ="submit" class="icon thumbs-down">@resena.CantidadVotosAbajo</li>
+                        <input type = "hidden" value= "@resena.IdResena" name = "IdResena">
+                        <input type = "hidden" value= "@resena.IdRestaurante" name = "IdRestaurante">
+
+                    </form>
+                    
                     </ul>
                 </div>
             </div>
