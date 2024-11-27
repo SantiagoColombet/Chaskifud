@@ -1,24 +1,56 @@
 <div class="contenedor-resenas">
     <h2 class="titulo-contenedor">Reseñas de los usuarios</h2>
+    
+    <input type="text" class="campo-busqueda" placeholder="Buscar reseñas...">
+    
+    <div class="contenedor-botones">
+        <button class="btn-filtro">Filtros</button>
+        <button class="btn-filtro">Las más recientes ▼</button>
+    </div>
+
     @foreach (var resena in ViewBag.Resena)
     {
         <div class="tarjeta-resena">
             <div class="encabezado-resena">
+                <div class="avatar-usuario"></div>
                 <div class="detalles-resena">
-                    <h3 class="autor-resena">SKIBIDI TOILER</h3>
+                    <h3 class="autor-resena">esta parte no la hice</h3>
                     <p class="aporte-resena">@resena.CantidadAportes aporte(s)</p>
                 </div>
             </div>
             <div class="contenido-resena">
                 <h4 class="titulo-resena">Valoración: @resena.Valoracion</h4>
                 <p class="fecha-resena">@resena.FechaEscrita</p>
-                <p class="texto-resena">
-                    @resena.Opinion
-                </p>
+                <p class="texto-resena">@resena.Opinion</p>
             </div>
             <div class="pie-resena">
-                <p class="escrito-resena">Escrita el @resena.FechaEscrita</p>
+                <div class="contenido-fecha-resena">
+                    <p class="escrito-resena">Escrita el @resena.FechaEscrita</p>
+                </div>
+                <div class="votar-resena">
+                    <ul>
+                        <li><span class="icon thumbs-up">@resena.CantidadVotosArriba</span></li>
+                        <li><span class="icon thumbs-down">@resena.CantidadVotosAbajo</span></li>
+                    </ul>
+                </div>
             </div>
         </div>
     }
+
+    <form action='@Url.Action("AgregarResena", "Home")' method="post">
+        <div class="grupo-formulario">
+            <label for="Valoracion" class="etiqueta-form">Valoración</label>
+            <input type="number" name="Valoracion" min="1" max="5" class="campo-form" placeholder="Valoración (1-5)">
+        </div>
+        
+        <div class="grupo-formulario">
+            <label for="Opinion" class="etiqueta-form">Opinión</label>
+            <textarea name="Opinion" class="campo-form" placeholder="Escribe tu opinión"></textarea>
+        </div>
+        
+        <input type="hidden" name="IdRestaurante" value="@ViewBag.Resena[0].IdRestaurante">
+        <input type="hidden" name="IdUsuario" value="1">
+        
+        <button type="submit" class="btn-enviar">Enviar Reseña</button>
+    </form>
 </div>

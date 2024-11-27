@@ -1193,93 +1193,183 @@ font-size: 0px;
 
 /*                               RESEÑAS                                    */
 .contenedor-resenas {
-  background-color: #f5f5f5; /* Fondo gris claro */
-  padding: 30px; /* Espaciado interno */
-  margin: 20px auto; /* Centramos el contenedor */
-  border-radius: 15px; /* Bordes redondeados */
-  border: 2px solid #ddd; /* Borde gris suave */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-  max-width: 800px; /* Ancho máximo del contenedor */
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
 }
 
-/* Título del contenedor */
 .titulo-contenedor {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
   text-align: center;
-  margin-bottom: 20px;
+  font-size: 2rem;
+  margin-bottom: 1rem;
 }
 
-/* Tarjetas de reseñas individuales (se mantiene igual) */
+.campo-busqueda {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.contenedor-botones {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.btn-filtro {
+  padding: 0.5rem 1rem;
+  background-color: #008080;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
 .tarjeta-resena {
-  background-color: #fff9c4; /* Color amarillo claro */
-  border: 2px solid #ffeb3b; /* Color del borde */
-  border-radius: 10px; /* Bordes redondeados */
-  padding: 20px;
-  margin-bottom: 20px; /* Espacio entre tarjetas */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Restante diseño de las reseñas (igual que antes)... */
 .encabezado-resena {
   display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.avatar-resena {
-  width: 50px;
-  height: 50px;
+.avatar-usuario {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  margin-right: 15px;
+  background-color: #e0e0e0;
 }
 
 .detalles-resena {
-  display: flex;
-  flex-direction: column;
+  flex-grow: 1;
 }
 
 .autor-resena {
-  font-size: 16px;
   font-weight: bold;
-  margin: 0;
+  margin-bottom: 0.2rem;
 }
 
 .aporte-resena {
-  font-size: 12px;
-  color: #888;
-}
-
-.contenido-resena {
-  margin-top: 10px;
-}
-
-.titulo-resena {
-  font-size: 18px;
-  font-weight: bold;
-  color: #ff9800; /* Color del texto del título */
-  margin: 0;
-}
-
-.fecha-resena {
-  font-size: 12px;
-  color: #999;
-  margin-bottom: 10px;
-}
-
-.texto-resena {
-  font-size: 14px;
-  line-height: 1.5;
-  color: #333;
-}
-
-.pie-resena {
-  margin-top: 15px;
-  font-size: 12px;
+  font-size: 0.9rem;
   color: #666;
 }
 
-.escrito-resena {
-  margin: 0;
+.estrellas {
+  color: #ffd700;
+  margin: 0.5rem 0;
+}
+
+.titulo-resena {
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+.fecha-resena {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.texto-resena {
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.pie-resena {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.contenido-fecha-resena {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.votar-resena {
+  margin-top: 0.5rem;
+}
+
+.votar-resena ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.votar-resena .icon {
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+/* Formulario de nueva reseña */
+.grupo-formulario {
+  margin-bottom: 1rem;
+}
+
+.etiqueta-form {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.campo-form {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+textarea.campo-form {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.btn-enviar {
+  background-color: #008080;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.icon::before {
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+}
+.thumbs-up::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  content: "\f164"; 
+  transition: 0.2s;
+}
+
+.thumbs-down::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 400;
+  content: "\f165";
+  transition: 0.2s;
+}
+
+.thumbs-up:hover{
+  color: #37b112;
+}
+
+.thumbs-down:hover{
+  color: #b11d12;
 }

@@ -4,8 +4,9 @@ public class Resena
     public int IdUsuario { get; set; }
     public string Opinion { get; set; }
     public string Valoracion { get; set; }
-    public int IdResenas { get; set; }
+    public int IdResena { get; set; }
     public DateTime FechaEscrita { get; set;}
     public int CantidadAportes { get; set;}
-  
+    public int CantidadVotosArriba { get; set;}
+    public int CantidadVotosAbajo { get; set;}
 }

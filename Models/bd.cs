@@ -3,7 +3,7 @@ using Dapper;
 
 public class BD
 {
-    private static string _connectionString = @"Server=A-PHZ2-LUM-23; DataBase=ChaskiBase; Trusted_Connection=True;";
+    private static string _connectionString = @"Server=DESKTOP-D34G2CV\SQLEXPRESS; DataBase=ChaskiBase; Trusted_Connection=True;";
 
   public static Usuario ObtenerInfoUsuario(int IdUsuario)
 {
@@ -68,5 +68,26 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
             resenas = db.Query<Resena>(sql, new { pIdRestaurante = IdRestaurante }).ToList();
         }
         return resenas;
+    }
+
+    public static void AgregarResena(int IdUsuario, int IdRestaurante, int Valoracion, int FechaEscrita, int Opinion)
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = @"
+            INSERT INTO Resenas (IdRestaurante, IdUsuario, Valoracion, Opinion, FechaEscrita, CantidadAportes, CantidadVotosArriba, CantidadVotosAbajo) 
+            VALUES (@pIdRestaurante, @pIdUsuario, @pValoracion, @pOpinion, @pFechaEscrita, @pCantidadAportes, @pCantidadVotosArriba, @pCantidadVotosAbajo)";
+            db.Execute(sql, new
+            {
+                pIdRestaurante = IdRestaurante,
+                pIdUsuario = IdUsuario,
+                pValoracion = Valoracion,
+                pOpinion = Opinion, 
+                pFechaEscrita = DateTime.Now, 
+                pCantidadAportes = 0,
+                pCantidadVotosArriba = 0,
+                pCantidadVotosAbajo = 0
+            });
+        }
     }
 }
