@@ -132,4 +132,20 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
             return db.QueryFirstOrDefault<int>(sql, new { IdResena = IdResena });
         }
     }
+
+    public static void Registrarse(string Nombre, string Imagen, string Apellido, string Email, string Contrasena, string NumeroTelefono, DateOnly FechaNacimiento, int Puntos){
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            db.Execute("Registrarse", new{
+                Nombre,
+                Imagen,
+                Apellido,
+                Email,
+                Contrasena,
+                NumeroTelefono,
+                FechaNacimiento,
+                Puntos
+            }, commandType: CommandType.StoredProcedure);
+        }
+    }
 }

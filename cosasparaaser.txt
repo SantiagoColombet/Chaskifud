@@ -1,0 +1,15 @@
+1) links del footer
+  por lo menos manden a instagram, facebook , etc
+  target="_blank"
+  
+  <a href="somesite.com" target="_blank" >Link</a>
+  
+2) Mapa APi queda para el año que viene, asi pueden investigarla en el verano y traerlo hecho en 5to
+
+3) Locales que se vea mejor
+
+4) Carrito poner boton de pago
+
+5) Pushear pago y ver eso 
+
+6) Buscador de Reseñas 
