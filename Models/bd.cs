@@ -64,7 +64,7 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
         List<Resena> resenas;
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
-            string storedProcedure = "ObtenerResenasPorRestaurante";
+            string storedProcedure = "ObtenerResenasRestaurante";
             resenas = db.Query<Resena>(
                 storedProcedure, 
                 new { IdRestaurante = IdRestaurante }, 
@@ -104,7 +104,7 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
             db.Execute(sql, new{pIdResena = IdResena});
         }
     }
-        public static void DarDislike(int IdResena)
+    public static void DarDislike(int IdResena)
     {
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
@@ -114,11 +114,22 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
             db.Execute(sql, new{pIdResena = IdResena});
         }
     }
-    public static void Vercomidas(){
-         using (SqlConnection db = new SqlConnection(_connectionString))
-         {
-            string sql = "SELECT * FROM RestaurantesYComida";
-            db.Execute(sql);
-         }
+    public static int ObtenerCantidadVotosArriba(int IdResena)
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = @"SELECT CantidadVotosArriba FROM Resenas
+                        WHERE IdResena = @IdResena";
+            return db.QueryFirstOrDefault<int>(sql, new { IdResena = IdResena });
+        }
+    }
+    public static int ObtenerCantidadVotosAbajo(int IdResena)
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = @"SELECT CantidadVotosAbajo FROM Resenas
+                        WHERE IdResena = @IdResena";
+            return db.QueryFirstOrDefault<int>(sql, new { IdResena = IdResena });
+        }
     }
 }

@@ -226,16 +226,23 @@ public class HomeController : Controller
 
     }
     [HttpPost]
-    public IActionResult VotarArriba(int IdResena, int IdRestaurante)
+    public JsonResult VotarArriba([FromBody] VotoRequest request)
     {
-        BD.DarLike(IdResena);
-        return RedirectToAction("Resena", new { IdRestaurante = IdRestaurante });
+        Console.WriteLine($"IdResena: {request.IdResena}, IdRestaurante: {request.IdRestaurante}");
+        BD.DarLike(request.IdResena);
+        int nuevaCantidadVotos = BD.ObtenerCantidadVotosArriba(request.IdResena);
+        return Json(new { nuevaCantidadVotos });
     }
-    public IActionResult VotarAbajo(int IdResena, int IdRestaurante)
+
+    [HttpPost]
+    public JsonResult VotarAbajo([FromBody] VotoRequest request)
     {
-        BD.DarDislike(IdResena);
-        return RedirectToAction("Resena", new { IdRestaurante = IdRestaurante });
+        Console.WriteLine($"IdResena: {request.IdResena}, IdRestaurante: {request.IdRestaurante}");
+        BD.DarDislike(request.IdResena);
+        int nuevaCantidadVotos = BD.ObtenerCantidadVotosAbajo(request.IdResena);
+        return Json(new { nuevaCantidadVotos });
     }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
