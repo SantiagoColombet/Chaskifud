@@ -8,25 +8,18 @@
         @ViewBag.Error
     </div>
 }
-
-<form action='@Url.Action("VerificarLogin", "Auth")' method="post">
-  <div class="mb-3">
-    <label for="email" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-  </div>
-  <div class="mb-3">
-    <label for="contrasena" class="form-label">contrasena</label>
-    <input type="contrasena" class="form-control" id="contrasena" name="contrasena" required>
-  </div>
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
-  <button type="submit" class="btn btn-primary" on>Login</button>
-</form>
-
-<form action='@Url.Action("VerificarLogin", "Auth")' method="post">
-<h6>No tienes una cuenta? </h6>
-<input type = "submit" value = "Registrate" class = "Register">
-</form>
+<div class="login-container">
+    <div class="header-logo">
+        <img src="..\Images\Logo-Chaskifud.png" alt="Chaskifud Logo" class="logo-image">
+    </div>
+    <form action='@Url.Action("VerificarLogin", "Auth")' method="post" class="login-form">
+        <div class="form-group">
+            <input type="email" class="input-field" id="email" name="email" placeholder="Email" required>
+        </div>
+        <div class="form-group">
+            <input type="password" class="input-field" id="contrasena" name="contrasena" placeholder="Contraseña" required>
+        </div>
+        <button type="submit" class="submit-button">Iniciar Sesión</button> 
+    </form>
+    <p class="footer-text">¿No tienes una cuenta? <a href='@Url.Action("Register", "Auth")' class="register-link">Regístrate</a></p>
+</div>

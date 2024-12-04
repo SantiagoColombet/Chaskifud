@@ -3,7 +3,7 @@ using Dapper;
 using System.Data;
 public class BD
 {
-    private static string _connectionString = @"Server=A-PHZ2-LUM-10; DataBase=ChaskiBase; Trusted_Connection=True;";
+    private static string _connectionString = @"Server=DESKTOP-D34G2CV\SQLEXPRESS; DataBase=ChaskiBase; Trusted_Connection=True;";
 
   public static Usuario ObtenerInfoUsuario(int IdUsuario)
 {
@@ -147,5 +147,30 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
                 Puntos
             }, commandType: CommandType.StoredProcedure);
         }
+    }
+
+    public static void RegistrarUsuario (string Nombre, string Apellido, string Contrasena, string NumeroTelefono, string Imagen, DateOnly FechaNacimiento, string Email)
+    {
+    using (SqlConnection db = new SqlConnection(_connectionString))
+    {
+        string storedProcedure = "Registrarse";
+        var fechaConvertida = FechaNacimiento.ToDateTime(TimeOnly.MinValue);
+    
+        var parameters = new
+        {
+            Nombre,
+            Apellido,
+            Contrasena,
+            NumeroTelefono,
+            Imagen,
+            FechaNacimiento = fechaConvertida,
+            Email
+        };          
+        db.Execute(
+            storedProcedure, 
+            parameters, 
+            commandType: CommandType.StoredProcedure
+        );
+    }
     }
 }

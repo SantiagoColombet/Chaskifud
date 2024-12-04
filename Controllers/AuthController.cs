@@ -58,4 +58,19 @@ public IActionResult VerificarLogin(string email, string contrasena)
         return RedirectToAction("Login");
     }
 
+    public IActionResult register()
+    {
+        return View("Registrar");
+    } 
+    public IActionResult registrarUsuario(string Nombre, string Apellido, string Contrasena, string NumeroTelefono, string Imagen, DateOnly FechaNacimiento, string Email)
+    {
+        BD.RegistrarUsuario(Nombre,
+        Apellido,
+        Contrasena,
+        NumeroTelefono,
+        Imagen,
+        FechaNacimiento,
+        Email);
+        return View("Login");
+    }
 }
