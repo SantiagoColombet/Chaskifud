@@ -1,35 +1,56 @@
 @using System.Linq
-@{
-    var listaComida = ViewBag.ListaComida as List<Comida>;
-
-    if (listaComida != null)
-    {
-        var comidasAgrupadas = listaComida
-            .GroupBy(c => c.IdComida)
-            .Select(g => new 
-            { 
-                Comida = g.First(), 
-                Cantidad = g.Count() 
-            })
-            .ToList();
-
-        foreach (var item in comidasAgrupadas)
+<div class="carrito-general">
+    @{
+        if (ViewBag.count != 0)
         {
-            <form method="post" action='@Url.Action("EliminarCarrito", "Home")' class="carrito-card">
-                <div>
-                    <h5>@item.Comida.Nombre</h5>
-                </div>
-                <span>
-                    <h6>$@item.Comida.Precio</h6>
-                </span>
-                <span>
-                    <strong>Cantidad:</strong> @item.Cantidad
-                </span>
-                <input type="hidden" value="@item.Comida.IdComida" name="IdComida">
-                <input type="submit" value="Eliminar" class="eliminar">
-            </form>
+            <div class="carrito-container">
+                @{
+                    var listaComida = ViewBag.ListaComida as List<Comida>;
+
+                    if (listaComida != null)
+                    {
+                        var comidasAgrupadas = listaComida
+                        .GroupBy(c => c.IdComida)
+                        .Select(g => new
+                        {
+                            Comida = g.First(),
+                            Cantidad = g.Count()
+                        })
+                        .ToList();
+
+                        foreach (var item in comidasAgrupadas)
+                        {
+                            <form method="post" action='@Url.Action("EliminarCarrito", "Home")' class="carrito-card">
+                                <img src="../Images/@item.Comida.Imagen">
+                                <div>
+                                    <h5>@item.Comida.Nombre</h5>
+                                </div>
+                                <span>
+                                    <h6>$@item.Comida.Precio</h6>
+                                </span>
+                                <span>
+                                    <strong>Cantidad:</strong> @item.Cantidad
+                                </span>
+                                <input type="hidden" value="@item.Comida.IdComida" name="IdComida">
+                                <input type="submit" value="Eliminar" class="eliminar">
+                            </form>
+                        }
+                    }
+
+                }
+            </div>
         }
+
+        else
+        {
+            <h1 class="no-elements">No hay elementos en el carrito</h1>
+        }
+
     }
-   
-}
-</section>
+    @if (ViewBag.Count != 0)
+    {
+        <a href='@Url.Action("Pago","Home")' class="carrito-pagar">Ir a pagar</a>
+
+    }
+
+</div>

@@ -1,11 +1,154 @@
-<div clas="Mapa">
-<div class="content-inline">
-  <div class="search-inline">
-     <input name="txtSearch" class="search-inline--input" placeholder="Buscar">
-  </div>
-</div>
-    <div class="map-container">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d13135.870070701341!2d-58.42668960960555!3d-34.60498287658893!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sar!4v1730297408658!5m2!1ses!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="Mapa
-        "></iframe>
+@{
+  ViewData["Title"] = "Mapa con Leaflet y Búsqueda Avanzada";
+}
+
+<div class="Mapa">
+  <div class="content-inline">
+    <div class="search-inline">
+      <input id="txtSearch" class="search-inline--input" placeholder="Buscar lugar o dirección en Buenos Aires">
+      <button id="btnSearch" class="btnSearch">Buscar</button>
+      <ul id="suggestions" class="suggestions-list" style="display: none;"></ul>
     </div>
+  </div>
+  <div id="map" style="width: 100%; height: 500px; margin-top: 20px;"></div>
 </div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+  // Coordenadas de los límites de Buenos Aires, Argentina
+  const buenosAiresBounds = [
+    [-34.922279, -58.532566], // Suroeste
+    [-34.403267, -58.335481]  // Noreste
+  ];
+
+  // Inicializar el mapa centrado en ORT Yatay, Argentina
+  const map = L.map('map', {
+    center: [-34.601234, -58.430123], // Coordenadas de ORT Yatay
+    zoom: 13,
+    maxBounds: buenosAiresBounds, // Limitar el mapa a Buenos Aires
+    maxBoundsViscosity: 1.0 // Ajuste para que no se salga de los límites
+  });
+
+  // Cargar mosaicos de OpenStreetMap
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  // Definir un ícono personalizado
+  const customIcon = L.icon({
+    iconUrl: '../Images/C_Chaskifud.png', // URL de la imagen
+    iconSize: [32, 32], // Tamaño del icono [ancho, alto]
+    iconAnchor: [16, 32], // Punto del icono que se posiciona en las coordenadas [mitad del ancho, base]
+    popupAnchor: [0, -32] // Posición del popup respecto al icono
+  });
+
+  // Puntos personalizados
+  const puntos = [
+    {
+      nombre: "ORT Yatay",
+      descripcion: "Una institución educativa innovadora.",
+      lat: -34.60998005538817,
+      lon: -58.42914820365313,
+      icono: customIcon
+    },
+    {
+      nombre: "El vasquito",
+      descripcion: "Empanadas fritas.",
+      lat: -34.61173791516303,
+      lon: -58.43027691790882,
+      icono: customIcon
+    },
+    {
+      nombre: "Menora house",
+      descripcion: "Comida judía",
+      lat: -34.61007476096656,
+      lon: -58.42913924034488,
+      icono: customIcon
+    },
+    {
+      nombre: "Poyin",
+      descripcion: "Rotisería especializada en sándwiches de milanesa",
+      lat: -34.611600922698415,
+      lon: -58.430375284891824,
+      icono: customIcon
+    },
+    {
+      nombre: "Panadería Roel",
+      descripcion: "Rotisería con una amplia variedad de comidas",
+      lat: -34.611368855715185,
+      lon: -58.43161356756972,
+      icono: customIcon
+    }
+  ];
+
+  // Agregar los puntos al mapa con íconos personalizados
+  puntos.forEach(punto => {
+    L.marker([punto.lat, punto.lon], { icon: punto.icono }).addTo(map)
+      .bindPopup(`<b>${punto.nombre}</b><br>${punto.descripcion}`);
+  });
+
+  // Referencia a elementos del DOM
+  const txtSearch = document.getElementById('txtSearch');
+  const suggestionsList = document.getElementById('suggestions');
+
+  // Mostrar sugerencias en tiempo real
+  txtSearch.addEventListener('input', () => {
+    const query = txtSearch.value.toLowerCase();
+    suggestionsList.innerHTML = '';
+
+    if (query.length < 3) {
+      suggestionsList.style.display = 'none';
+      return;
+    }
+
+    // Filtrar los puntos personalizados
+    const filteredPuntos = puntos.filter(p => 
+      p.nombre.toLowerCase().includes(query) || p.descripcion.toLowerCase().includes(query)
+    );
+
+    // Mostrar sugerencias de puntos personalizados
+    filteredPuntos.forEach(punto => {
+      const li = document.createElement('li');
+      li.textContent = punto.nombre;
+      li.addEventListener('click', () => {
+        txtSearch.value = punto.nombre;
+        suggestionsList.style.display = 'none';
+        map.setView([punto.lat, punto.lon], 16);
+      });
+      suggestionsList.appendChild(li);
+    });
+
+    suggestionsList.style.display = filteredPuntos.length > 0 ? 'block' : 'none';
+  });
+
+  // Buscar direcciones o lugares
+  document.getElementById('btnSearch').addEventListener('click', async () => {
+    const address = txtSearch.value;
+    if (!address) {
+      alert('Por favor, ingresa un lugar o dirección.');
+      return;
+    }
+
+    const viewBox = '-58.532566,-34.403267,-58.335481,-34.922279'; // Noroeste y Sureste
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&viewbox=${viewBox}&bounded=1`);
+    const data = await response.json();
+
+    if (data.length === 0) {
+      alert('No se encontró la ubicación en Buenos Aires.');
+      return;
+    }
+
+    const { lat, lon, display_name } = data[0];
+    map.setView([lat, lon], 16);
+    L.marker([lat, lon], { icon: customIcon }).addTo(map).bindPopup(display_name).openPopup();
+  });
+
+  // Ocultar sugerencias al hacer clic fuera
+  document.addEventListener('click', (event) => {
+    if (!suggestionsList.contains(event.target) && event.target !== txtSearch) {
+      suggestionsList.style.display = 'none';
+    }
+  });
+</script>
