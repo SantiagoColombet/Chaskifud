@@ -161,7 +161,13 @@ public class HomeController : Controller
 
     public IActionResult Pago()
     {
-
+        int pagoFinal = 0;
+        ViewBag.ListaComida = Comida.carrito;
+        foreach (Comida com in ViewBag.ListaComida)
+        {
+            pagoFinal+= com.Precio;
+        }
+        ViewBag.pagoFinal = pagoFinal;
         return View();
     }
     public IActionResult IniciarSesion()
