@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Chaskifud.Models;
-using Chaskifud.Services; 
+using Chaskifud.Services;
 
 namespace Chaskifud.Controllers;
 
@@ -16,17 +16,17 @@ public class HomeController : Controller
         _globalVariableService = globalVariableService; // Inicializar el servicio
     }
 
- 
+
     public IActionResult Index()
     {
 
         var userJson = HttpContext.Session.GetString("user");
         var usuario = Usuario.FromString(userJson);
-        
+
         if (usuario != null)
         {
             _globalVariableService.nombreUsuario = usuario.Imagen;
-            
+
             Contador.contador++;
         }
 
@@ -161,7 +161,13 @@ public class HomeController : Controller
 
     public IActionResult Pago()
     {
-
+        int pagoFinal = 0;
+        ViewBag.ListaComida = Comida.carrito;
+        foreach (Comida com in ViewBag.ListaComida)
+        {
+            pagoFinal+= com.Precio;
+        }
+        ViewBag.pagoFinal = pagoFinal;
         return View();
     }
     public IActionResult IniciarSesion()
@@ -170,7 +176,7 @@ public class HomeController : Controller
         return View();
     }
     public IActionResult Resena(int IdRestaurante)
-    {   
+    {
         ViewBag.resena = BD.ObtenerResenasRestaurante(IdRestaurante);
         return View();
     }
@@ -178,7 +184,7 @@ public class HomeController : Controller
     {
         return View();
     }
-       public IActionResult Login()
+    public IActionResult Login()
     {
         if (HttpContext.Session.GetString("user") != null)
         {
@@ -219,16 +225,16 @@ public class HomeController : Controller
         return RedirectToAction("Login");
 
     }
-[HttpPost]
+    [HttpPost]
     public IActionResult VotarArriba(int IdResena, int IdRestaurante)
     {
         BD.DarLike(IdResena);
-        return RedirectToAction("Resena", new { IdRestaurante = IdRestaurante} );
+        return RedirectToAction("Resena", new { IdRestaurante = IdRestaurante });
     }
-     public IActionResult VotarAbajo(int IdResena, int IdRestaurante)
+    public IActionResult VotarAbajo(int IdResena, int IdRestaurante)
     {
         BD.DarDislike(IdResena);
-        return RedirectToAction("Resena", new { IdRestaurante = IdRestaurante} );
+        return RedirectToAction("Resena", new { IdRestaurante = IdRestaurante });
     }
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

@@ -1050,6 +1050,11 @@ font-weight: 600;
   width: 100%;
   gap: 100px;
   }
+  .pago-final{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
   .card-pago-izq,
   .card-pago-der {
   background-color: rgb(255, 255, 255);

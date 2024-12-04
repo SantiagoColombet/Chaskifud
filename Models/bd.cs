@@ -3,7 +3,7 @@ using Dapper;
 using System.Data;
 public class BD
 {
-    private static string _connectionString = @"Server=A-PHZ2-CIDI-11; DataBase=ChaskiBase; Trusted_Connection=True;";
+    private static string _connectionString = @"Server=A-PHZ2-LUM-10; DataBase=ChaskiBase; Trusted_Connection=True;";
 
   public static Usuario ObtenerInfoUsuario(int IdUsuario)
 {
@@ -113,5 +113,12 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
             WHERE IdResena = @pIdResena";
             db.Execute(sql, new{pIdResena = IdResena});
         }
+    }
+    public static void Vercomidas(){
+         using (SqlConnection db = new SqlConnection(_connectionString))
+         {
+            string sql = "SELECT * FROM RestaurantesYComida";
+            db.Execute(sql);
+         }
     }
 }
