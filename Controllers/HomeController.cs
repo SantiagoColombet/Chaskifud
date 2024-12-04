@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Chaskifud.Models;
-using Chaskifud.Services; 
+using Chaskifud.Services;
 
 namespace Chaskifud.Controllers;
 
@@ -16,17 +16,17 @@ public class HomeController : Controller
         _globalVariableService = globalVariableService; // Inicializar el servicio
     }
 
- 
+
     public IActionResult Index()
     {
 
         var userJson = HttpContext.Session.GetString("user");
         var usuario = Usuario.FromString(userJson);
-        
+
         if (usuario != null)
         {
             _globalVariableService.nombreUsuario = usuario.Imagen;
-            
+
             Contador.contador++;
         }
 
@@ -170,7 +170,7 @@ public class HomeController : Controller
         return View();
     }
     public IActionResult Resena(int IdRestaurante)
-    {   
+    {
         ViewBag.resena = BD.ObtenerResenasRestaurante(IdRestaurante);
         return View();
     }
@@ -178,7 +178,7 @@ public class HomeController : Controller
     {
         return View();
     }
-       public IActionResult Login()
+    public IActionResult Login()
     {
         if (HttpContext.Session.GetString("user") != null)
         {
@@ -219,17 +219,24 @@ public class HomeController : Controller
         return RedirectToAction("Login");
 
     }
-[HttpPost]
-    public IActionResult VotarArriba(int IdResena, int IdRestaurante)
+    [HttpPost]
+    public JsonResult VotarArriba([FromBody] VotoRequest request)
     {
-        BD.DarLike(IdResena);
-        return RedirectToAction("Resena", new { IdRestaurante = IdRestaurante} );
+        Console.WriteLine($"IdResena: {request.IdResena}, IdRestaurante: {request.IdRestaurante}");
+        BD.DarLike(request.IdResena);
+        int nuevaCantidadVotos = BD.ObtenerCantidadVotosArriba(request.IdResena);
+        return Json(new { nuevaCantidadVotos });
     }
-     public IActionResult VotarAbajo(int IdResena, int IdRestaurante)
+
+    [HttpPost]
+    public JsonResult VotarAbajo([FromBody] VotoRequest request)
     {
-        BD.DarDislike(IdResena);
-        return RedirectToAction("Resena", new { IdRestaurante = IdRestaurante} );
+        Console.WriteLine($"IdResena: {request.IdResena}, IdRestaurante: {request.IdRestaurante}");
+        BD.DarDislike(request.IdResena);
+        int nuevaCantidadVotos = BD.ObtenerCantidadVotosAbajo(request.IdResena);
+        return Json(new { nuevaCantidadVotos });
     }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

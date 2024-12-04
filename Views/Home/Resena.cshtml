@@ -29,41 +29,51 @@
                 </div>
                 <div class="votar-resena">
                     <ul>
-                    <form action = '@Url.Action("VotarArriba", "Home")' method = "Post">
-                        <li><input type ="submit" class="icon thumbs-up">@resena.CantidadVotosArriba</li>
-                        <input type = "hidden" value= "@resena.IdResena" name = "IdResena">
-                        <input type = "hidden" value= "@resena.IdRestaurante" name = "IdRestaurante">
+                        <li>
+                        <button type="button" class="boton-resena icon thumbs-up" 
+                          onclick="enviarVoto('/Home/VotarArriba', @resena.IdResena, @resena.IdRestaurante, 'votos-arriba-@resena.IdResena')">
+                        <p id="votos-arriba-@resena.IdResena">@resena.CantidadVotosArriba</p>
+                        </button>
+                        </li>
 
-
-                    </form>
-
-                    <form action = '@Url.Action("VotarAbajo", "Home")' method = "Post">
-                        <li><input type ="submit" class="icon thumbs-down">@resena.CantidadVotosAbajo</li>
-                        <input type = "hidden" value= "@resena.IdResena" name = "IdResena">
-                        <input type = "hidden" value= "@resena.IdRestaurante" name = "IdRestaurante">
-
-                    </form>
-                    
+                        <li>
+                        <button type="button" class="boton-resena icon thumbs-down" 
+                        onclick="enviarVoto('/Home/VotarAbajo', @resena.IdResena, @resena.IdRestaurante, 'votos-abajo-@resena.IdResena')">
+                        <p id="votos-abajo-@resena.IdResena">@resena.CantidadVotosAbajo</p>
+                    </button>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
     }
-
-    <form action='@Url.Action("AgregarResena", "Home")' method="post">
-        <div class="grupo-formulario">
-            <label for="Valoracion" class="etiqueta-form">Valoración</label>
-            <input type="number" name="Valoracion" min="1" max="5" class="campo-form" placeholder="Valoración (1-5)">
-        </div>
-        
-        <div class="grupo-formulario">
-            <label for="Opinion" class="etiqueta-form">Opinión</label>
-            <textarea name="Opinion" class="campo-form" placeholder="Escribe tu opinión"></textarea>
-        </div>
-        
-        <input type="hidden" name="IdRestaurante" value="@ViewBag.Resena[0].IdRestaurante">
-        <input type="hidden" name="IdUsuario" value="1">
-        
-        <button type="submit" class="btn-enviar">Enviar Reseña</button>
-    </form>
 </div>
+
+<script>
+function enviarVoto(url, idResena, idRestaurante, elementoId) {
+    const dataToSend = { IdResena: idResena, IdRestaurante: idRestaurante };
+    console.log("Datos enviados al servidor:", JSON.stringify(dataToSend));
+
+    $.ajax({
+        url: url,
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(dataToSend),
+        dataType: 'json',
+        success: function(data) {
+            console.log('Respuesta del servidor:', data);
+            const votoElemento = document.getElementById(elementoId);
+            if (votoElemento) {
+                votoElemento.textContent = data.nuevaCantidadVotos;
+            } else {
+                console.error('No se encontró el elemento con el id', elementoId);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error en la solicitud AJAX:', error);
+        }
+    });
+}
+
+
+</script>

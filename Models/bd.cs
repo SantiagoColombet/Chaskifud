@@ -3,7 +3,7 @@ using Dapper;
 using System.Data;
 public class BD
 {
-    private static string _connectionString = @"Server=A-PHZ2-CIDI-11; DataBase=ChaskiBase; Trusted_Connection=True;";
+    private static string _connectionString = @"Server=A-PHZ2-LUM-10; DataBase=ChaskiBase; Trusted_Connection=True;";
 
   public static Usuario ObtenerInfoUsuario(int IdUsuario)
 {
@@ -64,7 +64,7 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
         List<Resena> resenas;
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
-            string storedProcedure = "ObtenerResenasPorRestaurante";
+            string storedProcedure = "ObtenerResenasRestaurante";
             resenas = db.Query<Resena>(
                 storedProcedure, 
                 new { IdRestaurante = IdRestaurante }, 
@@ -104,7 +104,7 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
             db.Execute(sql, new{pIdResena = IdResena});
         }
     }
-        public static void DarDislike(int IdResena)
+    public static void DarDislike(int IdResena)
     {
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
@@ -112,6 +112,24 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
             SET CantidadVotosAbajo = CantidadVotosAbajo + 1
             WHERE IdResena = @pIdResena";
             db.Execute(sql, new{pIdResena = IdResena});
+        }
+    }
+    public static int ObtenerCantidadVotosArriba(int IdResena)
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = @"SELECT CantidadVotosArriba FROM Resenas
+                        WHERE IdResena = @IdResena";
+            return db.QueryFirstOrDefault<int>(sql, new { IdResena = IdResena });
+        }
+    }
+    public static int ObtenerCantidadVotosAbajo(int IdResena)
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = @"SELECT CantidadVotosAbajo FROM Resenas
+                        WHERE IdResena = @IdResena";
+            return db.QueryFirstOrDefault<int>(sql, new { IdResena = IdResena });
         }
     }
 }
