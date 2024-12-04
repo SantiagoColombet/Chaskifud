@@ -1,35 +1,41 @@
 <div class="container-pago">
   <div class="card-pago-izq">
     <h3>Medio de pago</h3>
-  
-
-     <div class="pago-final">
-    <span>@ViewBag.pagoFinal</span>
+    <div class="pago-final">
+      <span>Total: $@ViewBag.pagoFinal</span>
     </div>
-
     <div class="pago-tiempo">
       <span>Tiempo estimado</span>
       <span>15-20 Minutos</span>
     </div>
   </div>
 
-  <!-- La otra card -->
-
   <div class="card-pago-der">
-    <h3>Costo del producto</h3>
-     @foreach(var comida in ViewBag.ListaComida )
+    <h3>Detalles del pedido</h3>
+    @if (ViewBag.ListaComida != null)
     {
-    <div class="pago-detalle">
-      <span>@comida.Nombre</span>
-      <span>$@comida.Precio</span>
-    </div>
+      var comidasAgrupadas = (ViewBag.ListaComida as List<Comida>)
+          .GroupBy(c => c.IdComida)
+          .Select(g => new
+          {
+              Comida = g.First(),
+              Cantidad = g.Count(),
+              TotalPrecio = g.First().Precio * g.Count()
+          })
+          .ToList();
+
+      foreach (var item in comidasAgrupadas)
+      {
+        <div class="pago-detalle">
+          <span>@item.Comida.Nombre </span>
+          <span>@item.Cantidad x $@item.Comida.Precio = $@item.TotalPrecio</span>
+        </div>
+      }
     }
-    
+
     <div class="pago-total">
       <span>Total</span>
       <span>$@ViewBag.pagoFinal</span>
     </div>
   </div>
 </div>
-
-
