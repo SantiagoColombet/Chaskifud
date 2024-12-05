@@ -137,6 +137,8 @@ public class HomeController : Controller
     public IActionResult Carrito()
     {
         ViewBag.ListaComida = Comida.carrito;
+        int count = Comida.carrito.Count();
+        ViewBag.count= count;
         return View();
     }
 
