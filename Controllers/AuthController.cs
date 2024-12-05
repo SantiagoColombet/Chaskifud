@@ -40,7 +40,7 @@ public IActionResult VerificarLogin(string email, string contrasena)
     }
      else if (usuario == null)
         {
-            return RedirectToAction("Registrar", "Auth");
+            return RedirectToAction("Login", "Auth");
 
         }
     else
