@@ -37,7 +37,7 @@ public class HomeController : Controller
 
         ViewBag.Carrito = Comida.carrito;
         ViewBag.Restaurantes = BD.ObtenerRestaurantes();
-
+        
         return View();
     }
 
@@ -99,6 +99,11 @@ public class HomeController : Controller
         ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(IdRestaurante);
         ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(IdRestaurante);
         return View("RestauranteElegido");
+    }
+    public IActionResult RestauranteElegidoXComida(int IdCategoriaRestaurante)
+    {
+        ViewBag.Restaurante = BD.ObtenerRestaurantesElegidoXCategoriaRestaurante(IdCategoriaRestaurante);
+        return View();
     }
 
     public IActionResult Comprar(Comida comidaElegida, int IdRestaurante)

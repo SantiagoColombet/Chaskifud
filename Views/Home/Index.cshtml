@@ -52,25 +52,29 @@ else{
 }
     }
 </div>
-
 <h2 class="h2-index">Platos del día</h2>
-
 <div class="menu-container">
-    <div class="menu-item large">
-        <img src="https://placehold.co/300x200" alt="Milanesa">
+    <form class="menu-item large" action='@Url.Action("RestauranteElegidoXComida","Home")' method="post">
+        <img src="../Images/milanesa.jpg" alt="Milanesa">
+        <input type="submit" value="Milanesa">
+        <input type= "hidden" value = "@ViewBag.Restaurantes[0].IdCategoriaRestaurante" name ="IdCategoriaRestaurante">
         <div class="menu-label">Milanesa</div>
-    </div>
+    </form>
     <div class="menu-column">
-        <div class="menu-item">
-            <img src="https://placehold.co/300x200" alt="Papas Fritas">
-            <div class="menu-label">Papas Fritas</div>
-        </div>
-        <div class="menu-item">
+        <form class="menu-item" action='@Url.Action("RestauranteElegidoXComida","Home")' method="post">
+            <img src="../Images/empanada-vasquito.jpg" alt="Papas Fritas">
+            <input type="submit" value="Papas Fritas">
+            <input type= "hidden" value = "@ViewBag.Restaurantes[1].IdCategoriaRestaurante" name ="IdCategoriaRestaurante">
+            <div class="menu-label">Empanadas</div>
+        </form>
+        <form class="menu-item" action='@Url.Action("RestauranteElegidoXComida","Home")' method="post">
             <img src="https://placehold.co/300x200" alt="Shawarma">
-            <div class="menu-label">Shawarma</div>
-        </div>
+            <input type="submit" value="Shawarma">
+            <div class="menu-label">Papas Fritas</div>
+        </form>
     </div>
 </div>
+
 
 
 @{

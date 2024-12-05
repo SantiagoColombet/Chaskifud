@@ -151,6 +151,18 @@ main {
   filter: brightness(0.7);
 }
 
+.menu-item input[type="submit"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
 .menu-label {
   position: absolute;
   color: #ffffff;
@@ -174,15 +186,7 @@ main {
   width: 700px;
   height: 200px;
 }
-.caption {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  color: white;
-  font-weight: bold;
-  font-size: 1.2em;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
-}
+
 /*                                       NOSOTROS                                    */
 .section-intro {
   background-color: #f6efd9;

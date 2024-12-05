@@ -58,7 +58,7 @@ public IActionResult VerificarLogin(string email, string contrasena)
         return RedirectToAction("Login");
     }
 
-    public IActionResult register()
+    public IActionResult Registrar()
     {
         return View("Registrar");
     } 

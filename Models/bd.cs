@@ -3,58 +3,87 @@ using Dapper;
 using System.Data;
 public class BD
 {
-    private static string _connectionString = @"Server=localhost\SQLEXPRESS; DataBase=ChaskiBase; Trusted_Connection=True;";
+    private static string _connectionString = @"Server=localhost; DataBase=ChaskiBase; Trusted_Connection=True;";
 
-  public static Usuario ObtenerInfoUsuario(int IdUsuario)
-{
-    Usuario usuario = null; 
-    using (SqlConnection db = new SqlConnection(_connectionString))
+    public static Usuario ObtenerInfoUsuario(int IdUsuario)
     {
-        string sql = "SELECT * FROM Usuario WHERE IdUsuario = @pIdUsuario"; 
-        usuario = db.QueryFirstOrDefault<Usuario>(sql, new { pIdUsuario = IdUsuario });
+        Usuario usuario = null;
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = "SELECT * FROM Usuario WHERE IdUsuario = @pIdUsuario";
+            usuario = db.QueryFirstOrDefault<Usuario>(sql, new { pIdUsuario = IdUsuario });
+        }
+        return usuario;
     }
-    return usuario;
-}
-public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
+    public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
     {
         Restaurante local = null;
 
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
             string sql = "SELECT * FROM Restaurantes WHERE IdRestaurante = @pIdRestaurante";
-            local= db.QueryFirstOrDefault<Restaurante>(sql, new{pIdRestaurante = IdRestaurante});
+            local = db.QueryFirstOrDefault<Restaurante>(sql, new { pIdRestaurante = IdRestaurante });
         }
         return local;
     }
 
-       public static List<Restaurante> ObtenerRestaurantes()
+
+    public static List<Restaurante> ObtenerRestaurantesElegidoXCategoriaRestaurante(int IdCategoriaRestaurante)
+    {
+        List<Restaurante> locales = new List<Restaurante>();
+
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = "SELECT * FROM Restaurantes WHERE IdCategoriaRestaurante = @pIdCategoriaRestaurante";
+            locales = db.Query<Restaurante>(sql, new { pIdCategoriaRestaurante = IdCategoriaRestaurante }).ToList();
+        }
+        return locales;
+    }
+
+
+
+
+
+
+
+
+
+
+
+    public static List<Restaurante> ObtenerRestaurantes()
     {
         List<Restaurante> locales = new List<Restaurante>();
 
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
             string sql = "SELECT * FROM Restaurantes";
-            locales= db.Query<Restaurante>(sql).ToList();
+            locales = db.Query<Restaurante>(sql).ToList();
         }
         return locales;
     }
-     public static List<Comida>ObtenerComidasDeRestauranteElegido(int IdRestaurante)
+
+
+
+
+
+
+    public static List<Comida> ObtenerComidasDeRestauranteElegido(int IdRestaurante)
     {
         List<Comida> comida = new List<Comida>();
 
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
             string sql = "SELECT * FROM Comida WHERE IdRestaurante = @pIdRestaurante";
-            comida= db.Query<Comida>(sql, new{pIdRestaurante = IdRestaurante}).ToList();
+            comida = db.Query<Comida>(sql, new { pIdRestaurante = IdRestaurante }).ToList();
         }
         return comida;
     }
-  public static Usuario ObtenerUsuarioPorEmail(string Email)
+    public static Usuario ObtenerUsuarioPorEmail(string Email)
     {
-        Usuario usuario = null; 
+        Usuario usuario = null;
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
-            string sql = "SELECT * FROM Usuario WHERE Email = @pEmail"; 
+            string sql = "SELECT * FROM Usuario WHERE Email = @pEmail";
             usuario = db.QueryFirstOrDefault<Usuario>(sql, new { pEmail = Email });
         }
         return usuario;
@@ -66,8 +95,8 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
         {
             string storedProcedure = "ObtenerResenasRestaurante";
             resenas = db.Query<Resena>(
-                storedProcedure, 
-                new { IdRestaurante = IdRestaurante }, 
+                storedProcedure,
+                new { IdRestaurante = IdRestaurante },
                 commandType: CommandType.StoredProcedure
             ).ToList();
         }
@@ -86,8 +115,8 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
                 pIdRestaurante = IdRestaurante,
                 pIdUsuario = IdUsuario,
                 pValoracion = Valoracion,
-                pOpinion = Opinion, 
-                pFechaEscrita = DateTime.Now, 
+                pOpinion = Opinion,
+                pFechaEscrita = DateTime.Now,
                 pCantidadAportes = 0,
                 pCantidadVotosArriba = 0,
                 pCantidadVotosAbajo = 0
@@ -101,7 +130,7 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
             string sql = @"UPDATE Resenas
             SET CantidadVotosArriba = CantidadVotosArriba + 1
             WHERE IdResena = @pIdResena";
-            db.Execute(sql, new{pIdResena = IdResena});
+            db.Execute(sql, new { pIdResena = IdResena });
         }
     }
     public static void DarDislike(int IdResena)
@@ -111,7 +140,7 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
             string sql = @"UPDATE Resenas
             SET CantidadVotosAbajo = CantidadVotosAbajo + 1
             WHERE IdResena = @pIdResena";
-            db.Execute(sql, new{pIdResena = IdResena});
+            db.Execute(sql, new { pIdResena = IdResena });
         }
     }
     public static int ObtenerCantidadVotosArriba(int IdResena)
@@ -133,10 +162,12 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
         }
     }
 
-    public static void Registrarse(string Nombre, string Imagen, string Apellido, string Email, string Contrasena, string NumeroTelefono, DateOnly FechaNacimiento, int Puntos){
+    public static void Registrarse(string Nombre, string Imagen, string Apellido, string Email, string Contrasena, string NumeroTelefono, DateOnly FechaNacimiento, int Puntos)
+    {
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
-            db.Execute("Registrarse", new{
+            db.Execute("Registrarse", new
+            {
                 Nombre,
                 Imagen,
                 Apellido,
@@ -149,29 +180,29 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
         }
     }
 
-    public static void RegistrarUsuario (string Nombre, string Apellido, string Contrasena, string NumeroTelefono, string Imagen, DateOnly FechaNacimiento, string Email)
+    public static void RegistrarUsuario(string Nombre, string Apellido, string Contrasena, string NumeroTelefono, string Imagen, DateOnly FechaNacimiento, string Email)
     {
-    using (SqlConnection db = new SqlConnection(_connectionString))
-    {
-        string storedProcedure = "Registrarse";
-        var fechaConvertida = FechaNacimiento.ToDateTime(TimeOnly.MinValue);
-    
-        var parameters = new
+        using (SqlConnection db = new SqlConnection(_connectionString))
         {
-            Nombre,
-            Apellido,
-            Contrasena,
-            NumeroTelefono,
-            Imagen,
-            FechaNacimiento = fechaConvertida,
-            Email
-        };          
-        db.Execute(
-            storedProcedure, 
-            parameters, 
-            commandType: CommandType.StoredProcedure
-        );
-    }
+            string storedProcedure = "Registrarse";
+            var fechaConvertida = FechaNacimiento.ToDateTime(TimeOnly.MinValue);
+
+            var parameters = new
+            {
+                Nombre,
+                Apellido,
+                Contrasena,
+                NumeroTelefono,
+                Imagen,
+                FechaNacimiento = fechaConvertida,
+                Email
+            };
+            db.Execute(
+                storedProcedure,
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
+        }
     }
 
     public static void InsertarResena(int idRestaurante, int idUsuario, short valoracion, string opinion)
@@ -181,7 +212,7 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
             string sql = @"
             INSERT INTO Resenas (IdRestaurante, IdUsuario, Valoracion, Opinion, FechaEscrita, CantidadAportes, CantidadVotosArriba, CantidadVotosAbajo)
             VALUES (@IdRestaurante, @IdUsuario, @Valoracion, @Opinion, @FechaEscrita, @CantidadAportes, @CantidadVotosArriba, @CantidadVotosAbajo)";
-            
+
             var parameters = new
             {
                 IdRestaurante = idRestaurante,
@@ -194,7 +225,7 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
                 CantidadVotosAbajo = 0
             };
 
-            db.Execute(sql, parameters); 
+            db.Execute(sql, parameters);
         }
     }
 }
