@@ -38,7 +38,7 @@
             }
             else
             {
-                <h1 class="restaurante-id"></h1>
+                <h1 class="id-restaurante">@local.IdRestaurante</h1>
                 <form class="restaurante-tarjeta" action='@Url.Action("RestauranteElegido", "Home")' method="get">
                     <div class="restaurante-logo">
                         <img src="../Images/@local.Imagen">
@@ -50,7 +50,7 @@
                     <div class="restaurante-puntuacion">
                         <h4>★ @local.Puntuacion</h4>
                     </div>
-                    <input type="hidden" name="IdRestaurante" value="@local.IdRestaurante" class="restaurante-id">
+                    <input type="hidden" name="IdRestaurante" value="@local.IdRestaurante" class="id-restaurante">
                     <input type="submit" value="ir al local" class="restaurante-boton">
                 </form>
             }

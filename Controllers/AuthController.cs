@@ -40,7 +40,7 @@ public IActionResult VerificarLogin(string email, string contrasena)
     }
      else if (usuario == null)
         {
-            return RedirectToAction("Registrar", "Auth");
+            return RedirectToAction("Login", "Auth");
 
         }
     else
@@ -55,6 +55,7 @@ public IActionResult VerificarLogin(string email, string contrasena)
     {
         HttpContext.Session.Remove("user");
         _globalVariableService.nombreUsuario = "anonimo.png";
+        Comida.carrito = new List<Comida>(); ;
         return RedirectToAction("Login");
     }
 

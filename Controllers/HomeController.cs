@@ -102,7 +102,9 @@ public class HomeController : Controller
     }
     public IActionResult RestauranteElegidoXComida(int IdCategoriaRestaurante)
     {
+        ViewBag.Carrito = Comida.carrito; // Ya inicializado como lista vacía
         ViewBag.Restaurante = BD.ObtenerRestaurantesElegidoXCategoriaRestaurante(IdCategoriaRestaurante);
+
         return View();
     }
 
@@ -177,6 +179,11 @@ public class HomeController : Controller
         ViewBag.pagoFinal = pagoFinal;
         return View();
     }
+
+        public IActionResult PagoRealizado()
+    {
+        return View();
+    }
     public IActionResult IniciarSesion()
     {
 
@@ -228,6 +235,7 @@ public class HomeController : Controller
     {
 
         HttpContext.Session.Remove("user");
+        Comida.carrito = new List<Comida>(); ;
         _globalVariableService.nombreUsuario = "anonimo.png";
         return RedirectToAction("Login");
 
