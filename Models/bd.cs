@@ -34,22 +34,11 @@ public class BD
 
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
-            string sql = "SELECT * FROM Restaurantes WHERE IdCategoriaRestaurante = @pIdCategoriaRestaurante";
+            string sql = "SELECT * FROM Restaurantes WHERE IdCategoriaRestaurante = @pIdCategoriaRestaurante;";
             locales = db.Query<Restaurante>(sql, new { pIdCategoriaRestaurante = IdCategoriaRestaurante }).ToList();
         }
         return locales;
     }
-
-
-
-
-
-
-
-
-
-
-
     public static List<Restaurante> ObtenerRestaurantes()
     {
         List<Restaurante> locales = new List<Restaurante>();
