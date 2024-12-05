@@ -68,9 +68,10 @@ else{
             <div class="menu-label">Empanadas</div>
         </form>
         <form class="menu-item" action='@Url.Action("RestauranteElegidoXComida","Home")' method="post">
-            <img src="https://placehold.co/300x200" alt="Shawarma">
-            <input type="submit" value="Shawarma">
-            <div class="menu-label">Papas Fritas</div>
+            <img src="../Images/pastas.jpg" alt="Pastas">
+            <input type="submit" value="Pastas">
+            <input type= "hidden" value = "@ViewBag.Restaurantes[2].IdCategoriaRestaurante" name ="IdCategoriaRestaurante">
+            <div class="menu-label">Pastas</div>
         </form>
     </div>
 </div>
