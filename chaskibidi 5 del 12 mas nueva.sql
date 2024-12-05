@@ -79,9 +79,6 @@ ALTER DATABASE [Chaskibase] SET QUERY_STORE = OFF
 GO
 USE [Chaskibase]
 GO
-/****** Object:  User [alumno]    Script Date: 5/12/2024 10:42:11 ******/
-CREATE USER [alumno] FOR LOGIN [alumno] WITH DEFAULT_SCHEMA=[dbo]
-GO
 /****** Object:  Table [dbo].[CategoriasComidas]    Script Date: 5/12/2024 10:42:11 ******/
 SET ANSI_NULLS ON
 GO

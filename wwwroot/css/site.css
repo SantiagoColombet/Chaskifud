@@ -13,7 +13,12 @@ body {
   margin: 0;
 
 }
-
+.img-carrito-usuario{
+  cursor: pointer;
+}
+#imagen_perfil{
+  border-radius: 200px;
+}
 /*                                         INDEX                                         */
 main {
   flex: 1;
@@ -35,13 +40,12 @@ main {
   width: 100%; 
 }
 
-
 .containerIndexInfo div {
   width: 900px;
   background-color: #FFD628;
   border-radius: 15px;
   padding: 40px;
-  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .h2-index {
@@ -54,26 +58,29 @@ main {
 .food-container {
   display: flex;
   justify-content: center;
-  gap: 50px;
+  gap: 0px; /* Reducido el espacio entre las cards */
   margin-bottom: 40px;
 }
-.enviar2{
-  top: 0;
-  bottom: 0;
+
+/* Ajuste para las flechas del carrusel */
+.swiper-button-next, .swiper-button-prev {
+  position: absolute; /* Cambio para asegurar que estén dentro del contenedor */
+  top: 50%;
+  transform: translateY(-50%); /* Centra las flechas verticalmente */
+  z-index: 10;
 }
 
-
-
+/* Ajuste de la clase .food-card para que ocupe todo el espacio disponible */
 .food-card {
   position: relative;
   background-color: #fff;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 18%;
+  width: 280px; /* Establecemos un ancho fijo para las tarjetas */
   text-align: center;
   overflow: hidden;
-  height: 220px;  
+  height: 300px; /* Se ajustó la altura de las cards */
 }
 
 .food-card img {
@@ -88,14 +95,16 @@ main {
   padding: 0px;
 }
 
-.food-info img{
+.food-info img {
   margin-left: 15px;
   width: 40px;
   height: 40px;
 }
-.sub-food-info{
+
+.sub-food-info {
   margin-left: 7px;
 }
+
 .food-info h3 {
   font-size: 18px;
   margin-bottom: 1px;
@@ -115,7 +124,8 @@ main {
   margin-left: auto;
   margin-right: 20px;
 }
-.logo-chaski-container{
+
+.logo-chaski-container {
   margin-top: 30px;
   width: 100%;
   height: auto;
@@ -123,7 +133,8 @@ main {
   justify-content: center;
   align-items: center;
 }
-.logo-chaski{
+
+.logo-chaski {
   width: 30%;
 }
 
@@ -186,7 +197,6 @@ main {
   width: 700px;
   height: 200px;
 }
-
 /*                                       NOSOTROS                                    */
 .section-intro {
   background-color: #f6efd9;
@@ -1712,3 +1722,5 @@ font-size: 0px;
 .restaurante-boton:hover {
   background-color: #856e12;
 }
+
+  

@@ -4,15 +4,13 @@
 }
 @if(ViewBag.UserImg == null){
     <input type = "hidden" value="anonimo.png" class = "imagen-global-index">
-
 }
 else{
     <input type = "hidden" value="@ViewBag.UserImg" class = "imagen-global-index">
-
 }
 
 <div class = "logo-chaski-container">
-<img src="../Images/Logo-Chaskifud.png" class = "logo-chaski">
+    <img src="../Images/Logo-Chaskifud.png" class = "logo-chaski">
 </div>
 <div class="containerIndexInfo">
     <div>
@@ -26,32 +24,35 @@ else{
 
 <h2 class="h2-index">¿Qué vas a comer hoy?</h2>
 
-<div class="food-container">  
-    @{
-
-    foreach(Restaurante local in ViewBag.Restaurantes)
-{
-    
-    <form class="food-card" action='@Url.Action("RestauranteElegido", "Home")' method="get">
-    <input type="hidden" value="@local.IdRestaurante" name="IdRestaurante" class="id-restaurante">
-    <input type="submit" value="" class="enviar_rest enviar_rest2" id="enviar2">
-
-    <img src="../Images/@local.Imagen" alt="GRA-HU">
-    <div class="food-info">
-        <img src="../Images/@local.Imagen" alt="GRA-HU">
-        <div class="sub-food-info">
-            <h3>@local.Nombre</h3>
-            <p>12-20 Minutos</p>
-            <p>$2.500 - $4.000</p>
-        </div>
-        <span>★5</span>
+<div class="food-container swiper-container">
+    <div class="swiper-wrapper">
+        @{
+        foreach (Restaurante local in ViewBag.Restaurantes)
+        {
+            <div class="swiper-slide">
+                <form class="food-card" action='@Url.Action("RestauranteElegido", "Home")' method="get">
+                    <input type="hidden" value="@local.IdRestaurante" name="IdRestaurante" class="id-restaurante">
+                    <input type="submit" value="" class="enviar_rest enviar_rest2" id="enviar2">
+                    <img src="../Images/@local.Imagen" alt="GRA-HU">
+                    <div class="food-info">
+                        <img src="../Images/@local.Imagen" alt="GRA-HU">
+                        <div class="sub-food-info">
+                            <h3>@local.Nombre</h3>
+                            <p>12-20 Minutos</p>
+                            <p>$2.500 - $4.000</p>
+                        </div>
+                        <span>★5</span>
+                    </div>
+                </form>
+            </div>
+        }
+        }
     </div>
-</form>
-
-    
-}
-    }
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
 </div>
+
 <h2 class="h2-index">Platos del día</h2>
 <div class="menu-container">
     <form class="menu-item large" action='@Url.Action("RestauranteElegidoXComida","Home")' method="post">
@@ -76,8 +77,6 @@ else{
     </div>
 </div>
 
-
-
 @{
     ViewData["Title"] = "Login";
 }
@@ -89,3 +88,27 @@ else{
     </div>
 }
 
+<!-- Swiper.js CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+<!-- Swiper.js JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    const swiper = new Swiper('.swiper-container', {
+        loop: true,
+        slidesPerView: 4,
+        spaceBetween: 0,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        breakpoints: {
+            768: { slidesPerView: 3 },
+            10: { slidesPerView: 4 },
+        }
+    });
+</script>

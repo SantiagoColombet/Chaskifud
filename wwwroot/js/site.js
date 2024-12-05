@@ -76,7 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     icon: "error",
                     title: "Error",
                     text: "No puedes seleccionar un restaurante diferente al del carrito.",
-                    footer: "<a href='#'>¿Necesitas ayuda?</a>",
                 });
             } else {
                 // Si el carrito está vacío o los IDs coinciden, envía el formulario
@@ -86,7 +85,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+const user = document.querySelector(".img-carrito-usuario");
 
+user.addEventListener("click", () =>{ 
+    Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Necesitas iniciar sesion para acceder al carrito",
+    });
+
+
+})
 
 
 // // Inicializar el contador solo si no existe en sessionStorage

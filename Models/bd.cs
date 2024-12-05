@@ -3,7 +3,7 @@
     using System.Data;
     public class BD
     {
-        private static string _connectionString = @"Server=localhost; DataBase=ChaskiBase; Trusted_Connection=True;";
+        private static string _connectionString = @"Server=A-PHZ2-CIDI-04; DataBase=ChaskiBase; Trusted_Connection=True;";
 
         public static Usuario ObtenerInfoUsuario(int IdUsuario)
         {

@@ -37,9 +37,17 @@
                 
             }
             </a>
+            @if(GlobalVariableService.nombreUsuario != "anonimo.png"){
             <a href = '@Url.Action("Carrito", "Home")' >
             <img src="../Images/carrito-de-compras.png" alt="Profile Picture">
             </a>
+            }
+            else{
+                <a>
+            <img src="../Images/carrito-de-compras.png" alt="Profile Picture" class = "img-carrito-usuario">
+            </a>
+            }
+            
             </div>
         </nav>  
     </header>
