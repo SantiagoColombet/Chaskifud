@@ -280,9 +280,10 @@ public class HomeController : Controller
     {
         return View();
     }
-     public void CrearResena(int idRestaurante, int idUsuario, short valoracion, string opinion)
+     public IActionResult CrearResena(int idRestaurante, int idUsuario, short valoracion, string opinion)
     {
         BD.InsertarResena(idRestaurante, idUsuario, valoracion, opinion);
+        return RedirectToAction("Restaurante");
     }
 }
 

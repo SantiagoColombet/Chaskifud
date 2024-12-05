@@ -7,12 +7,10 @@
                 <div class="avatar-usuario"></div>
                 <div class="detalles-resena">
                     <h3 class="autor-resena">@resena.Nombre</h3>
-                    <p class="aporte-resena"> aporte(s)</p>
                 </div>
             </div>
             <div class="contenido-resena">
                 <h4 class="titulo-resena">Valoración: @resena.Valoracion</h4>
-                <p class="fecha-resena">@resena.FechaEscrita</p>
                 <p class="texto-resena">@resena.Opinion</p>
             </div>
             <div class="pie-resena">
@@ -22,17 +20,18 @@
                 <div class="votar-resena">
                     <ul>
                         <li>
-                        <button type="button" class="boton-resena icon thumbs-up" 
-                          onclick="enviarVoto('/Home/VotarArriba', @resena.IdResena, @resena.IdRestaurante, 'votos-arriba-@resena.IdResena')">
-                        <p id="votos-arriba-@resena.IdResena">@resena.CantidadVotosArriba</p>
-                        </button>
+                            <button type="button" class="boton-resena" 
+                              onclick="enviarVoto('/Home/VotarArriba', @resena.IdResena, @resena.IdRestaurante, 'votos-arriba-@resena.IdResena')">
+                                <i class="fas fa-thumbs-up icono-verde" id="icono-arriba-@resena.IdResena"></i>
+                                <p id="votos-arriba-@resena.IdResena">@resena.CantidadVotosArriba</p>
+                            </button>
                         </li>
-
                         <li>
-                        <button type="button" class="boton-resena icon thumbs-down" 
-                        onclick="enviarVoto('/Home/VotarAbajo', @resena.IdResena, @resena.IdRestaurante, 'votos-abajo-@resena.IdResena')">
-                        <p id="votos-abajo-@resena.IdResena">@resena.CantidadVotosAbajo</p>
-                    </button>
+                            <button type="button" class="boton-resena" 
+                              onclick="enviarVoto('/Home/VotarAbajo', @resena.IdResena, @resena.IdRestaurante, 'votos-abajo-@resena.IdResena')">
+                                <i class="fas fa-thumbs-down icono-rojo" id="icono-abajo-@resena.IdResena"></i>
+                                <p id="votos-abajo-@resena.IdResena">@resena.CantidadVotosAbajo</p>
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -41,7 +40,7 @@
     }
     <div class="nuevo-resena-contenedor">
         <h2 class="nuevo-resena-titulo">Escribe tu Reseña</h2>
-        <form action="@Url.Action("CrearResena","Home")" method="post" class="nuevo-resena-formulario">
+        <form action='@Url.Action("CrearResena","Home")'  method="post" class="nuevo-resena-formulario">
             <div class="nuevo-resena-campo">
                 <label for="Nombre" class="nuevo-resena-label">Nombre:</label>
                 <input type="text" id="Nombre" name="Nombre" class="nuevo-resena-input" required />
@@ -71,6 +70,7 @@
             </div>
         </form>
     </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </div>
 
 

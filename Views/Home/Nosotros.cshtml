@@ -49,7 +49,48 @@
         <div class="chaskifamilia-container">
             <h2 class="join-title">Unite a la familia</h2>
             <p class="join-text">Unite al equipo de Chaskifud y ayudá a crecer a esta hermosa familia.</p>
-            <button class="join-button">Como unirse</button>
+            <button class="join-button" id="openModal">Como unirse</button>
         </div>
     </section>
+    <div id="joinModal" class="custom-modal">
+        <div class="custom-modal-content">
+            <span class="custom-close" id="closeJoinModal">&times;</span>
+            <h2>Formulario de Contacto</h2>
+            <form>
+                <label for="custom-name">Nombre:</label>
+                <input type="text" id="custom-name" name="name" required>
+                
+                <label for="custom-email">Email:</label>
+                <input type="email" id="custom-email" name="email" required>
+                
+                <label for="custom-reason">Motivo de Contacto:</label>
+                <textarea id="custom-reason" name="reason" required></textarea>
+                
+                <button type="submit" class="custom-submit-btn">Enviar</button>
+            </form>
+        </div>
     </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const openModal = document.querySelector(".join-button"); // Selecciona el botón por clase
+    const closeModal = document.getElementById("closeJoinModal");
+    const modal = document.getElementById("joinModal");
+
+    openModal.addEventListener("click", () => {
+        modal.style.display = "block";
+    });
+
+    closeModal.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+});
+
+</script>
