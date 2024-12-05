@@ -1,6 +1,7 @@
 @using System.Linq
 <div class="carrito-general">
-    @{
+@if(@GlobalVariableService.nombreUsuario != "anonimo.png"){
+    
         if (ViewBag.count != 0)
         {
             <div class="carrito-container">
@@ -51,6 +52,9 @@
     {
         <a href='@Url.Action("Pago","Home")' class="carrito-pagar">Ir a pagar</a>
 
-    }
-
+    
+}
+else{
+    <h1>Inicie sesion para usar el carrito</h1>
+}
 </div>

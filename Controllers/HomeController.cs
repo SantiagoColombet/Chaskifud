@@ -22,7 +22,7 @@ public class HomeController : Controller
 
         var userJson = HttpContext.Session.GetString("user");
         var usuario = Usuario.FromString(userJson);
-
+        
         if (usuario != null)
         {
             _globalVariableService.nombreUsuario = usuario.Imagen;

@@ -1,20 +1,24 @@
 <div class="restaurante-elegido-container">
   <img src="@Url.Content("~/Images/" + ViewBag.Restaurante.Imagen)" style="width: 225px;" alt="@ViewBag.Restaurante.Nombre">
   <div class="info-restaurante-elegido">
+  
     <div>
       <h1>@ViewBag.Restaurante.Nombre</h1>    
       <h5>@ViewBag.Restaurante.Puntuacion ⭐</h5>
       <h6>@ViewBag.Restaurante.Direccion</h6>
     </div>
+  @if(@GlobalVariableService.nombreUsuario != "anonimo.png"){  
     <div>
       <a href="@Url.Action("Chat", "Home")" class="btn-mensaje">Chatear</a>
     </div>
+  }
     <div>
       <form method="post" action="@Url.Action("Resena", "Home")">
         <input type="hidden" name="IdRestaurante" value="@ViewBag.Restaurante.IdRestaurante">
         <input type="submit" value="Reseñas" class="btn-mensaje">
       </form>
     </div>
+  
   </div>
 </div>
 
@@ -22,7 +26,7 @@
   <div class="container">
     <div class="info-restaurante-elegido">
       <div class="contenedor-comidas-card">
-
+      @if(@GlobalVariableService.nombreUsuario != "anonimo.png"){ 
         @foreach (Comida alimento in ViewBag.Comida)
         {
           <div class="comidas-card">
@@ -48,7 +52,10 @@
             </div>
           </div>
         }
-        
+      }
+      else{
+        <h1>Debe iniciar sesion para ver el catalogo de productos y para poder chatear con el local</h1>
+      }
       </div>
     </div>
   </div>
