@@ -1,8 +1,7 @@
 <div class="container-pago">
   <div class="card-pago-izq">
-    <h3>Medio de pago</h3>
+    <h3>Formas de pago</h3>
     <div class="pago-final">
-      <span>Total: $@ViewBag.pagoFinal</span>
     </div>
     <div class="pago-tiempo">
       <span>Tiempo estimado</span>
@@ -23,7 +22,7 @@
               TotalPrecio = g.First().Precio * g.Count()
           })
           .ToList();
-
+      
       foreach (var item in comidasAgrupadas)
       {
         <div class="pago-detalle">
