@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // Seleccionamos todos los botones de envío en cualquier formulario
-    const submitButtons = document.querySelectorAll(".enviar_rest, .enviar_rest2");
+    const submitButtons = document.querySelectorAll(".restaurante-boton");
 
     submitButtons.forEach((submitBtn) => {
         submitBtn.addEventListener("click", function (event) {

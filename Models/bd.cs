@@ -164,7 +164,8 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
             NumeroTelefono,
             Imagen,
             FechaNacimiento = fechaConvertida,
-            Email
+            Email,
+            Puntos = 0
         };          
         db.Execute(
             storedProcedure, 
