@@ -1,13 +1,5 @@
 <div class="contenedor-resenas">
     <h2 class="titulo-contenedor">Reseñas de los usuarios</h2>
-    
-    <input type="text" class="campo-busqueda" placeholder="Buscar reseñas...">
-    
-    <div class="contenedor-botones">
-        <button class="btn-filtro">Filtros</button>
-        <button class="btn-filtro">Las más recientes ▼</button>
-    </div>
-
     @foreach (var resena in ViewBag.Resena)
     {
         <div class="tarjeta-resena">
@@ -47,7 +39,40 @@
             </div>
         </div>
     }
+    <div class="nuevo-resena-contenedor">
+        <h2 class="nuevo-resena-titulo">Escribe tu Reseña</h2>
+        <form action="@Url.Action("CrearResena","Home")" method="post" class="nuevo-resena-formulario">
+            <div class="nuevo-resena-campo">
+                <label for="Nombre" class="nuevo-resena-label">Nombre:</label>
+                <input type="text" id="Nombre" name="Nombre" class="nuevo-resena-input" required />
+            </div>
+
+            <div class="nuevo-resena-campo">
+                <label for="Valoracion" class="nuevo-resena-label">Valoración:</label>
+                <select id="Valoracion" name="Valoracion" class="nuevo-resena-select" required>
+                    <option value="">Seleccione una valoración</option>
+                    <option value="1">1 - Muy Malo</option>
+                    <option value="2">2 - Malo</option>
+                    <option value="3">3 - Regular</option>
+                    <option value="4">4 - Bueno</option>
+                    <option value="5">5 - Excelente</option>
+                </select>
+            </div>
+
+            <div class="nuevo-resena-campo">
+                <label for="Opinion" class="nuevo-resena-label">Opinión:</label>
+                <textarea id="Opinion" name="Opinion" class="nuevo-resena-textarea" rows="4" required></textarea>
+            </div>
+
+            <div class="nuevo-resena-campo">
+                <input type="hidden" name="IdRestaurante" value="@ViewBag.Resena[0].IdRestaurante" />
+                <input type="hidden" name="IdUsuario" value="1" />
+                <button type="submit" class="nuevo-resena-boton">Enviar Reseña</button>
+            </div>
+        </form>
+    </div>
 </div>
+
 
 <script>
 function enviarVoto(url, idResena, idRestaurante, elementoId) {

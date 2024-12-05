@@ -15,44 +15,43 @@
     }
 }
 
-<div class="restaurante-container">
+<div class="restaurante-lista">
     @{
         foreach (Restaurante local in ViewBag.Restaurantes)
         {
             if (local.Acepta)
             {
-                <form class="local-container" action='@Url.Action("RestauranteElegido", "Home")' method="get">
-            <input type="hidden" name="IdRestaurante" value="@local.IdRestaurante" class="id-restaurante">
-            <div class="local-container-logo">
-                <img src="../Images/@local.Imagen">
-            </div>
-            <div class="info-local-container">
-                <h3>@local.Nombre</h3>
-                <p>No acepta mercado pago</p>
-            </div>
-            <div class="puntuacion-container">
-                <h4>★ @local.Puntuacion</h4>
-            </div>
-            <input type="submit" value="" class="enviar_rest">
-        </form>
-
+                <form class="restaurante-tarjeta" action='@Url.Action("RestauranteElegido", "Home")' method="get">
+                    <input type="hidden" name="IdRestaurante" value="@local.IdRestaurante" class="restaurante-id">
+                    <div class="restaurante-logo">
+                        <img src="../Images/@local.Imagen">
+                    </div>
+                    <div class="restaurante-informacion">
+                        <h3>@local.Nombre</h3>
+                        <p>No acepta mercado pago</p>
+                    </div>
+                    <div class="restaurante-puntuacion">
+                        <h4>★ @local.Puntuacion</h4>
+                    </div>
+                    <input type="submit" value="" class="restaurante-boton">
+                </form>
             }
             else
             {
-                <h1 class="id-restaurante">@local.IdRestaurante</h1>
-                <form class="local-container" action='@Url.Action("RestauranteElegido", "Home")' method="get">
-                    <div class="local-container-logo">
+                <h1 class="restaurante-id"></h1>
+                <form class="restaurante-tarjeta" action='@Url.Action("RestauranteElegido", "Home")' method="get">
+                    <div class="restaurante-logo">
                         <img src="../Images/@local.Imagen">
                     </div>
-                    <div class="info-local-container">
+                    <div class="restaurante-informacion">
                         <h3>@local.Nombre</h3>
                         <p>Acepta mercado pago</p>
                     </div>
-                    <div class="puntuacion-container">
+                    <div class="restaurante-puntuacion">
                         <h4>★ @local.Puntuacion</h4>
                     </div>
-                    <input type="hidden" name="IdRestaurante" value="@local.IdRestaurante" class = "id-restaurante">
-                    <input type="submit" value="" class="enviar_rest" >
+                    <input type="hidden" name="IdRestaurante" value="@local.IdRestaurante" class="restaurante-id">
+                    <input type="submit" value="ir al local" class="restaurante-boton">
                 </form>
             }
         }

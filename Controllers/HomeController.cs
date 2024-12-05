@@ -250,6 +250,35 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
+    public IActionResult Emprendimiento()
+    {
+        return View();
+    }
+
+    public IActionResult NegociosAfiliados()
+    {
+        return View();
+    }
+
+
+    public IActionResult Preguntas()
+    {
+        return View();
+    }
+    public IActionResult Foros()
+    {
+        return View();
+    }
+
+    public IActionResult NuestrosServicios()
+    {
+        return View();
+    }
+     public void CrearResena(int idRestaurante, int idUsuario, short valoracion, string opinion)
+    {
+        BD.InsertarResena(idRestaurante, idUsuario, valoracion, opinion);
+    }
 }
 
 

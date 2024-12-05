@@ -173,4 +173,28 @@ public static Restaurante ObtenerRestaurantesElegido(int IdRestaurante)
         );
     }
     }
+
+    public static void InsertarResena(int idRestaurante, int idUsuario, short valoracion, string opinion)
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = @"
+            INSERT INTO Resenas (IdRestaurante, IdUsuario, Valoracion, Opinion, FechaEscrita, CantidadAportes, CantidadVotosArriba, CantidadVotosAbajo)
+            VALUES (@IdRestaurante, @IdUsuario, @Valoracion, @Opinion, @FechaEscrita, @CantidadAportes, @CantidadVotosArriba, @CantidadVotosAbajo)";
+            
+            var parameters = new
+            {
+                IdRestaurante = idRestaurante,
+                IdUsuario = idUsuario,
+                Valoracion = valoracion,
+                Opinion = opinion,
+                FechaEscrita = DateTime.Now,
+                CantidadAportes = 0,
+                CantidadVotosArriba = 0,
+                CantidadVotosAbajo = 0
+            };
+
+            db.Execute(sql, parameters); 
+        }
+    }
 }
