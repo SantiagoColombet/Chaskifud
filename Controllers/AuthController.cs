@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
-using Chaskifud.Services; 
+using Chaskifud.Services;
 using System.Data.SqlClient;
 namespace test_session.Controllers;
 
@@ -28,27 +28,27 @@ public class AuthController : Controller
 
     [HttpPost]
     [HttpPost]
-public IActionResult VerificarLogin(string email, string contrasena)
-{
-    Usuario usuario = BD.ObtenerUsuarioPorEmail(email); // Método para obtener el usuario desde la BD
-    
-    if (usuario != null && usuario.Contrasena == contrasena)
+    public IActionResult VerificarLogin(string email, string contrasena)
     {
-        // Guarda el usuario en la sesión
-        HttpContext.Session.SetString("user", usuario.ToString());
-        return RedirectToAction("Index", "Home");
-    }
-     else if (usuario == null)
+        Usuario usuario = BD.ObtenerUsuarioPorEmail(email); // Método para obtener el usuario desde la BD
+
+        if (usuario != null && usuario.Contrasena == contrasena)
+        {
+            // Guarda el usuario en la sesión
+            HttpContext.Session.SetString("user", usuario.ToString());
+            return RedirectToAction("Index", "Home");
+        }
+        else if (usuario == null)
         {
             return RedirectToAction("Login", "Auth");
 
         }
-    else
-    {
-        ViewBag.Error = "Email o contraseña incorrectos.";
-        return View("Login");
+        else
+        {
+            ViewBag.Error = "Email o contraseña incorrectos.";
+            return View("Login");
+        }
     }
-}
 
 
     public IActionResult Logout()
@@ -62,34 +62,40 @@ public IActionResult VerificarLogin(string email, string contrasena)
     public IActionResult Registrar()
     {
         return View("Registrar");
-    } 
-   public IActionResult registrarUsuario(string Nombre, string Apellido, string Contrasena, string NumeroTelefono, string Imagen, DateOnly FechaNacimiento, string Email, int Puntos)
-{
-    try
-    {
-        Puntos = 0;
-        BD.RegistrarUsuario(Nombre,
-                            Apellido,
-                            Contrasena,
-                            NumeroTelefono,
-                            Imagen,
-                            FechaNacimiento,
-                            Email,
-                            Puntos);
-        return View("Login");
     }
-    catch (SqlException ex)
+    public IActionResult LoginLocal()
     {
-        // Manejo del error de base de datos
-        Console.WriteLine($"Error al registrar usuario: {ex.Message}");
-        return View("Error"); // Vista de error o mensaje para el usuario
+        return View();
     }
-    catch (Exception ex)
+    public IActionResult RegistrarLocal()
     {
-        // Manejo de otros errores
-        Console.WriteLine($"Error inesperado: {ex.Message}");
-        return View("Error");
+        return View();
     }
-}
+    public IActionResult registrarUsuario(string Nombre, string Apellido, string Contrasena, string NumeroTelefono, string Imagen, DateOnly FechaNacimiento, string Email, int Puntos)
+    {
+        try
+        {
+            Puntos = 0;
+            BD.RegistrarUsuario(Nombre,
+                                Apellido,
+                                Contrasena,
+                                NumeroTelefono,
+                                Imagen,
+                                FechaNacimiento,
+                                Email,
+                                Puntos);
+            return View("Login");
+        }
+        catch (SqlException ex)
+        {
+            Console.WriteLine($"Error al registrar usuario: {ex.Message}");
+            return View("Error");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error inesperado: {ex.Message}");
+            return View("Error");
+        }
+    }
 
 }
