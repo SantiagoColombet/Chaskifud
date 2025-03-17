@@ -1,0 +1,18 @@
+<div class="registration-container">
+    <div class="header-logo">
+        <img src="..\Images\Logo-Chaskifud.png" alt="Chaskifud Logo" class="logo-image">
+    </div>
+    <form action='@Url.Action("registrarUsuario", "Auth")' method="post" class="registration-form">
+        <div class="form-row">
+            <input name="Nombre" type="text" class="input-field" placeholder="Nombre" required>
+            <input name="Apellido" type="text" class="input-field" placeholder="Apellido" required>
+        </div>
+        <input name="Email" type="email" class="input-field" placeholder="Email" required>
+        <input name="Contrasena" type="password" class="input-field" placeholder="Contraseña" required>
+        <input name="NumeroTelefono" type="tel" class="input-field" placeholder="Número de Teléfono" required>
+        <input name="Imagen" type="text" class="input-field" placeholder="Imagen" required>
+        <input name="FechaNacimiento" type="date" class="input-field" placeholder="Fecha de Nacimiento" required>
+        <button type="submit" class="submit-button">Registrate</button>
+        <p class="footer-text">¿Ya tienes una cuenta de local? <a href='@Url.Action("LoginLocal", "Auth")' class="login-link">Ingresar cuenta local</a></p>
+    </form>
+</div>
