@@ -1,15 +1,11 @@
-1) links del footer
-  por lo menos manden a instagram, facebook , etc
-  target="_blank"
-  
-  <a href="somesite.com" target="_blank" >Link</a>
-  
-2) Mapa APi queda para el año que viene, asi pueden investigarla en el verano y traerlo hecho en 5to
+mis pedidos
 
-3) Locales que se vea mejor
+registrarme como Locale
 
-4) Carrito poner boton de pago
+subir imagen del Locale
 
-5) Pushear pago y ver eso 
+lista de pedidos pendientes y cerrados
 
-6) Buscador de Reseñas 
+poder agregar productos como local 
+
+cambiar estado de los pedidos 

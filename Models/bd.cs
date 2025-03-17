@@ -3,14 +3,14 @@
     using System.Data;
     public class BD
     {
-        private static string _connectionString = @"Server=A-PHZ2-CIDI-04; DataBase=ChaskiBase; Trusted_Connection=True;";
+        private static string _connectionString = @"Server=A-PHZ2-CIDI-25; DataBase=Chaskibase; Trusted_Connection=True;";
 
         public static Usuario ObtenerInfoUsuario(int IdUsuario)
         {
             Usuario usuario = null;
             using (SqlConnection db = new SqlConnection(_connectionString))
             {
-                string sql = "SELECT * FROM Usuario WHERE IdUsuario = @pIdUsuario";
+                string sql = "SELECT * FROM Usuario WHERE IdUsuario = @ ";
                 usuario = db.QueryFirstOrDefault<Usuario>(sql, new { pIdUsuario = IdUsuario });
             }
             return usuario;
