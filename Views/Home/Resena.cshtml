@@ -75,7 +75,16 @@
 
 
 <script>
-function enviarVoto(url, idResena, idRestaurante, elementoId) {
+function enviarVoto(url, idResena, idRestaurante, elementoId, cardId) {
+    // Verificar el estado actual del voto para esta card
+    const votoGuardado = localStorage.getItem(`votoCard-${cardId}`);
+    
+    // Si ya ha votado en esta card, no permitir votar nuevamente
+    if (votoGuardado !== null) {
+        alert("Ya has dado tu voto en esta card. Puedes cambiarlo.");
+        return; // Salir de la función si ya votó
+    }
+
     const dataToSend = { IdResena: idResena, IdRestaurante: idRestaurante };
     console.log("Datos enviados al servidor:", JSON.stringify(dataToSend));
 
@@ -90,6 +99,17 @@ function enviarVoto(url, idResena, idRestaurante, elementoId) {
             const votoElemento = document.getElementById(elementoId);
             if (votoElemento) {
                 votoElemento.textContent = data.nuevaCantidadVotos;
+
+                // Marcar que el voto ha sido enviado para esta card
+                localStorage.setItem(`votoCard-${cardId}`, 'like'); // Guardamos el voto como 'like'
+
+                // Actualizar la interfaz del botón o del estado de "like/dislike"
+                // Aquí podrías también cambiar el texto del botón o el ícono de la card, por ejemplo:
+                document.getElementById(`botonLike-${cardId}`).textContent = 'Dislike'; // Cambio a 'Dislike'
+                document.getElementById(`botonLike-${cardId}`).onclick = function() {
+                    cambiarVoto(cardId, 'dislike', url, idResena, idRestaurante, elementoId);
+                };
+
             } else {
                 console.error('No se encontró el elemento con el id', elementoId);
             }
@@ -100,5 +120,55 @@ function enviarVoto(url, idResena, idRestaurante, elementoId) {
     });
 }
 
+function cambiarVoto(cardId, nuevoVoto, url, idResena, idRestaurante, elementoId) {
+    // Cambiar el voto entre 'like' y 'dislike'
+    const votoGuardado = localStorage.getItem(`votoCard-${cardId}`);
+
+    if (votoGuardado === nuevoVoto) {
+        alert(`Ya has dado un voto de tipo "${nuevoVoto}" en esta card.`);
+        return; // No permitir votar dos veces del mismo tipo
+    }
+
+    // Enviar nuevo voto al servidor
+    const dataToSend = { IdResena: idResena, IdRestaurante: idRestaurante };
+    console.log("Datos enviados al servidor para cambiar voto:", JSON.stringify(dataToSend));
+
+    $.ajax({
+        url: url,
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(dataToSend),
+        dataType: 'json',
+        success: function(data) {
+            console.log('Respuesta del servidor:', data);
+            const votoElemento = document.getElementById(elementoId);
+            if (votoElemento) {
+                votoElemento.textContent = data.nuevaCantidadVotos;
+
+                // Guardamos el nuevo voto
+                localStorage.setItem(`votoCard-${cardId}`, nuevoVoto); // Actualizamos el voto a 'dislike' o 'like'
+
+                // Cambiar el estado del botón según el tipo de voto
+                if (nuevoVoto === 'like') {
+                    document.getElementById(`botonLike-${cardId}`).textContent = 'Dislike';
+                    document.getElementById(`botonLike-${cardId}`).onclick = function() {
+                        cambiarVoto(cardId, 'dislike', url, idResena, idRestaurante, elementoId);
+                    };
+                } else {
+                    document.getElementById(`botonLike-${cardId}`).textContent = 'Like';
+                    document.getElementById(`botonLike-${cardId}`).onclick = function() {
+                        cambiarVoto(cardId, 'like', url, idResena, idRestaurante, elementoId);
+                    };
+                }
+
+            } else {
+                console.error('No se encontró el elemento con el id', elementoId);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error en la solicitud AJAX:', error);
+        }
+    });
+}
 
 </script>
