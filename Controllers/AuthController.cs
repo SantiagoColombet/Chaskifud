@@ -102,7 +102,7 @@ public class AuthController : Controller
     {
         try
         {
-            BD.RegistrarUsuario(Nombre,
+            BD.RegistrarRestaurante(Nombre,
                                 Contrasena,
                                 NumeroTelefono,
                                 Imagen,
