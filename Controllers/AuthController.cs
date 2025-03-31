@@ -98,7 +98,7 @@ public class AuthController : Controller
         }
     }
 
-    public IActionResult RegistrarLocal(string Nombre, string Contrasena, string NumeroTelefono, string Imagen, string Email)
+    public IActionResult RegistrarRestaurante(string Nombre, string Contrasena, string NumeroTelefono, string Imagen, string Email)
     {
         try
         {
@@ -108,7 +108,7 @@ public class AuthController : Controller
                                 Imagen,
                                 Email
                                 );
-            return View("Login");
+            return View("LoginLocal");
         }
         catch (SqlException ex)
         {
@@ -121,5 +121,25 @@ public class AuthController : Controller
             return View("Error");
         }
     }
+[HttpPost]
+public IActionResult VerificarLoginLocal(string email, string contrasena)
+{
+    RestauranteUsuario local = BD.ObtenerRestaurantePorEmail(email);
+
+    if (local != null && local.Contrasena == contrasena)
+    {
+        HttpContext.Session.SetString("local", local.ToString());
+        return RedirectToAction("Index", "Home");
+    }
+    else if (local == null)
+    {
+        return RedirectToAction("LoginLocal", "Auth");
+    }
+    else
+    {
+        ViewBag.Error = "Email o contraseña incorrectos.";
+        return View("LoginLocal");
+    }
+}
 
 }

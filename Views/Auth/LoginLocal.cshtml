@@ -12,15 +12,15 @@
     <div class="header-logo">
         <img src="..\Images\Logo-Chaskifud.png" alt="Chaskifud Logo" class="logo-image">
     </div>
-    <form action='@Url.Action("VerificarLogin", "Auth")' method="post" class="login-form">
-        <div class="form-group">
-            <input type="email" class="input-field" id="email" name="email" placeholder="Email" required>
-        </div>
-        <div class="form-group">
-            <input type="password" class="input-field" id="contrasena" name="contrasena" placeholder="Contraseña" required>
-        </div>
-        <button type="submit" class="submit-button">Iniciar Sesión</button> 
-    </form>
+    <form action='@Url.Action("VerificarLoginLocal", "Auth")' method="post" class="login-form">
+    <div class="form-group">
+        <input type="email" class="input-field" id="email" name="email" placeholder="Email" required>
+    </div>
+    <div class="form-group">
+        <input type="password" class="input-field" id="contrasena" name="contrasena" placeholder="Contraseña" required>
+    </div>
+    <button type="submit" class="submit-button">Iniciar Sesión</button>
+</form>
     <p class="footer-text">¿No tienes una cuenta de local? <a href='@Url.Action("RegistrarLocal", "Auth")' class="register-link">Regístra el local</a></p>
     <p class="footer-text">¿Eres un usuario común? <a href='@Url.Action("Login", "Auth")' class="register-link">Iniciar sesión común</a></p>
 

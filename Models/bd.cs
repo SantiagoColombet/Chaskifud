@@ -10,7 +10,7 @@ public class BD
         Usuario usuario = null;
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
-            string sql = "SELECT * FROM Usuario WHERE IdUsuario = @ ";
+            string sql = "SELECT * FROM Usuario WHERE IdUsuario = @pIdUsuario ";
             usuario = db.QueryFirstOrDefault<Usuario>(sql, new { pIdUsuario = IdUsuario });
         }
         return usuario;
@@ -225,7 +225,7 @@ public static List<Restaurante> ObtenerRestaurantes()
         {
             string sql = @"
             INSERT INTO UsuarioRestaurante (Nombre, Contrasena, NumeroTelefono, Imagen, Email) 
-            VALUES (@pNombre, @pContrasena, @pNumeroTelefono, @pImagen, @pEmail";
+            VALUES (@pNombre, @pContrasena, @pNumeroTelefono, @pImagen, @pEmail)";
             db.Execute(sql, new
             {
                 pNombre = Nombre,
@@ -236,5 +236,16 @@ public static List<Restaurante> ObtenerRestaurantes()
             });
         }
     }
+    public static RestauranteUsuario ObtenerRestaurantePorEmail(string Email)
+{
+    RestauranteUsuario restaurante = null;
+    using (SqlConnection db = new SqlConnection(_connectionString))
+    {
+        string sql = "SELECT * FROM UsuarioRestaurante WHERE Email = @pEmail";
+        restaurante = db.QueryFirstOrDefault<RestauranteUsuario>(sql, new { pEmail = Email });
+    }
+    return restaurante;
+}
+
 }
 
