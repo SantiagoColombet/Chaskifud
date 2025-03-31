@@ -98,4 +98,28 @@ public class AuthController : Controller
         }
     }
 
+    public IActionResult RegistrarLocal(string Nombre, string Contrasena, string NumeroTelefono, string Imagen, string Email)
+    {
+        try
+        {
+            BD.RegistrarUsuario(Nombre,
+                                Contrasena,
+                                NumeroTelefono,
+                                Imagen,
+                                Email
+                                );
+            return View("Login");
+        }
+        catch (SqlException ex)
+        {
+            Console.WriteLine($"Error al registrar usuario: {ex.Message}");
+            return View("Error");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error inesperado: {ex.Message}");
+            return View("Error");
+        }
+    }
+
 }
