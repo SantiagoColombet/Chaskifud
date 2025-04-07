@@ -22,22 +22,41 @@ public class HomeController : Controller
 
         var userJson = HttpContext.Session.GetString("user");
         var usuario = Usuario.FromString(userJson);
-        
         if (usuario != null)
         {
-            _globalVariableService.nombreUsuario = usuario.Imagen;
+            if (usuario != null)
+            {
+                _globalVariableService.nombreUsuario = usuario.Imagen;
 
-            Contador.contador++;
+                Contador.contador++;
+            }
+
+            if (usuario != null && Contador.contador > 0)
+            {
+                ViewBag.UserImg = usuario.Imagen;
+            }
+
+            ViewBag.Carrito = Comida.carrito;
+
         }
-
-        if (usuario != null && Contador.contador > 0)
+        // Local
+        else
         {
-            ViewBag.UserImg = usuario.Imagen;
-        }
+            var localJson = HttpContext.Session.GetString("local");
+            var local = RestauranteUsuario.FromString(localJson); 
 
-        ViewBag.Carrito = Comida.carrito;
+            if (local != null)
+            {
+                _globalVariableService.nombreUsuario = local.Nombre; 
+                Contador.contador++;
+            }
+
+            if (local != null && Contador.contador > 0)
+            {
+                ViewBag.UserImg = local.Imagen;
+            }
+        }
         ViewBag.Restaurantes = BD.ObtenerRestaurantes();
-        
         return View();
     }
 
@@ -55,9 +74,13 @@ public class HomeController : Controller
     {
         var userJson = HttpContext.Session.GetString("user");
         var usuario = Usuario.FromString(userJson);
+        ViewBag.hayLocal = usuario;
         if (usuario != null)
         {
             ViewBag.usuario = BD.ObtenerInfoUsuario(usuario.IdUsuario);
+        }
+        else{
+            ViewBag.local = "soy local";
         }
         return View();
     }
@@ -145,7 +168,7 @@ public class HomeController : Controller
     {
         ViewBag.ListaComida = Comida.carrito;
         int count = Comida.carrito.Count();
-        ViewBag.count= count;
+        ViewBag.count = count;
         return View();
     }
 
@@ -174,13 +197,13 @@ public class HomeController : Controller
         ViewBag.ListaComida = Comida.carrito;
         foreach (Comida com in ViewBag.ListaComida)
         {
-            pagoFinal+= com.Precio;
+            pagoFinal += com.Precio;
         }
         ViewBag.pagoFinal = pagoFinal;
         return View();
     }
 
-        public IActionResult PagoRealizado()
+    public IActionResult PagoRealizado()
     {
         return View();
     }
@@ -288,7 +311,7 @@ public class HomeController : Controller
     {
         return View();
     }
-     public IActionResult CrearResena(int idRestaurante, int idUsuario, short valoracion, string opinion)
+    public IActionResult CrearResena(int idRestaurante, int idUsuario, short valoracion, string opinion)
     {
         BD.InsertarResena(idRestaurante, idUsuario, valoracion, opinion);
         return RedirectToAction("Restaurante");

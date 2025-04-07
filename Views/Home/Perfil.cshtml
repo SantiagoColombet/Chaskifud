@@ -1,3 +1,5 @@
+@{
+    if(ViewBag.hayLocal != null){
 <div class = "perfil-container">
     <div class = "perfil-puntos-container">
         <img src = "../Images/@ViewBag.usuario.Imagen" class = "foto-perfil">
@@ -58,3 +60,9 @@
         </a>
     </div>
 </div>
+    }
+    
+    else{
+        <p>@ViewBag.local</p>
+    }
+    }
