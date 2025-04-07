@@ -293,6 +293,61 @@ public class HomeController : Controller
         BD.InsertarResena(idRestaurante, idUsuario, valoracion, opinion);
         return RedirectToAction("Restaurante");
     }
+
+public IActionResult ConfRestaurantes(int IdRestaurante)
+{
+    ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(1);
+    ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(1);
+    return View();
+}
+
+[HttpPost]
+public IActionResult ActualizarComida(int IdComida, int IdRestaurante, int Precio, IFormFile NuevaImagen)
+{
+    try
+    {
+        string nombreImagen = null;
+        
+        // Procesar la nueva imagen si se subió una
+        if (NuevaImagen != null && NuevaImagen.Length > 0)
+        {
+            // Validar que sea una imagen
+            if (!NuevaImagen.ContentType.StartsWith("image/"))
+            {
+                TempData["ErrorMessage"] = "Solo se permiten archivos de imagen";
+                return RedirectToAction("ConfRestaurantes", new { IdRestaurante = IdRestaurante });
+            }
+            
+            var extension = Path.GetExtension(NuevaImagen.FileName).ToLower();
+            var extensionesPermitidas = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+            
+            if (!extensionesPermitidas.Contains(extension))
+            {
+                TempData["ErrorMessage"] = "Formato de imagen no permitido. Use JPG, JPEG, PNG o GIF";
+                return RedirectToAction("ConfRestaurantes", new { IdRestaurante = IdRestaurante });
+            }
+            
+            nombreImagen = $"{Guid.NewGuid()}{extension}";
+            var rutaImagen = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", nombreImagen);
+            
+            using (var stream = new FileStream(rutaImagen, FileMode.Create))
+            {
+                NuevaImagen.CopyTo(stream);
+            }
+        }
+        
+        // Actualizar en la base de datos
+        BD.ActualizarComida(IdComida, Precio, nombreImagen);
+        
+        TempData["SuccessMessage"] = "Comida actualizada correctamente";
+        return RedirectToAction("ConfRestaurantes", new { IdRestaurante = IdRestaurante });
+    }
+    catch (Exception ex)
+    {
+        TempData["ErrorMessage"] = "Error al actualizar la comida: " + ex.Message;
+        return RedirectToAction("ConfRestaurantes", new { IdRestaurante = IdRestaurante });
+    }
+}
 }
 
 

@@ -1,0 +1,97 @@
+@{
+    ViewData["Title"] = "Menú del Restaurante";
+}
+
+<section class="comidas-container">
+    <div class="container">
+        <div class="info-restaurante-elegido">
+            <h2>@ViewBag.Restaurante.Nombre</h2>
+            <div class="contenedor-comidas-card">
+                @foreach (Comida alimento in ViewBag.Comida)
+                {
+                    <div class="comidas-card" id="card-@alimento.IdComida">
+                        <form method="post" action='@Url.Action("ActualizarComida", "Home")' enctype="multipart/form-data" class="comida-form">
+                            <input type="hidden" name="IdComida" value="@alimento.IdComida">
+                            <input type="hidden" name="IdRestaurante" value="@alimento.IdRestaurante">
+                            
+                            <h5>@alimento.Nombre</h5>
+                            
+                            <!-- Imagen editable -->
+                            <div class="image-container">
+                                <img id="imagen-@alimento.IdComida" src='@Url.Content("~/Images/" + alimento.Imagen)' alt="@alimento.Nombre" class="img-comida">
+                                <input type="file" name="NuevaImagen" class="form-control-file imagen-input" data-id="@alimento.IdComida" accept="image/*" style="display: none;">
+                                <button type="button" class="btn btn-sm btn-outline-secondary cambiar-imagen" data-id="@alimento.IdComida">
+                                    <i class="fas fa-camera"></i> Cambiar
+                                </button>
+                            </div>
+                            
+                            <div class="card-actions">
+                                <!-- Precio editable -->
+                                <div class="precio-container">
+                                    <label>Precio:</label>
+                                    <input type="number" step="1" name="Precio" value="@alimento.Precio" class="form-control precio-input">
+                                </div>
+                                
+                                <!-- Categoría de comida (solo visualización) -->
+                                <div class="categoria-info">
+                                    <small class="text-muted">
+                                        @BD.ObtenerNombreCategoriaComida(alimento.IdCategoriaComida)
+                                    </small>
+                                </div>
+                                
+                                <div class="action-buttons">
+                                    <!-- Botón para guardar cambios -->
+                                    <button type="submit" class="btn btn-success btn-guardar">
+                                        <i class="fas fa-save"></i> Guardar
+                                    </button>
+                                    
+                                    <!-- Botón para agregar al carrito -->
+                                    <button type="button" class="btn btn-primary btn-comprar" 
+                                            onclick="agregarAlCarrito(@alimento.IdComida)">
+                                        <i class="fas fa-cart-plus"></i> Agregar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function() {
+        $('.cambiar-imagen').click(function() {
+            var id = $(this).data('id');
+            $('.imagen-input[data-id="' + id + '"]').click();
+        });
+        
+        $('.imagen-input').change(function(e) {
+            var id = $(this).data('id');
+            var input = this;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#imagen-' + id).attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        });
+        
+        $('.comida-form').submit(function(e) {
+            var precio = $(this).find('.precio-input').val();
+            if (precio <= 0) {
+                alert('El precio debe ser mayor que cero');
+                return false;
+            }
+            return true;
+        });
+    });
+    
+    function agregarAlCarrito(idComida) {
+    }
+</script>
+}

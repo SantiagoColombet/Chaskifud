@@ -3,7 +3,7 @@ using Dapper;
 using System.Data;
 public class BD
 {
-    private static string _connectionString = @"Server=A-PHZ2-CIDI-11; DataBase=Chaskibase; Trusted_Connection=True;";
+    private static string _connectionString = @"Server=A-PHZ2-CIDI-12; DataBase=Chaskibase; Trusted_Connection=True;";
 
     public static Usuario ObtenerInfoUsuario(int IdUsuario)
     {
@@ -50,12 +50,6 @@ public static List<Restaurante> ObtenerRestaurantes()
         }
         return locales;
     }
-
-
-
-
-
-
     public static List<Comida> ObtenerComidasDeRestauranteElegido(int IdRestaurante)
     {
         List<Comida> comida = new List<Comida>();
@@ -247,5 +241,55 @@ public static List<Restaurante> ObtenerRestaurantes()
     return restaurante;
 }
 
+public static void ActualizarComida(int IdComida, int Precio, string NombreImagen)
+{
+    using (SqlConnection db = new SqlConnection(_connectionString))
+    {
+        string sql;
+        
+        if (!string.IsNullOrEmpty(NombreImagen))
+        {
+            sql = @"UPDATE Comida 
+                   SET Precio = @pPrecio, 
+                       Imagen = @pImagen 
+                   WHERE IdComida = @pIdComida";
+            
+            db.Execute(sql, new { 
+                pPrecio = Precio, 
+                pImagen = NombreImagen, 
+                pIdComida = IdComida 
+            });
+        }
+        else
+        {
+            sql = @"UPDATE Comida 
+                   SET Precio = @pPrecio 
+                   WHERE IdComida = @pIdComida";
+            
+            db.Execute(sql, new { 
+                pPrecio = Precio, 
+                pIdComida = IdComida 
+            });
+        }
+        
+        // Actualizar también en RestaurantesYComidas para mantener consistencia
+        sql = @"UPDATE RestaurantesYComidas
+               SET Precio = @pPrecio
+               WHERE IdComida = @pIdComida";
+        
+        db.Execute(sql, new {
+            pPrecio = Precio,
+            pIdComida = IdComida
+        });
+    }
 }
 
+public static string ObtenerNombreCategoriaComida(int IdCategoriaComida)
+{
+    using (SqlConnection db = new SqlConnection(_connectionString))
+    {
+        string sql = "SELECT Nombre FROM CategoriasComidas WHERE IdCategoriaComida = @pIdCategoria";
+        return db.QueryFirstOrDefault<string>(sql, new { pIdCategoria = IdCategoriaComida });
+    }
+}
+}
