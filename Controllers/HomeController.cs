@@ -317,58 +317,52 @@ public class HomeController : Controller
         return RedirectToAction("Restaurante");
     }
 
-public IActionResult ConfRestaurantes(int IdRestaurante)
+public IActionResult ConfRestaurantes()
 {
-    ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(1);
-    ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(1);
+    if (!TempData.ContainsKey("IdRestaurante") || !int.TryParse(TempData["IdRestaurante"]?.ToString(), out int idRestaurante))
+    {
+        return RedirectToAction("Error");
+    }
+
+    TempData.Keep("IdRestaurante");
+
+    ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(idRestaurante);
+    ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(idRestaurante);
+    ViewBag.Categorias = BD.ObtenerCategoriasComida(); 
+    ViewBag.Restricciones = BD.ObtenerRestriccionesAlimenticias(); 
+
     return View();
 }
-
 [HttpPost]
-public IActionResult ActualizarComida(int IdComida, int IdRestaurante, int Precio, IFormFile NuevaImagen)
+public IActionResult ActualizarComida(int IdComida, int IdRestaurante, int Precio)
 {
     try
     {
-        string nombreImagen = null;
+        BD.ActualizarComida(IdComida, Precio);
         
-        // Procesar la nueva imagen si se subió una
-        if (NuevaImagen != null && NuevaImagen.Length > 0)
-        {
-            // Validar que sea una imagen
-            if (!NuevaImagen.ContentType.StartsWith("image/"))
-            {
-                TempData["ErrorMessage"] = "Solo se permiten archivos de imagen";
-                return RedirectToAction("ConfRestaurantes", new { IdRestaurante = IdRestaurante });
-            }
-            
-            var extension = Path.GetExtension(NuevaImagen.FileName).ToLower();
-            var extensionesPermitidas = new[] { ".jpg", ".jpeg", ".png", ".gif" };
-            
-            if (!extensionesPermitidas.Contains(extension))
-            {
-                TempData["ErrorMessage"] = "Formato de imagen no permitido. Use JPG, JPEG, PNG o GIF";
-                return RedirectToAction("ConfRestaurantes", new { IdRestaurante = IdRestaurante });
-            }
-            
-            nombreImagen = $"{Guid.NewGuid()}{extension}";
-            var rutaImagen = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images", nombreImagen);
-            
-            using (var stream = new FileStream(rutaImagen, FileMode.Create))
-            {
-                NuevaImagen.CopyTo(stream);
-            }
-        }
-        
-        // Actualizar en la base de datos
-        BD.ActualizarComida(IdComida, Precio, nombreImagen);
-        
-        TempData["SuccessMessage"] = "Comida actualizada correctamente";
-        return RedirectToAction("ConfRestaurantes", new { IdRestaurante = IdRestaurante });
+        TempData["IdRestaurante"] = IdRestaurante; 
+        return RedirectToAction("ConfRestaurantes");
     }
     catch (Exception ex)
     {
-        TempData["ErrorMessage"] = "Error al actualizar la comida: " + ex.Message;
-        return RedirectToAction("ConfRestaurantes", new { IdRestaurante = IdRestaurante });
+        TempData["IdRestaurante"] = IdRestaurante; 
+        return RedirectToAction("ConfRestaurantes");
+    }
+}
+[HttpPost]
+[HttpPost]
+public IActionResult AgregarComida(Comida comida)
+{
+    try
+    {
+
+        BD.AgregarComida(comida);
+
+        return RedirectToAction("ConfRestaurantes", new { IdRestaurante = comida.IdRestaurante });
+    }
+    catch (Exception ex)
+    {
+        return RedirectToAction("ConfRestaurantes", new { IdRestaurante = comida.IdRestaurante });
     }
 }
 }

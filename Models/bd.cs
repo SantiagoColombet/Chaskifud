@@ -3,7 +3,7 @@ using Dapper;
 using System.Data;
 public class BD
 {
-    private static string _connectionString = @"Server=A-PHZ2-CIDI-12; DataBase=Chaskibase; Trusted_Connection=True;";
+private static string _connectionString = @"Server=localhost\SQLEXPRESS;Database=Chaskibase;Trusted_Connection=True;";
 
     public static Usuario ObtenerInfoUsuario(int IdUsuario)
     {
@@ -241,45 +241,18 @@ public static List<Restaurante> ObtenerRestaurantes()
     return restaurante;
 }
 
-public static void ActualizarComida(int IdComida, int Precio, string NombreImagen)
+public static void ActualizarComida(int IdComida, int Precio)
 {
     using (SqlConnection db = new SqlConnection(_connectionString))
     {
         string sql;
+        sql = @"UPDATE Comida 
+                SET Precio = @pPrecio 
+                WHERE IdComida = @pIdComida";
         
-        if (!string.IsNullOrEmpty(NombreImagen))
-        {
-            sql = @"UPDATE Comida 
-                   SET Precio = @pPrecio, 
-                       Imagen = @pImagen 
-                   WHERE IdComida = @pIdComida";
-            
-            db.Execute(sql, new { 
-                pPrecio = Precio, 
-                pImagen = NombreImagen, 
-                pIdComida = IdComida 
-            });
-        }
-        else
-        {
-            sql = @"UPDATE Comida 
-                   SET Precio = @pPrecio 
-                   WHERE IdComida = @pIdComida";
-            
-            db.Execute(sql, new { 
-                pPrecio = Precio, 
-                pIdComida = IdComida 
-            });
-        }
-        
-        // Actualizar también en RestaurantesYComidas para mantener consistencia
-        sql = @"UPDATE RestaurantesYComidas
-               SET Precio = @pPrecio
-               WHERE IdComida = @pIdComida";
-        
-        db.Execute(sql, new {
-            pPrecio = Precio,
-            pIdComida = IdComida
+        db.Execute(sql, new { 
+            pPrecio = Precio, 
+            pIdComida = IdComida 
         });
     }
 }
@@ -290,6 +263,49 @@ public static string ObtenerNombreCategoriaComida(int IdCategoriaComida)
     {
         string sql = "SELECT Nombre FROM CategoriasComidas WHERE IdCategoriaComida = @pIdCategoria";
         return db.QueryFirstOrDefault<string>(sql, new { pIdCategoria = IdCategoriaComida });
+    }
+}
+public static List<CategoriaComida> ObtenerCategoriasComida()
+{
+    using (SqlConnection db = new SqlConnection(_connectionString))
+    {
+        string sql = "SELECT IdCategoriaComida, Nombre FROM CategoriasComidas"; 
+        return db.Query<CategoriaComida>(sql).ToList();
+    }
+}
+public static List<RestriccionAlimenticia> ObtenerRestriccionesAlimenticias()
+{
+    using (SqlConnection db = new SqlConnection(_connectionString))
+    {
+        string sql = "SELECT IdRestriccionAlimenticia, TipoRestriccion FROM RestriccionAlimenticia";
+        return db.Query<RestriccionAlimenticia>(sql).ToList();
+    }
+}
+public static void AgregarComida(Comida nuevaComida)
+{
+    using (SqlConnection db = new SqlConnection(_connectionString))
+    {
+        string sql = @"
+            INSERT INTO Comida (
+                IdRestaurante, 
+                Nombre, 
+                Descripcion, 
+                Precio, 
+                IdCategoriaComida, 
+                IdRestriccionAlimenticia, 
+                Imagen,
+            ) 
+            VALUES (
+                @IdRestaurante, 
+                @Nombre, 
+                @Descripcion, 
+                @Precio, 
+                @IdCategoriaComida, 
+                @IdRestriccionAlimenticia, 
+                @Imagen,
+            );";
+
+        db.Execute(sql);
     }
 }
 }

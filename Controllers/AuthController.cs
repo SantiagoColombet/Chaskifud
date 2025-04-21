@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Chaskifud.Services;
 using System.Data.SqlClient;
+using AspNetCoreGeneratedDocument;
 namespace test_session.Controllers;
 
 public class AuthController : Controller
@@ -134,7 +135,8 @@ public class AuthController : Controller
         if (local != null && local.Contrasena == contrasena)
         {
             HttpContext.Session.SetString("local", local.ToString());
-            return RedirectToAction("Index", "Home");
+            TempData["IdRestaurante"] = local.IdUsuarioRestaurante;
+            return RedirectToAction("ConfRestaurantes", "Home");
         }
         else if (local == null)
         {
