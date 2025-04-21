@@ -3,7 +3,6 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Chaskifud.Services;
 using System.Data.SqlClient;
-using AspNetCoreGeneratedDocument;
 namespace test_session.Controllers;
 
 public class AuthController : Controller

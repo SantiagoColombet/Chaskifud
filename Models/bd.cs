@@ -3,7 +3,7 @@ using Dapper;
 using System.Data;
 public class BD
 {
-private static string _connectionString = @"Server=localhost\SQLEXPRESS;Database=Chaskibase;Trusted_Connection=True;";
+    private static string _connectionString = @"Server=A-PHZ2-CIDI-12;Database=Chaskibase;Trusted_Connection=True;";
 
     public static Usuario ObtenerInfoUsuario(int IdUsuario)
     {
@@ -32,16 +32,16 @@ private static string _connectionString = @"Server=localhost\SQLEXPRESS;Database
     {
         List<Restaurante> locales = new List<Restaurante>();
 
-    using (SqlConnection db = new SqlConnection(_connectionString))
-    {
-        string sql = "SELECT * FROM Restaurantes WHERE IdCategoriaRestaurante = @pIdCategoriaRestaurante;";
-        locales = db.Query<Restaurante>(sql, new { pIdCategoriaRestaurante = IdCategoriaRestaurante }).ToList();
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = "SELECT * FROM Restaurantes WHERE IdCategoriaRestaurante = @pIdCategoriaRestaurante;";
+            locales = db.Query<Restaurante>(sql, new { pIdCategoriaRestaurante = IdCategoriaRestaurante }).ToList();
+        }
+        return locales;
     }
-    return locales;
-}
-public static List<Restaurante> ObtenerRestaurantes()
-{
-    List<Restaurante> locales = new List<Restaurante>();
+    public static List<Restaurante> ObtenerRestaurantes()
+    {
+        List<Restaurante> locales = new List<Restaurante>();
 
         using (SqlConnection db = new SqlConnection(_connectionString))
         {
@@ -231,81 +231,93 @@ public static List<Restaurante> ObtenerRestaurantes()
         }
     }
     public static RestauranteUsuario ObtenerRestaurantePorEmail(string Email)
-{
-    RestauranteUsuario restaurante = null;
-    using (SqlConnection db = new SqlConnection(_connectionString))
     {
-        string sql = "SELECT * FROM UsuarioRestaurante WHERE Email = @pEmail";
-        restaurante = db.QueryFirstOrDefault<RestauranteUsuario>(sql, new { pEmail = Email });
+        RestauranteUsuario restaurante = null;
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = "SELECT * FROM UsuarioRestaurante WHERE Email = @pEmail";
+            restaurante = db.QueryFirstOrDefault<RestauranteUsuario>(sql, new { pEmail = Email });
+        }
+        return restaurante;
     }
-    return restaurante;
-}
 
-public static void ActualizarComida(int IdComida, int Precio)
-{
-    using (SqlConnection db = new SqlConnection(_connectionString))
+    public static void ActualizarComida(int IdComida, int Precio)
     {
-        string sql;
-        sql = @"UPDATE Comida 
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql;
+            sql = @"UPDATE Comida 
                 SET Precio = @pPrecio 
                 WHERE IdComida = @pIdComida";
-        
-        db.Execute(sql, new { 
-            pPrecio = Precio, 
-            pIdComida = IdComida 
-        });
-    }
-}
 
-public static string ObtenerNombreCategoriaComida(int IdCategoriaComida)
-{
-    using (SqlConnection db = new SqlConnection(_connectionString))
-    {
-        string sql = "SELECT Nombre FROM CategoriasComidas WHERE IdCategoriaComida = @pIdCategoria";
-        return db.QueryFirstOrDefault<string>(sql, new { pIdCategoria = IdCategoriaComida });
+            db.Execute(sql, new
+            {
+                pPrecio = Precio,
+                pIdComida = IdComida
+            });
+        }
     }
-}
-public static List<CategoriaComida> ObtenerCategoriasComida()
-{
-    using (SqlConnection db = new SqlConnection(_connectionString))
-    {
-        string sql = "SELECT IdCategoriaComida, Nombre FROM CategoriasComidas"; 
-        return db.Query<CategoriaComida>(sql).ToList();
-    }
-}
-public static List<RestriccionAlimenticia> ObtenerRestriccionesAlimenticias()
-{
-    using (SqlConnection db = new SqlConnection(_connectionString))
-    {
-        string sql = "SELECT IdRestriccionAlimenticia, TipoRestriccion FROM RestriccionAlimenticia";
-        return db.Query<RestriccionAlimenticia>(sql).ToList();
-    }
-}
-public static void AgregarComida(Comida nuevaComida)
-{
-    using (SqlConnection db = new SqlConnection(_connectionString))
-    {
-        string sql = @"
-            INSERT INTO Comida (
-                IdRestaurante, 
-                Nombre, 
-                Descripcion, 
-                Precio, 
-                IdCategoriaComida, 
-                IdRestriccionAlimenticia, 
-                Imagen,
-            ) 
-            VALUES (
-                @IdRestaurante, 
-                @Nombre, 
-                @Descripcion, 
-                @Precio, 
-                @IdCategoriaComida, 
-                @IdRestriccionAlimenticia, 
-                @Imagen,
-            );";
 
-        db.Execute(sql);
+    public static string ObtenerNombreCategoriaComida(int IdCategoriaComida)
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = "SELECT Nombre FROM CategoriasComidas WHERE IdCategoriaComida = @pIdCategoria";
+            return db.QueryFirstOrDefault<string>(sql, new { pIdCategoria = IdCategoriaComida });
+        }
     }
-}
+    public static List<CategoriaComida> ObtenerCategoriasComida()
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = "SELECT IdCategoriaComida, Nombre FROM CategoriasComidas";
+            return db.Query<CategoriaComida>(sql).ToList();
+        }
+    }
+    public static List<RestriccionAlimenticia> ObtenerRestriccionesAlimenticias()
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = "SELECT IdRestriccionAlimenticia, TipoRestriccion FROM RestriccionAlimenticia";
+            return db.Query<RestriccionAlimenticia>(sql).ToList();
+        }
+    }
+    public static void AgregarComida(Comida nuevaComida)
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = @"
+           INSERT INTO Comida (
+    IdRestaurante, 
+    Nombre, 
+    Descripcion, 
+    Precio, 
+    IdCategoriaComida, 
+    IdRestriccionAlimenticia, 
+    Imagen
+) 
+VALUES (
+    @pIdRestaurante, 
+    @pNombre, 
+    @pDescripcion, 
+    @pPrecio, 
+    @pIdCategoriaComida, 
+    @pIdRestriccionAlimenticia, 
+    @pImagen
+);
+";
+
+            db.Execute(sql, new
+            {
+                pIdRestaurante = nuevaComida.IdRestaurante,
+                pNombre = nuevaComida.Nombre,
+                pDescripcion = nuevaComida.Descripcion,
+                pPrecio = nuevaComida.Precio,
+                pIdCategoriaComida = nuevaComida.IdCategoriaComida,
+                pIdRestriccionAlimenticia = nuevaComida.IdRestriccionAlimenticia,
+                pImagen = nuevaComida.Imagen
+            }
+    );
+        }
+    }
 }

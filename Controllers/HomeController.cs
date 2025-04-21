@@ -191,7 +191,7 @@ public class HomeController : Controller
         return RedirectToAction("Carrito");
     }
 
-    public IActionResult Pago()
+    public IActionResult Pedido()
     {
         int pagoFinal = 0;
         ViewBag.ListaComida = Comida.carrito;
@@ -203,7 +203,7 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult PagoRealizado()
+    public IActionResult PedidoRealizado()
     {
         return View();
     }
