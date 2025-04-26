@@ -79,8 +79,12 @@ public class HomeController : Controller
         {
             ViewBag.usuario = BD.ObtenerInfoUsuario(usuario.IdUsuario);
         }
-        else{
-            ViewBag.local = "soy local";
+        else
+        {
+        var localJson = HttpContext.Session.GetString("local");
+        var local = Usuario.FromString(localJson);
+        
+            ViewBag.local = local;
         }
         return View();
     }
@@ -253,7 +257,26 @@ public class HomeController : Controller
             return View("Login");
         }
     }
+public IActionResult VerificarLoginLocal(string email, string contrasena)
+    {
+        RestauranteUsuario local = BD.ObtenerRestaurantePorEmail(email);
 
+        if (local != null && local.Contrasena == contrasena)
+        {
+            HttpContext.Session.SetString("local", local.ToString());
+            TempData["IdRestaurante"] = local.IdUsuarioRestaurante;
+            return RedirectToAction("Index", "Home");
+        }
+        else if (local == null)
+        {
+            return RedirectToAction("LoginLocal", "Auth");
+        }
+        else
+        {
+            ViewBag.Error = "Email o contraseña incorrectos.";
+            return View("LoginLocal");
+        }
+    }
     public IActionResult Logout()
     {
 

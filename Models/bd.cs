@@ -3,8 +3,7 @@ using Dapper;
 using System.Data;
 public class BD
 {
-    private static string _connectionString = @"Server=A-PHZ2-CIDI-12;Database=Chaskibase;Trusted_Connection=True;";
-
+private static string _connectionString = @"Server=LA-TORMENTA-GAL\SQLEXPRESS;Database=Chaskibase;Trusted_Connection=True;";
     public static Usuario ObtenerInfoUsuario(int IdUsuario)
     {
         Usuario usuario = null;
