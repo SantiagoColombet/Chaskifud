@@ -203,10 +203,44 @@ public class HomeController : Controller
         return View();
     }
 
+ [HttpPost]
     public IActionResult PedidoRealizado()
     {
-        ViewBag.ListaComida = Comida.carrito;
-        return View();
+        // 1) Agrupo ítems iguales y seteo la propiedad 'cantidad'
+        var itemsAgrupados = Comida.carrito
+            .GroupBy(c => c.IdComida)
+            .Select(g =>
+            {
+                var comida = g.First();
+                comida.cantidad = g.Count();
+                return comida;
+            })
+            .ToList();
+
+        // 2) Calculo el total
+        int total = itemsAgrupados.Sum(i => i.Precio * i.cantidad);
+
+        // 3) Creo el objeto Pedido
+        var pedido = new Pedido
+        {
+            IdRestaurante = itemsAgrupados.FirstOrDefault()?.IdRestaurante ?? 0,
+            // Aquí obtendrías el IdUsuario desde tu sistema de autenticación
+            IdUsuario      = /* por ejemplo: int.Parse(User.FindFirst("sub").Value) */,
+            Estado         = "Pendiente",
+            Fecha          = DateTime.Now,
+            Total          = total,
+            Items          = itemsAgrupados
+        };
+
+        // 4) (Opcional) Guardar en base de datos
+        // _context.Pedidos.Add(pedido);
+        // _context.SaveChanges();
+
+        // 5) Limpiar carrito
+        Comida.carrito.Clear();
+
+        // 6) Mostrar vista de confirmación, pasando el Pedido
+        return View(pedido);
     }
     public IActionResult IniciarSesion()
     {

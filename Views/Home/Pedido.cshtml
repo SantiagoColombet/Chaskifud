@@ -39,7 +39,8 @@
   </div>
 </div>
 
-
 <div class="contenedor-pago">
-    <a href='@Url.Action("PedidoRealizado","Home")' class="btn-ir-a-pagar">Ir a pagar</a>
+  <form asp-action="PedidoRealizado" asp-controller="Home" method="post">
+    <button type="submit" class="btn-ir-a-pagar">Ir a pagar</button>
+  </form>
 </div>
