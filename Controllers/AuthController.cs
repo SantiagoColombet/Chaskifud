@@ -134,8 +134,12 @@ public class AuthController : Controller
         if (local != null && local.Contrasena == contrasena)
         {
             HttpContext.Session.SetString("local", local.ToString());
+
+            ViewBag.local = HttpContext.Session.GetString("local");
+
             TempData["IdRestaurante"] = local.IdUsuarioRestaurante;
-            return RedirectToAction("ConfRestaurantes", "Home");
+
+            return RedirectToAction("Index", "Home");
         }
         else if (local == null)
         {
