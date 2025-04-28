@@ -1,14 +1,31 @@
-    <div class="page-container">
-        <div class="payment-success">
-            <div class="payment-card">
-                <div class="payment-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="72" height="72" fill="#4caf50">
-                        <path d="M12 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10zm-1-15-5 5 1.414 1.414L11 10.828l5.293 5.293 1.414-1.414L11 7z"/>
-                    </svg>
-                </div>
-                <h1 class="payment-title">¡Pedido Realizado!</h1>
-                <p class="payment-message">Gracias por tu pedido. Hemos procesado tu solicitud exitosamente.</p>
-                <a href='@Url.Action("Index", "Home")' class="payment-button">Ver mi pediddo</a>
+<div class="page-container">
+    <div class="payment-success">
+        <div class="payment-card">
+            <div class="payment-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="72" height="72" fill="#4caf50">
+                    <path d="M12 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10zm-1-15-5 5 1.414 1.414L11 10.828l5.293 5.293 1.414-1.414L11 7z"/>
+                </svg>
             </div>
+            <h1 class="payment-title">¡Pedido Realizado!</h1>
+            <p class="payment-message">Gracias por tu pedido. Hemos procesado tu solicitud exitosamente.</p>
+            <a href='@Url.Action("Index", "Home")' class="payment-button">Ver mi pediddo</a>
         </div>
     </div>
+    
+    <div class="estado-pedido">
+        <h3>(esto hay que moverlo a una pagina aparte)Estado del pedido #@Model.IdPedido</h3>
+        <div class="progreso">
+            <div class="@(ViewBag.Pedido.Estado == "Recibido" ? "activo" : "")">Recibido</div>
+            <div class="@(ViewBag.Pedido.Estado == "Haciendo la comida" ? "activo" : "")">En preparación</div>
+            <div class="@(ViewBag.Pedido.Estado == "Listo para retirar" ? "activo" : "")">Listo para retirar</div>
+        </div>
+        <h4>Detalles del pedido:</h4>
+        <ul>
+            @foreach (var item in ViewBag.ListaComida)
+            {
+                <li>@item.Nombre - $@item.Precio</li>
+            }
+        </ul>
+        <p class="total">Total: $@Model.Total</p>
+    </div>
+</div>

@@ -205,6 +205,7 @@ public class HomeController : Controller
 
     public IActionResult PedidoRealizado()
     {
+        ViewBag.ListaComida = Comida.carrito;
         return View();
     }
     public IActionResult IniciarSesion()
