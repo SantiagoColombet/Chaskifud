@@ -224,25 +224,26 @@ public class HomeController : Controller
         // 2) Calculo el total
         int total = itemsAgrupados.Sum(i => i.Precio * i.cantidad);
 
-        // 3) Creo el objeto Pedido
-        var pedido = new Pedido
-        {
-            IdRestaurante = itemsAgrupados.FirstOrDefault()?.IdRestaurante ?? 0,
-            IdUsuario      = pIdUsuario,
-            Estado         = "Pendiente",
-            Fecha          = DateTime.Now,
-            Total          = total,
-            Items          = itemsAgrupados
-        };
+Pedido pedido = null;
+
+if (HttpContext.Session.GetString("user") != null)
+{
+    pedido = new Pedido
+    {
+        IdRestaurante = itemsAgrupados.FirstOrDefault()?.IdRestaurante ?? 0,
+        IdUsuario     = pIdUsuario,
+        Estado        = "Pendiente",
+        Fecha         = DateTime.Now,
+        Total         = total,
+        Items         = itemsAgrupados
+    };
+} 
 
         // 4) (Opcional) Guardar en base de datos
         // _context.Pedidos.Add(pedido);
         // _context.SaveChanges();
 
-        // 5) Limpiar carrito
         Comida.carrito.Clear();
-
-        // 6) Mostrar vista de confirmación, pasando el Pedido
         return View(pedido);
     }
     public IActionResult IniciarSesion()
