@@ -1,11 +1,5 @@
 mis pedidos
 
-registrarme como Locale
-
-subir imagen del Locale
-
 lista de pedidos pendientes y cerrados
-
-poder agregar productos como local 
 
 cambiar estado de los pedidos 

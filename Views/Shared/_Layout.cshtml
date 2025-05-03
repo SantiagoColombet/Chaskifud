@@ -31,7 +31,8 @@
             </ul>
             <div class = "profile">
             <a href = '@Url.Action("Login", "Auth")'>
-            @if(@GlobalVariableService.nombreUsuario.Length >25){
+         
+            @if(@GlobalVariableService.nombreUsuario.Length > 25){
             <img src="@GlobalVariableService.nombreUsuario" alt="@GlobalVariableService.nombreUsuario" id = "imagen_perfil">
             }
             else{
