@@ -207,8 +207,8 @@ public class HomeController : Controller
         return View();
     }
 
-    [HttpPost]
-    public IActionResult PedidoRealizado()
+ [HttpPost]
+    public IActionResult PedidoRealizado(int pIdUsuario)
     {
         // 1) Agrupo ítems iguales y seteo la propiedad 'cantidad'
         var itemsAgrupados = Comida.carrito
@@ -228,12 +228,11 @@ public class HomeController : Controller
         var pedido = new Pedido
         {
             IdRestaurante = itemsAgrupados.FirstOrDefault()?.IdRestaurante ?? 0,
-            // Aquí obtendrías el IdUsuario desde tu sistema de autenticación
-            IdUsuario = /* por ejemplo: int.Parse(User.FindFirst("sub").Value) */,
-            Estado = "Pendiente",
-            Fecha = DateTime.Now,
-            Total = total,
-            Items = itemsAgrupados
+            IdUsuario      = pIdUsuario,
+            Estado         = "Pendiente",
+            Fecha          = DateTime.Now,
+            Total          = total,
+            Items          = itemsAgrupados
         };
 
         // 4) (Opcional) Guardar en base de datos
