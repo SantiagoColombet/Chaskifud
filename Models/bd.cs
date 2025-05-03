@@ -3,7 +3,7 @@ using Dapper;
 using System.Data;
 public class BD
 {
-    private static string _connectionString = @"Server=LA-TORMENTA-GAL\SQLEXPRESS;Database=Chaskibase;Trusted_Connection=True;";
+    private static string _connectionString = @"Server=DESKTOP-D34G2CV\SQLEXPRESS;Database=Chaskibase;Trusted_Connection=True;";
 
     public static Usuario ObtenerInfoUsuario(int IdUsuario)
     {
@@ -71,6 +71,8 @@ public class BD
         }
         return usuario;
     }
+
+
     public static List<Resena> ObtenerResenasRestaurante(int IdRestaurante)
     {
         List<Resena> resenas;
@@ -320,4 +322,43 @@ VALUES (
     );
         }
     }
+
+    public static int AgregarPedido(int IdUsuario, int IdRestaurante, int Total)
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = @"
+                INSERT INTO Pedidos (IdRestaurante, IdUsuario, Estado, Total)
+                OUTPUT INSERTED.IdPedido
+                VALUES (@pIdRestaurante, @pIdUsuario, @pEstado, @pTotal)";
+            
+            int nuevoId = db.QuerySingle<int>(sql, new
+            {
+                pIdRestaurante = IdRestaurante,
+                pIdUsuario = IdUsuario,
+                pEstado = "Pendiente",
+                pTotal = Total
+            });
+            
+            return nuevoId;
+        }
+    }
+
+    public static void AgregarDetallePedido(int idPedido, int idComida, int cantidad, int precio)
+{
+    using (SqlConnection db = new SqlConnection(_connectionString))
+    {
+        string sql = @"
+            INSERT INTO DetallesPedido (IdPedido, IdComida, Cantidad, Precio)
+            VALUES (@pIdPedido, @pIdComida, @pCantidad, @pPrecio)";
+        
+        db.Execute(sql, new
+        {
+            pIdPedido = idPedido,
+            pIdComida = idComida,
+            pCantidad = cantidad,
+            pPrecio = precio
+        });
+    }
+}
 }

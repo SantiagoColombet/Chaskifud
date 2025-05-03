@@ -43,11 +43,11 @@ public class HomeController : Controller
         else
         {
             var localJson = HttpContext.Session.GetString("local");
-            var local = RestauranteUsuario.FromString(localJson);
+            var local = RestauranteUsuario.FromString(localJson); 
 
             if (local != null)
             {
-                _globalVariableService.nombreUsuario = local.Imagen;
+                _globalVariableService.nombreUsuario = local.Imagen; 
                 Contador.contador++;
             }
 
@@ -81,9 +81,9 @@ public class HomeController : Controller
         }
         else
         {
-            var localJson = HttpContext.Session.GetString("local");
-            var local = Usuario.FromString(localJson);
-
+        var localJson = HttpContext.Session.GetString("local");
+        var local = Usuario.FromString(localJson);
+        
             ViewBag.local = local;
         }
         return View();
@@ -208,41 +208,50 @@ public class HomeController : Controller
     }
 
  [HttpPost]
-    public IActionResult PedidoRealizado(int pIdUsuario)
+    public IActionResult PedidoRealizado()
     {
-        // 1) Agrupo ítems iguales y seteo la propiedad 'cantidad'
+        var userJson = HttpContext.Session.GetString("user");
+        var usuario = Usuario.FromString(userJson);
+        
+        // Agrupar ítems por IdComida
         var itemsAgrupados = Comida.carrito
             .GroupBy(c => c.IdComida)
-            .Select(g =>
-            {
-                var comida = g.First();
-                comida.cantidad = g.Count();
-                return comida;
+            .Select(g => new {
+                IdComida = g.Key,
+                Cantidad = g.Count(),
+                PrecioUnitario = g.First().Precio,
+                IdRestaurante = g.First().IdRestaurante
             })
             .ToList();
 
-        // 2) Calculo el total
-        int total = itemsAgrupados.Sum(i => i.Precio * i.cantidad);
+        int total = itemsAgrupados.Sum(i => i.PrecioUnitario * i.Cantidad);
 
-Pedido pedido = null;
+        Pedido pedido = null;
 
-if (HttpContext.Session.GetString("user") != null)
-{
-    pedido = new Pedido
-    {
-        IdRestaurante = itemsAgrupados.FirstOrDefault()?.IdRestaurante ?? 0,
-        IdUsuario     = pIdUsuario,
-        Estado        = "Pendiente",
-        Fecha         = DateTime.Now,
-        Total         = total,
-        Items         = itemsAgrupados
-    };
-} 
+        if (usuario != null)
+        {
+            pedido = new Pedido
+            {
+                IdRestaurante = itemsAgrupados.FirstOrDefault()?.IdRestaurante ?? 0,
+                IdUsuario = usuario.IdUsuario,
+                Estado = "Pendiente",
+                Total = total,
+            };
+        } 
 
-        // 4) (Opcional) Guardar en base de datos
-        // _context.Pedidos.Add(pedido);
-        // _context.SaveChanges();
+        int idPedido = BD.AgregarPedido(pedido.IdUsuario, pedido.IdRestaurante, pedido.Total);
 
+        // Guardar detalles agrupados
+        foreach (var item in itemsAgrupados)
+        {
+            BD.AgregarDetallePedido(
+                idPedido,
+                item.IdComida,
+                item.Cantidad,
+                item.PrecioUnitario
+            );
+        }
+        
         Comida.carrito.Clear();
         return View(pedido);
     }
@@ -292,7 +301,7 @@ if (HttpContext.Session.GetString("user") != null)
             return View("Login");
         }
     }
-    public IActionResult VerificarLoginLocal(string email, string contrasena)
+public IActionResult VerificarLoginLocal(string email, string contrasena)
     {
         RestauranteUsuario local = BD.ObtenerRestaurantePorEmail(email);
 
@@ -375,54 +384,54 @@ if (HttpContext.Session.GetString("user") != null)
         return RedirectToAction("Restaurante");
     }
 
-    public IActionResult ConfRestaurantes()
+public IActionResult ConfRestaurantes()
+{
+    if (!TempData.ContainsKey("IdRestaurante") || !int.TryParse(TempData["IdRestaurante"]?.ToString(), out int idRestaurante))
     {
-        if (!TempData.ContainsKey("IdRestaurante") || !int.TryParse(TempData["IdRestaurante"]?.ToString(), out int idRestaurante))
-        {
-            return RedirectToAction("Error");
-        }
-
-        TempData.Keep("IdRestaurante");
-
-        ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(idRestaurante);
-        ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(idRestaurante);
-        ViewBag.Categorias = BD.ObtenerCategoriasComida();
-        ViewBag.Restricciones = BD.ObtenerRestriccionesAlimenticias();
-
-        return View();
+        return RedirectToAction("Error");
     }
-    [HttpPost]
-    public IActionResult ActualizarComida(int IdComida, int IdRestaurante, int Precio)
+
+    TempData.Keep("IdRestaurante");
+
+    ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(idRestaurante);
+    ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(idRestaurante);
+    ViewBag.Categorias = BD.ObtenerCategoriasComida(); 
+    ViewBag.Restricciones = BD.ObtenerRestriccionesAlimenticias(); 
+
+    return View();
+}
+[HttpPost]
+public IActionResult ActualizarComida(int IdComida, int IdRestaurante, int Precio)
+{
+    try
     {
-        try
-        {
-            BD.ActualizarComida(IdComida, Precio);
-
-            TempData["IdRestaurante"] = IdRestaurante;
-            return RedirectToAction("ConfRestaurantes");
-        }
-        catch (Exception ex)
-        {
-            TempData["IdRestaurante"] = IdRestaurante;
-            return RedirectToAction("ConfRestaurantes");
-        }
+        BD.ActualizarComida(IdComida, Precio);
+        
+        TempData["IdRestaurante"] = IdRestaurante; 
+        return RedirectToAction("ConfRestaurantes");
     }
-    [HttpPost]
-    [HttpPost]
-    public IActionResult AgregarComida(Comida comida)
+    catch (Exception ex)
     {
-        try
-        {
-
-            BD.AgregarComida(comida);
-
-            return RedirectToAction("ConfRestaurantes", new { IdRestaurante = comida.IdRestaurante });
-        }
-        catch (Exception ex)
-        {
-            return RedirectToAction("ConfRestaurantes", new { IdRestaurante = comida.IdRestaurante });
-        }
+        TempData["IdRestaurante"] = IdRestaurante; 
+        return RedirectToAction("ConfRestaurantes");
     }
+}
+[HttpPost]
+[HttpPost]
+public IActionResult AgregarComida(Comida comida)
+{
+    try
+    {
+
+        BD.AgregarComida(comida);
+
+        return RedirectToAction("ConfRestaurantes", new { IdRestaurante = comida.IdRestaurante });
+    }
+    catch (Exception ex)
+    {
+        return RedirectToAction("ConfRestaurantes", new { IdRestaurante = comida.IdRestaurante });
+    }
+}
 }
 
 

@@ -40,7 +40,7 @@
 </div>
 
 <div class="contenedor-pago">
-  <form asp-action="PedidoRealizado" asp-controller="Home" method="post">
+  <form action='@Url.Action("PedidoRealizado", "home")'method="post">
     <button type="submit" class="btn-ir-a-pagar">Ir a pagar</button>
   </form>
 </div>
