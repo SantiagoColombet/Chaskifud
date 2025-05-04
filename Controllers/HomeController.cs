@@ -1,154 +1,162 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using Chaskifud.Models;
-using Chaskifud.Services;
+    using System.Diagnostics;
+    using Microsoft.AspNetCore.Mvc;
+    using Chaskifud.Models;
+    using Chaskifud.Services;
 
-namespace Chaskifud.Controllers;
+    namespace Chaskifud.Controllers;
 
-public class HomeController : Controller
-{
-    private readonly ILogger<HomeController> _logger;
-    private readonly GlobalVariableService _globalVariableService;
-    // Modificar el constructor para inyectar el servicio
-    public HomeController(ILogger<HomeController> logger, GlobalVariableService globalVariableService)
+    public class HomeController : Controller
     {
-        _logger = logger;
-        _globalVariableService = globalVariableService; // Inicializar el servicio
-    }
-
-
-    public IActionResult Index()
-    {
-
-        var userJson = HttpContext.Session.GetString("user");
-        var usuario = Usuario.FromString(userJson);
-        if (usuario != null)
+        private readonly ILogger<HomeController> _logger;
+        private readonly GlobalVariableService _globalVariableService;
+        // Modificar el constructor para inyectar el servicio
+        public HomeController(ILogger<HomeController> logger, GlobalVariableService globalVariableService)
         {
+            _logger = logger;
+            _globalVariableService = globalVariableService; // Inicializar el servicio
+        }
+
+
+        public IActionResult Index()
+        {
+
+            var userJson = HttpContext.Session.GetString("user");
+            var usuario = Usuario.FromString(userJson);
             if (usuario != null)
             {
-                _globalVariableService.nombreUsuario = usuario.Imagen;
+                if (usuario != null)
+                {
+                    _globalVariableService.nombreUsuario = usuario.Imagen;
 
-                Contador.contador++;
+                    Contador.contador++;
+                }
+
+                if (usuario != null && Contador.contador > 0)
+                {
+                    ViewBag.UserImg = usuario.Imagen;
+                }
+
+                ViewBag.Carrito = Comida.carrito;
+
             }
-
-            if (usuario != null && Contador.contador > 0)
+            // Local
+            else
             {
-                ViewBag.UserImg = usuario.Imagen;
+                var localJson = HttpContext.Session.GetString("local");
+                var local = RestauranteUsuario.FromString(localJson); 
+
+                if (local != null)
+                {
+                    _globalVariableService.nombreUsuario = local.Imagen; 
+                    Contador.contador++;
+                }
+
+                if (local != null && Contador.contador > 0)
+                {
+                    ViewBag.UserImg = local.Imagen;
+                }
             }
-
-            ViewBag.Carrito = Comida.carrito;
-
+            ViewBag.Restaurantes = BD.ObtenerRestaurantes();
+            return View();
         }
-        // Local
-        else
+
+
+        public IActionResult Registrar()
         {
+            return View();
+        }
+
+        public IActionResult Mapa()
+        {
+            return View();
+        }
+        public IActionResult Perfil()
+        {
+            var userJson = HttpContext.Session.GetString("user");
+            var usuario = Usuario.FromString(userJson);
+            ViewBag.hayLocal = usuario;
+            if (usuario != null)
+            {
+                ViewBag.usuario = BD.ObtenerInfoUsuario(usuario.IdUsuario);
+            }
+            else
+            {
             var localJson = HttpContext.Session.GetString("local");
-            var local = RestauranteUsuario.FromString(localJson); 
-
-            if (local != null)
+            var local = Usuario.FromString(localJson);
+            
+                ViewBag.local = local;
+            }
+            return View();
+        }
+        public IActionResult PerfilPuntos()
+        {
+            var userJson = HttpContext.Session.GetString("user");
+            var usuario = Usuario.FromString(userJson);
+            if (usuario != null)
             {
-                _globalVariableService.nombreUsuario = local.Imagen; 
-                Contador.contador++;
+                ViewBag.usuario = BD.ObtenerInfoUsuario(usuario.IdUsuario);
+            }
+            return View();
+        }
+        public IActionResult PerfilEditar()
+        {
+            var userJson = HttpContext.Session.GetString("user");
+            var usuario = Usuario.FromString(userJson);
+            if (usuario != null)
+            {
+                ViewBag.usuario = BD.ObtenerInfoUsuario(usuario.IdUsuario);
+            }
+            return View();
+        }
+        public IActionResult GuardarPerfil()
+        {
+            ViewBag.usuario = BD.ObtenerInfoUsuario(1);
+            return View("Perfil");
+        }
+        public IActionResult Restaurante()
+        {
+            ViewBag.Carrito = Comida.carrito; // Ya inicializado como lista vacía
+            ViewBag.Restaurantes = BD.ObtenerRestaurantes();
+            return View();
+        }
+
+
+        public IActionResult RestauranteElegido(int IdRestaurante)
+        {
+            ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(IdRestaurante);
+            ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(IdRestaurante);
+            return View("RestauranteElegido");
+        }
+        public IActionResult RestauranteElegidoXComida(int IdCategoriaRestaurante)
+        {
+            ViewBag.Carrito = Comida.carrito; // Ya inicializado como lista vacía
+            ViewBag.Restaurante = BD.ObtenerRestaurantesElegidoXCategoriaRestaurante(IdCategoriaRestaurante);
+
+            return View();
+        }
+
+        public IActionResult Comprar(Comida comidaElegida, int IdRestaurante)
+        {
+            if (Comida.carrito == null)
+            {
+                Comida.carrito = new List<Comida>();
             }
 
-            if (local != null && Contador.contador > 0)
+
+            if (Comida.carrito.Any())
             {
-                ViewBag.UserImg = local.Imagen;
-            }
-        }
-        ViewBag.Restaurantes = BD.ObtenerRestaurantes();
-        return View();
-    }
 
-
-    public IActionResult Registrar()
-    {
-        return View();
-    }
-
-    public IActionResult Mapa()
-    {
-        return View();
-    }
-    public IActionResult Perfil()
-    {
-        var userJson = HttpContext.Session.GetString("user");
-        var usuario = Usuario.FromString(userJson);
-        ViewBag.hayLocal = usuario;
-        if (usuario != null)
-        {
-            ViewBag.usuario = BD.ObtenerInfoUsuario(usuario.IdUsuario);
-        }
-        else
-        {
-        var localJson = HttpContext.Session.GetString("local");
-        var local = Usuario.FromString(localJson);
-        
-            ViewBag.local = local;
-        }
-        return View();
-    }
-    public IActionResult PerfilPuntos()
-    {
-        var userJson = HttpContext.Session.GetString("user");
-        var usuario = Usuario.FromString(userJson);
-        if (usuario != null)
-        {
-            ViewBag.usuario = BD.ObtenerInfoUsuario(usuario.IdUsuario);
-        }
-        return View();
-    }
-    public IActionResult PerfilEditar()
-    {
-        var userJson = HttpContext.Session.GetString("user");
-        var usuario = Usuario.FromString(userJson);
-        if (usuario != null)
-        {
-            ViewBag.usuario = BD.ObtenerInfoUsuario(usuario.IdUsuario);
-        }
-        return View();
-    }
-    public IActionResult GuardarPerfil()
-    {
-        ViewBag.usuario = BD.ObtenerInfoUsuario(1);
-        return View("Perfil");
-    }
-    public IActionResult Restaurante()
-    {
-        ViewBag.Carrito = Comida.carrito; // Ya inicializado como lista vacía
-        ViewBag.Restaurantes = BD.ObtenerRestaurantes();
-        return View();
-    }
-
-
-    public IActionResult RestauranteElegido(int IdRestaurante)
-    {
-        ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(IdRestaurante);
-        ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(IdRestaurante);
-        return View("RestauranteElegido");
-    }
-    public IActionResult RestauranteElegidoXComida(int IdCategoriaRestaurante)
-    {
-        ViewBag.Carrito = Comida.carrito; // Ya inicializado como lista vacía
-        ViewBag.Restaurante = BD.ObtenerRestaurantesElegidoXCategoriaRestaurante(IdCategoriaRestaurante);
-
-        return View();
-    }
-
-    public IActionResult Comprar(Comida comidaElegida, int IdRestaurante)
-    {
-        if (Comida.carrito == null)
-        {
-            Comida.carrito = new List<Comida>();
-        }
-
-
-        if (Comida.carrito.Any())
-        {
-
-            if (Comida.carrito.Count != 0 && Comida.carrito[0].IdRestaurante != IdRestaurante)
-            {
-                return RedirectToAction("RestauranteElegido", new { IdRestaurante = IdRestaurante, Error = true });
+                if (Comida.carrito.Count != 0 && Comida.carrito[0].IdRestaurante != IdRestaurante)
+                {
+                    return RedirectToAction("RestauranteElegido", new { IdRestaurante = IdRestaurante, Error = true });
+                }
+                else
+                {
+                    ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(IdRestaurante);
+                    ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(IdRestaurante);
+                    Comida.carrito.Add(comidaElegida);
+                    return View("RestauranteElegido");
+                }
             }
             else
             {
@@ -157,281 +165,274 @@ public class HomeController : Controller
                 Comida.carrito.Add(comidaElegida);
                 return View("RestauranteElegido");
             }
+
+
         }
-        else
+        public IActionResult Carrito()
         {
-            ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(IdRestaurante);
-            ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(IdRestaurante);
-            Comida.carrito.Add(comidaElegida);
-            return View("RestauranteElegido");
-        }
-
-
-    }
-    public IActionResult Carrito()
-    {
-        ViewBag.ListaComida = Comida.carrito;
-        int count = Comida.carrito.Count();
-        ViewBag.count = count;
-        return View();
-    }
-
-    public IActionResult Chat()
-    {
-
-        return View("Chat");
-    }
-
-    [HttpPost]
-    public IActionResult EliminarCarrito(int IdComida)
-    {
-        var itemToRemove = Comida.carrito.FirstOrDefault(c => c.IdComida == IdComida);
-
-        if (itemToRemove != null)
-        {
-            Comida.carrito.Remove(itemToRemove);
+            ViewBag.ListaComida = Comida.carrito;
+            int count = Comida.carrito.Count();
+            ViewBag.count = count;
+            return View();
         }
 
-        return RedirectToAction("Carrito");
-    }
-
-    public IActionResult Pedido()
-    {
-        int pagoFinal = 0;
-        ViewBag.ListaComida = Comida.carrito;
-        foreach (Comida com in ViewBag.ListaComida)
+        public IActionResult Chat()
         {
-            pagoFinal += com.Precio;
+
+            return View("Chat");
         }
-        ViewBag.pagoFinal = pagoFinal;
-        return View();
-    }
 
- [HttpPost]
-    public IActionResult PedidoRealizado()
-    {
-        var userJson = HttpContext.Session.GetString("user");
-        var usuario = Usuario.FromString(userJson);
-        
-        // Agrupar ítems por IdComida
-        var itemsAgrupados = Comida.carrito
-            .GroupBy(c => c.IdComida)
-            .Select(g => new {
-                IdComida = g.Key,
-                Cantidad = g.Count(),
-                PrecioUnitario = g.First().Precio,
-                IdRestaurante = g.First().IdRestaurante
-            })
-            .ToList();
-
-        int total = itemsAgrupados.Sum(i => i.PrecioUnitario * i.Cantidad);
-
-        Pedido pedido = null;
-
-        if (usuario != null)
+        [HttpPost]
+        public IActionResult EliminarCarrito(int IdComida)
         {
-            pedido = new Pedido
+            var itemToRemove = Comida.carrito.FirstOrDefault(c => c.IdComida == IdComida);
+
+            if (itemToRemove != null)
             {
-                IdRestaurante = itemsAgrupados.FirstOrDefault()?.IdRestaurante ?? 0,
-                IdUsuario = usuario.IdUsuario,
-                Estado = "Pendiente",
-                Total = total,
-            };
-        } 
+                Comida.carrito.Remove(itemToRemove);
+            }
 
-        int idPedido = BD.AgregarPedido(pedido.IdUsuario, pedido.IdRestaurante, pedido.Total);
-
-        // Guardar detalles agrupados
-        foreach (var item in itemsAgrupados)
-        {
-            BD.AgregarDetallePedido(
-                idPedido,
-                item.IdComida,
-                item.Cantidad,
-                item.PrecioUnitario
-            );
+            return RedirectToAction("Carrito");
         }
-        
-        Comida.carrito.Clear();
-        return View(pedido);
-    }
-    public IActionResult IniciarSesion()
-    {
 
-        return View();
-    }
-    public IActionResult Resena(int IdRestaurante)
-    {
-        ViewBag.resena = BD.ObtenerResenasRestaurante(IdRestaurante);
-        return View();
-    }
-    public IActionResult Nosotros()
-    {
-        return View();
-    }
-    public IActionResult Login()
-    {
-        if (HttpContext.Session.GetString("user") != null)
+        public IActionResult Pedido()
         {
-            return RedirectToAction("Index", "Home");
+            int pagoFinal = 0;
+            ViewBag.ListaComida = Comida.carrito;
+            foreach (Comida com in ViewBag.ListaComida)
+            {
+                pagoFinal += com.Precio;
+            }
+            ViewBag.pagoFinal = pagoFinal;
+            return View();
         }
-        return View();
-    }
 
     [HttpPost]
-    public IActionResult VerificarLogin(string email, string contrasena)
+        public IActionResult PedidoRealizado()
+        {
+            var userJson = HttpContext.Session.GetString("user");
+            var usuario = Usuario.FromString(userJson);
+            
+            // Agrupar ítems por IdComida
+            var itemsAgrupados = Comida.carrito
+                .GroupBy(c => c.IdComida)
+                .Select(g => new {
+                    IdComida = g.Key,
+                    Cantidad = g.Count(),
+                    PrecioUnitario = g.First().Precio,
+                    IdRestaurante = g.First().IdRestaurante
+                })
+                .ToList();
+
+            int total = itemsAgrupados.Sum(i => i.PrecioUnitario * i.Cantidad);
+
+            Pedido pedido = null;
+
+            if (usuario != null)
+            {
+                pedido = new Pedido
+                {
+                    IdRestaurante = itemsAgrupados.FirstOrDefault()?.IdRestaurante ?? 0,
+                    IdUsuario = usuario.IdUsuario,
+                    Estado = "Pendiente",
+                    Total = total,
+                };
+            } 
+
+            int idPedido = BD.AgregarPedido(pedido.IdUsuario, pedido.IdRestaurante, pedido.Total);
+
+            // Guardar detalles agrupados
+            foreach (var item in itemsAgrupados)
+            {
+                BD.AgregarDetallePedido(
+                    idPedido,
+                    item.IdComida,
+                    item.Cantidad,
+                    item.PrecioUnitario
+                );
+            }
+            
+            Comida.carrito.Clear();
+            return View(pedido);
+        }
+        public IActionResult IniciarSesion()
+        {
+
+            return View();
+        }
+        public IActionResult Resena(int IdRestaurante)
+        {
+            ViewBag.resena = BD.ObtenerResenasRestaurante(IdRestaurante);
+            return View();
+        }
+        public IActionResult Nosotros()
+        {
+            return View();
+        }
+        public IActionResult Login()
+        {
+            if (HttpContext.Session.GetString("user") != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult VerificarLogin(string email, string contrasena)
+        {
+            // Simula o implementa el acceso a la base de datos para obtener al usuario
+            var usuario = BD.ObtenerUsuarioPorEmail(email); // Método que retorna un Usuario o null
+
+            if (usuario != null && usuario.Contrasena == contrasena)
+            {
+                // Serializa y guarda el usuario en la sesión
+                HttpContext.Session.SetString("user", usuario.ToString());
+                return RedirectToAction("Index", "Home");
+            }
+            else if (usuario == null && usuario.Contrasena == null)
+            {
+                return RedirectToAction("Registrar", "Home");
+
+            }
+            else
+            {
+                ViewBag.Error = "Email o contraseña incorrectos.";
+                return View("Login");
+            }
+        }
+        public IActionResult VerificarLoginLocal(string email, string contrasena)
+        {
+            RestauranteUsuario local = BD.ObtenerRestaurantePorEmail(email);
+
+            if (local != null && local.Contrasena == contrasena)
+            {
+                HttpContext.Session.SetString("local", local.ToString());
+                TempData["IdRestaurante"] = local.IdUsuarioRestaurante;
+                return RedirectToAction("ConfRestaurantes", "Home");
+            }
+            else if (local == null)
+            {
+                return RedirectToAction("LoginLocal", "Auth");
+            }
+            else
+            {
+                ViewBag.Error = "Email o contraseña incorrectos.";
+                return View("LoginLocal");
+            }
+        }
+        public IActionResult Logout()
+        {
+
+            HttpContext.Session.Remove("user");
+            Comida.carrito = new List<Comida>(); ;
+            _globalVariableService.nombreUsuario = "anonimo.png";
+            return RedirectToAction("Login");
+
+        }
+        [HttpPost]
+        public JsonResult VotarArriba([FromBody] VotoRequest request)
+        {
+            Console.WriteLine($"IdResena: {request.IdResena}, IdRestaurante: {request.IdRestaurante}");
+            BD.DarLike(request.IdResena);
+            int nuevaCantidadVotos = BD.ObtenerCantidadVotosArriba(request.IdResena);
+            return Json(new { nuevaCantidadVotos });
+        }
+
+        [HttpPost]
+        public JsonResult VotarAbajo([FromBody] VotoRequest request)
+        {
+            Console.WriteLine($"IdResena: {request.IdResena}, IdRestaurante: {request.IdRestaurante}");
+            BD.DarDislike(request.IdResena);
+            int nuevaCantidadVotos = BD.ObtenerCantidadVotosAbajo(request.IdResena);
+            return Json(new { nuevaCantidadVotos });
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Emprendimiento()
+        {
+            return View();
+        }
+
+        public IActionResult NegociosAfiliados()
+        {
+            return View();
+        }
+
+
+        public IActionResult Preguntas()
+        {
+            return View();
+        }
+        public IActionResult Foros()
+        {
+            return View();
+        }
+
+        public IActionResult NuestrosServicios()
+        {
+            return View();
+        }
+        public IActionResult CrearResena(int idRestaurante, int idUsuario, short valoracion, string opinion)
+        {
+            BD.InsertarResena(idRestaurante, idUsuario, valoracion, opinion);
+            return RedirectToAction("Restaurante");
+        }
+
+    public IActionResult ConfRestaurantes()
     {
-        // Simula o implementa el acceso a la base de datos para obtener al usuario
-        var usuario = BD.ObtenerUsuarioPorEmail(email); // Método que retorna un Usuario o null
+        if (!TempData.ContainsKey("IdRestaurante"))
+        {
+            return RedirectToAction("Error");
+        }
 
-        if (usuario != null && usuario.Contrasena == contrasena)
-        {
-            // Serializa y guarda el usuario en la sesión
-            HttpContext.Session.SetString("user", usuario.ToString());
-            return RedirectToAction("Index", "Home");
-        }
-        else if (usuario == null && usuario.Contrasena == null)
-        {
-            return RedirectToAction("Registrar", "Home");
+        int idRestaurante = (int)TempData["IdRestaurante"];
+        TempData.Keep("IdRestaurante");
 
-        }
-        else
-        {
-            ViewBag.Error = "Email o contraseña incorrectos.";
-            return View("Login");
-        }
-    }
-public IActionResult VerificarLoginLocal(string email, string contrasena)
-    {
-        RestauranteUsuario local = BD.ObtenerRestaurantePorEmail(email);
+        ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(idRestaurante);
+        ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(idRestaurante);
+        ViewBag.Categorias = BD.ObtenerCategoriasComida(); 
+        ViewBag.Restricciones = BD.ObtenerRestriccionesAlimenticias(); 
 
-        if (local != null && local.Contrasena == contrasena)
-        {
-            HttpContext.Session.SetString("local", local.ToString());
-            TempData["IdRestaurante"] = local.IdUsuarioRestaurante;
-            return RedirectToAction("Index", "Home");
-        }
-        else if (local == null)
-        {
-            return RedirectToAction("LoginLocal", "Auth");
-        }
-        else
-        {
-            ViewBag.Error = "Email o contraseña incorrectos.";
-            return View("LoginLocal");
-        }
-    }
-    public IActionResult Logout()
-    {
-
-        HttpContext.Session.Remove("user");
-        Comida.carrito = new List<Comida>(); ;
-        _globalVariableService.nombreUsuario = "anonimo.png";
-        return RedirectToAction("Login");
-
+        return View();
     }
     [HttpPost]
-    public JsonResult VotarArriba([FromBody] VotoRequest request)
+    public IActionResult ActualizarComida(int IdComida, int IdRestaurante, int Precio)
     {
-        Console.WriteLine($"IdResena: {request.IdResena}, IdRestaurante: {request.IdRestaurante}");
-        BD.DarLike(request.IdResena);
-        int nuevaCantidadVotos = BD.ObtenerCantidadVotosArriba(request.IdResena);
-        return Json(new { nuevaCantidadVotos });
+        try
+        {
+            BD.ActualizarComida(IdComida, Precio);
+            
+            TempData["IdRestaurante"] = IdRestaurante; 
+            return RedirectToAction("ConfRestaurantes");
+        }
+        catch (Exception ex)
+        {
+            TempData["IdRestaurante"] = IdRestaurante; 
+            return RedirectToAction("ConfRestaurantes");
+        }
     }
-
     [HttpPost]
-    public JsonResult VotarAbajo([FromBody] VotoRequest request)
+    [HttpPost]
+    public IActionResult AgregarComida(Comida comida)
     {
-        Console.WriteLine($"IdResena: {request.IdResena}, IdRestaurante: {request.IdRestaurante}");
-        BD.DarDislike(request.IdResena);
-        int nuevaCantidadVotos = BD.ObtenerCantidadVotosAbajo(request.IdResena);
-        return Json(new { nuevaCantidadVotos });
-    }
+        try
+        {
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
+            BD.AgregarComida(comida);
 
-    public IActionResult Emprendimiento()
-    {
-        return View();
+            return RedirectToAction("ConfRestaurantes", new { IdRestaurante = comida.IdRestaurante });
+        }
+        catch (Exception ex)
+        {
+            return RedirectToAction("ConfRestaurantes", new { IdRestaurante = comida.IdRestaurante });
+        }
     }
-
-    public IActionResult NegociosAfiliados()
-    {
-        return View();
     }
-
-
-    public IActionResult Preguntas()
-    {
-        return View();
-    }
-    public IActionResult Foros()
-    {
-        return View();
-    }
-
-    public IActionResult NuestrosServicios()
-    {
-        return View();
-    }
-    public IActionResult CrearResena(int idRestaurante, int idUsuario, short valoracion, string opinion)
-    {
-        BD.InsertarResena(idRestaurante, idUsuario, valoracion, opinion);
-        return RedirectToAction("Restaurante");
-    }
-
-public IActionResult ConfRestaurantes()
-{
-    if (!TempData.ContainsKey("IdRestaurante") || !int.TryParse(TempData["IdRestaurante"]?.ToString(), out int idRestaurante))
-    {
-        return RedirectToAction("Error");
-    }
-
-    TempData.Keep("IdRestaurante");
-
-    ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(idRestaurante);
-    ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(idRestaurante);
-    ViewBag.Categorias = BD.ObtenerCategoriasComida(); 
-    ViewBag.Restricciones = BD.ObtenerRestriccionesAlimenticias(); 
-
-    return View();
-}
-[HttpPost]
-public IActionResult ActualizarComida(int IdComida, int IdRestaurante, int Precio)
-{
-    try
-    {
-        BD.ActualizarComida(IdComida, Precio);
-        
-        TempData["IdRestaurante"] = IdRestaurante; 
-        return RedirectToAction("ConfRestaurantes");
-    }
-    catch (Exception ex)
-    {
-        TempData["IdRestaurante"] = IdRestaurante; 
-        return RedirectToAction("ConfRestaurantes");
-    }
-}
-[HttpPost]
-[HttpPost]
-public IActionResult AgregarComida(Comida comida)
-{
-    try
-    {
-
-        BD.AgregarComida(comida);
-
-        return RedirectToAction("ConfRestaurantes", new { IdRestaurante = comida.IdRestaurante });
-    }
-    catch (Exception ex)
-    {
-        return RedirectToAction("ConfRestaurantes", new { IdRestaurante = comida.IdRestaurante });
-    }
-}
-}
 
 
