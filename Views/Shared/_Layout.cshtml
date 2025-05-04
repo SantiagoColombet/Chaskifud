@@ -19,60 +19,56 @@
 <body>
     <header>
         <nav class="navbar">
-            <h1></h1>
+            <ul class="nav-links">
+                @if (Context.Session.GetString("local") == null) 
+                {
+                    <li><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+                    <li><a href="@Url.Action("Mapa", "Home")">Mapa</a></li>
+                    <li><a href="@Url.Action("Restaurante", "Home")">Restaurantes</a></li>
+                    
+                    @if (Context.Session.GetString("user") != null)
+                    {
+                        <li><a href="@Url.Action("Carrito", "Home")">Carrito</a></li>
+                    }
+                }
+                else 
+                {
+                    <li><a href="@Url.Action("ConfRestaurantes", "Home")">Home</a></li>
+                }
+            </ul>
+        <div class="profile">
             @if (Context.Session.GetString("local") != null)
             {
-                <a href='@Url.Action("ConfRestaurantes", "Home")' class="logo-container">
-                    <img src="../Images/C_Chaskifud.png" alt="Logo">
+                <div class="dropdown">
+                    <a class="dropdown-toggle" data-bs-toggle="dropdown">
+                        <img src="../Images/@GlobalVariableService.nombreUsuario" alt="Perfil" id="imagen_perfil">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href='@Url.Action("Perfil", "Home")'>
+                            <i class="fas fa-user"></i> Perfil
+                        </a></li>
+                        <li><a class="dropdown-item" href='@Url.Action("Logout", "Auth")'>
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </a></li>
+                    </ul>
+                </div>
+            }
+            else if (GlobalVariableService.nombreUsuario != "anonimo.png")
+            {
+                <a href='@Url.Action("Perfil", "Home")'>
+                    <img src="../Images/@GlobalVariableService.nombreUsuario" alt="Perfil" id="imagen_perfil">
+                </a>
+                <a href='@Url.Action("Carrito", "Home")'>
+                    <img src="../Images/carrito-de-compras.png" alt="Carrito">
                 </a>
             }
             else
             {
-                <a href='@Url.Action("Index", "Home")' class="logo-container">
-                    <img src="../Images/C_Chaskifud.png" alt="Logo">
+                <a href='@Url.Action("Login", "Auth")'>
+                    <img src="../Images/anonimo.png" alt="Perfil" id="imagen_perfil">
                 </a>
             }
-
-            <ul class="nav-links">
-                @if (Context.Session.GetString("local") == null)
-                {
-                    <li><a href="@Url.Action("Index", "Home")">Inicio</a></li>
-                    <li><a href="@Url.Action("Mapa", "Home")">Mapa</a></li>
-                }
-                else
-                {
-                    <li><a href="@Url.Action("ConfRestaurantes", "Home")">Inicio</a></li>
-                }
-            </ul>
-
-            <div class="profile">
-                @if (Context.Session.GetString("local") != null)
-                {
-                    <a href='@Url.Action("ConfRestaurantes", "Home")'>
-                        <img src="../Images/@GlobalVariableService.nombreUsuario" alt="Perfil" id="imagen_perfil">
-                    </a>
-                }
-                else
-                {
-                    <a href='@Url.Action("Login", "Auth")'>
-                        @if (GlobalVariableService.nombreUsuario.Length > 25)
-                        {
-                            <img src="@GlobalVariableService.nombreUsuario" alt="Perfil" id="imagen_perfil">
-                        }
-                        else
-                        {
-                            <img src="../Images/@GlobalVariableService.nombreUsuario" alt="Perfil" id="imagen_perfil">
-                        }
-                    </a>
-                }
-
-                @if (GlobalVariableService.nombreUsuario != "anonimo.png" && Context.Session.GetString("local") == null)
-                {
-                    <a href='@Url.Action("Carrito", "Home")'>
-                        <img src="../Images/carrito-de-compras.png" alt="Carrito">
-                    </a>
-                }
-            </div>
+        </div>
         </nav>  
     </header>
         @RenderBody()

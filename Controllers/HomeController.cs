@@ -72,20 +72,32 @@
         }
         public IActionResult Perfil()
         {
-            var userJson = HttpContext.Session.GetString("user");
-            var usuario = Usuario.FromString(userJson);
-            ViewBag.hayLocal = usuario;
-            if (usuario != null)
+            dynamic usuario = null;
+            bool esLocal = false;
+
+            var userSession = HttpContext.Session.GetString("user");
+            if(userSession != null)
             {
-                ViewBag.usuario = BD.ObtenerInfoUsuario(usuario.IdUsuario);
+                usuario = Usuario.FromString(userSession);
+                usuario = BD.ObtenerInfoUsuario(usuario.IdUsuario);
             }
-            else
+            else 
             {
-            var localJson = HttpContext.Session.GetString("local");
-            var local = Usuario.FromString(localJson);
-            
-                ViewBag.local = local;
+                var localSession = HttpContext.Session.GetString("local");
+                if(localSession != null)
+                {
+                    usuario = RestauranteUsuario.FromString(localSession);
+                    usuario = BD.ObtenerRestaurantePorEmail(usuario.Email);
+                    esLocal = true;
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Auth");
+                }
             }
+
+            ViewBag.EsLocal = esLocal;
+            ViewBag.Usuario = usuario;
             return View();
         }
         public IActionResult PerfilPuntos()
@@ -213,7 +225,6 @@
             var userJson = HttpContext.Session.GetString("user");
             var usuario = Usuario.FromString(userJson);
             
-            // Agrupar ítems por IdComida
             var itemsAgrupados = Comida.carrito
                 .GroupBy(c => c.IdComida)
                 .Select(g => new {
@@ -241,7 +252,6 @@
 
             int idPedido = BD.AgregarPedido(pedido.IdUsuario, pedido.IdRestaurante, pedido.Total);
 
-            // Guardar detalles agrupados
             foreach (var item in itemsAgrupados)
             {
                 BD.AgregarDetallePedido(
@@ -386,18 +396,22 @@
 
     public IActionResult ConfRestaurantes()
     {
-        if (!TempData.ContainsKey("IdRestaurante"))
+        var localJson = HttpContext.Session.GetString("local");
+        var local = RestauranteUsuario.FromString(localJson);
+        
+        if (local == null)
         {
             return RedirectToAction("Error");
         }
 
-        int idRestaurante = (int)TempData["IdRestaurante"];
-        TempData.Keep("IdRestaurante");
+        int idRestaurante = local.IdUsuarioRestaurante;
 
         ViewBag.Restaurante = BD.ObtenerRestaurantesElegido(idRestaurante);
         ViewBag.Comida = BD.ObtenerComidasDeRestauranteElegido(idRestaurante);
         ViewBag.Categorias = BD.ObtenerCategoriasComida(); 
-        ViewBag.Restricciones = BD.ObtenerRestriccionesAlimenticias(); 
+        ViewBag.Restricciones = BD.ObtenerRestriccionesAlimenticias();
+        ViewBag.Pedidos = BD.ObtenerPedidosPorRestaurante(idRestaurante); 
+
 
         return View();
     }

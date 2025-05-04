@@ -337,28 +337,61 @@ VALUES (
                 pIdRestaurante = IdRestaurante,
                 pIdUsuario = IdUsuario,
                 pEstado = "Pendiente",
-                pTotal = Total
+                pTotal = Total  
             });
             
             return nuevoId;
         }
     }
 
-    public static void AgregarDetallePedido(int idPedido, int idComida, int cantidad, int precio)
+        public static void AgregarDetallePedido(int idPedido, int idComida, int cantidad, int precio)
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = @"
+                INSERT INTO DetallesPedido (IdPedido, IdComida, Cantidad, Precio)
+                VALUES (@pIdPedido, @pIdComida, @pCantidad, @pPrecio)";
+            
+            db.Execute(sql, new
+            {
+                pIdPedido = idPedido,
+                pIdComida = idComida,
+                pCantidad = cantidad,
+                pPrecio = precio
+            });
+        }
+    }
+    public static List<Pedido> ObtenerPedidosPorRestaurante(int IdRestaurante)
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = @"
+                SELECT p.*, dp.* 
+                FROM Pedidos p
+                INNER JOIN DetallesPedido dp ON p.IdPedido = dp.IdPedido
+                WHERE p.IdRestaurante = @pIdRestaurante
+                ORDER BY p.IdPedido DESC";
+
+            var pedidos = db.Query<Pedido, DetallePedido, Pedido>(sql,
+                (pedido, detalle) => {
+                    pedido.Detalles.Add(detalle);
+                    return pedido;
+                },
+                new { pIdRestaurante = IdRestaurante },
+                splitOn: "IdPedido"
+            ).ToList();
+
+            return pedidos.GroupBy(p => p.IdPedido)
+                        .Select(g => g.First())
+                        .ToList();
+        }
+    }
+    public static string ObtenerNombreComida(int IdComida)
 {
     using (SqlConnection db = new SqlConnection(_connectionString))
     {
-        string sql = @"
-            INSERT INTO DetallesPedido (IdPedido, IdComida, Cantidad, Precio)
-            VALUES (@pIdPedido, @pIdComida, @pCantidad, @pPrecio)";
-        
-        db.Execute(sql, new
-        {
-            pIdPedido = idPedido,
-            pIdComida = idComida,
-            pCantidad = cantidad,
-            pPrecio = precio
-        });
+        string sql = "SELECT Nombre FROM Comida WHERE IdComida = @pIdComida";
+        return db.QueryFirstOrDefault<string>(sql, new { pIdComida = IdComida });
     }
 }
 }

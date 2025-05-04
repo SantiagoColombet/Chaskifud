@@ -5,4 +5,7 @@ public class Pedido
     public int IdUsuario { get; set; }
     public string Estado { get; set; } 
     public int Total { get; set; }
+
+    public List<DetallePedido> Detalles { get; set; } = new List<DetallePedido>();
+
 }

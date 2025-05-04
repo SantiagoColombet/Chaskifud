@@ -13,7 +13,7 @@ public class AuthController : Controller
     public AuthController(ILogger<AuthController> logger, GlobalVariableService globalVariableService)
     {
         _logger = logger;
-        _globalVariableService = globalVariableService; // Inicializar el servicio
+        _globalVariableService = globalVariableService; 
 
     }
 
@@ -35,11 +35,10 @@ public class AuthController : Controller
     [HttpPost]
     public IActionResult VerificarLogin(string email, string contrasena)
     {
-        Usuario usuario = BD.ObtenerUsuarioPorEmail(email); // Método para obtener el usuario desde la BD
+        Usuario usuario = BD.ObtenerUsuarioPorEmail(email); 
 
         if (usuario != null && usuario.Contrasena == contrasena)
         {
-            // Guarda el usuario en la sesión
             HttpContext.Session.SetString("user", usuario.ToString());
             return RedirectToAction("Index", "Home");
         }
@@ -59,9 +58,10 @@ public class AuthController : Controller
     public IActionResult Logout()
     {
         HttpContext.Session.Remove("user");
+        HttpContext.Session.Remove("local");
         _globalVariableService.nombreUsuario = "anonimo.png";
-        Comida.carrito = new List<Comida>(); ;
-        return RedirectToAction("Login");
+        Comida.carrito = new List<Comida>();
+        return RedirectToAction("Login", "Auth");
     }
 
     public IActionResult Registrar()
@@ -139,7 +139,7 @@ public class AuthController : Controller
 
             TempData["IdRestaurante"] = local.IdUsuarioRestaurante;
 
-            return RedirectToAction("Index", "Home");
+                return RedirectToAction("ConfRestaurantes", "Home");
         }
         else if (local == null)
         {
