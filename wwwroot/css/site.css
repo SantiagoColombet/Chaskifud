@@ -1270,6 +1270,13 @@ font-size: 0px;
 }
 
 /*                               RESEÑAS                                    */
+.debes-iniciar-sesion{
+  font-weight: bold;
+  color: red;
+}
+.debes-iniciar-sesion a{
+  
+}
 .contenedor-resenas {
   background-color: #FBDB54; 
   border: 1px solid #ddd; 

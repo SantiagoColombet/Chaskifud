@@ -133,6 +133,8 @@ public class AuthController : Controller
 
         if (local != null && local.Contrasena == contrasena)
         {
+            _globalVariableService.nombreUsuario = local.Imagen;
+
             HttpContext.Session.SetString("local", local.ToString());
 
             ViewBag.local = HttpContext.Session.GetString("local");

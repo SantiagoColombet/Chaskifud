@@ -8,7 +8,6 @@
         <h1 class="js">@ViewBag.Error</h1>
     }
 
-    // Si el carrito tiene elementos, pasamos el ID del primer restaurante
     if (ViewBag.Carrito != null && ViewBag.Carrito.Count > 0)
     {
         <input type="hidden" id="IdRestauranteCarrito" value="@ViewBag.Carrito[0].IdRestaurante" />
@@ -19,7 +18,7 @@
     @{
         foreach (Restaurante local in ViewBag.Restaurantes)
         {
-            if (local.Acepta)
+            if (!local.Acepta )
             {
                 <form class="restaurante-tarjeta" action='@Url.Action("RestauranteElegido", "Home")' method="get">
                     <input type="hidden" name="IdRestaurante" value="@local.IdRestaurante" class="restaurante-id">
@@ -33,7 +32,8 @@
                     <div class="restaurante-puntuacion">
                         <h4>★ @local.Puntuacion</h4>
                     </div>
-                    <input type="submit" value="" class="restaurante-boton">
+                    <input type="hidden" name="IdRestaurante" value="@local.IdRestaurante" class="id-restaurante">
+                    <input type="submit" value="ir al local" class="restaurante-boton">
                 </form>
             }
             else

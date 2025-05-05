@@ -75,7 +75,7 @@ nav a{
   width: 100%;
   margin-top: auto;
   text-align: center;
-  flex-shrink: 0; /* Evita que el footer se reduzca */
+  flex-shrink: 0; 
 }
 
 
@@ -85,7 +85,7 @@ nav a{
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
-  flex-wrap: wrap; /* Para que sea responsive */
+  flex-wrap: wrap;
 }
 
 
