@@ -29,13 +29,11 @@
                 <a href='@Url.Action("Logout", "Auth")' class="btn-logout">
                     <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
                 </a>
-                <a href='@Url.Action("MisPedidos", "Home")' class="btn-pedidos">
-                    Ver mis pedidos
-                </a>
+
                 @if(!esLocal)
                 {
-                    <a href='@Url.Action("PerfilEditar", "Home")' class="btn-editar">
-                        <i class="fas fa-edit"></i> Editar Perfil
+                    <a href='@Url.Action("MisPedidos", "Home")' class="btn-pedidos">
+                    Ver mis pedidos
                     </a>
                 }
                 else

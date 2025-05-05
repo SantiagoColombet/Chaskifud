@@ -109,16 +109,6 @@
             }
             return View();
         }
-        public IActionResult PerfilEditar()
-        {
-            var userJson = HttpContext.Session.GetString("user");
-            var usuario = Usuario.FromString(userJson);
-            if (usuario != null)
-            {
-                ViewBag.usuario = BD.ObtenerInfoUsuario(usuario.IdUsuario);
-            }
-            return View();
-        }
         public IActionResult GuardarPerfil()
         {
             ViewBag.usuario = BD.ObtenerInfoUsuario(1);
@@ -126,7 +116,7 @@
         }
         public IActionResult Restaurante()
         {
-            ViewBag.Carrito = Comida.carrito; // Ya inicializado como lista vacía
+            ViewBag.Carrito = Comida.carrito;
             ViewBag.Restaurantes = BD.ObtenerRestaurantes();
             return View();
         }
