@@ -421,7 +421,6 @@
         }
     }
     [HttpPost]
-    [HttpPost]
     public IActionResult AgregarComida(Comida comida)
     {
         try

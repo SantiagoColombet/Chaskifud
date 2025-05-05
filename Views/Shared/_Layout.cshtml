@@ -13,19 +13,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-    
-
 </head>
 <body>
     <header>
         <nav class="navbar">
-            <a href='@Url.Action("Index", "Home")' class="logo-container"><img src = "../Images/C_Chaskifud.png"></a>
+            <!-- Corrección aplicada aquí -->
+            <a href='@(Context.Session.GetString("local") != null ? Url.Action("ConfRestaurantes", "Home") : Url.Action("Index", "Home"))' class="logo-container">
+                <img src="../Images/C_Chaskifud.png">
+            </a>
             <ul class="nav-links">
-
                 @if (Context.Session.GetString("local") == null) 
                 {
-                    <li><a href= '@Url.Action("Index","Home")' >Inicio</a></li>
-                    <li><a href= '@Url.Action("Mapa","Home")' >Mapa</a></li>
+                    <li><a href='@Url.Action("Index","Home")'>Inicio</a></li>
+                    <li><a href='@Url.Action("Mapa","Home")'>Mapa</a></li>
                     <li><a href='@Url.Action("Nosotros", "Home")'>Nosotros</a></li>
                     <li><a href='@Url.Action("Restaurante", "Home")'>Locales</a></li>
                 }
@@ -37,19 +37,9 @@
             <div class="profile">
                 @if (Context.Session.GetString("local") != null)
                 {
-                    <div class="dropdown">
-                        <a class="dropdown-toggle" data-bs-toggle="dropdown">
-                            <img src="../Images/@GlobalVariableService.nombreUsuario" alt="Perfil" id="imagen_perfil">
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href='@Url.Action("Perfil", "Home")'>
-                                <i class="fas fa-user"></i> Perfil
-                            </a></li>
-                            <li><a class="dropdown-item" href='@Url.Action("Logout", "Auth")'>
-                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-                            </a></li>
-                        </ul>
-                    </div>
+                    <a href='@Url.Action("Perfil", "Home")'>
+                        <img src="../Images/@GlobalVariableService.nombreUsuario" alt="Perfil" id="imagen_perfil">
+                    </a>
                 }
                 else if (GlobalVariableService.nombreUsuario != "anonimo.png")
                 {
@@ -69,42 +59,42 @@
             </div>
         </nav>  
     </header>
-        @RenderBody()
+    @RenderBody()
 
-<footer class="footer">
-    <div class="footer-container">
-        <div class="footer-section">
-            <h6>Compañía</h6>
-            <ul>
-                <li><a href='@Url.Action("Nosotros","Home")'>Nosotros</a></li>
-                <li><a href="@Url.Action("NuestrosServicios","Home")">Nuestros servicios</a></li>
-                <li><a href="@Url.Action("NegociosAfiliados","Home")">Negocios afiliados</a></li>
-            </ul>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h6>Compañía</h6>
+                <ul>
+                    <li><a href='@Url.Action("Nosotros","Home")'>Nosotros</a></li>
+                    <li><a href="@Url.Action("NuestrosServicios","Home")">Nuestros servicios</a></li>
+                    <li><a href="@Url.Action("NegociosAfiliados","Home")">Negocios afiliados</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h6>Ayuda</h6>
+                <ul>
+                    <li><a href="@Url.Action("Preguntas","Home")">Preguntas</a></li>
+                    <li><a href="@Url.Action("Foros","Home")">Foros</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h6>Contáctanos</h6>
+                <ul>
+                    <li><a href="@Url.Action("Emprendimiento","Home")">Afiliá tu emprendimiento</a></li>
+                </ul>
+            </div>
+            <div class="footer-section follow-us">
+                <h6>Seguinos</h6>
+                <ul class="social-icons">
+                    <li><a href="https://www.instagram.com"  target="_blank"><img src="../Images/instagram.png" alt="Instagram"></a></li>
+                    <li><a href="https://x.com"  target="_blank"><img src="../Images/twitter.png" alt="Twitter"></a></li>
+                    <li><a href="https://www.linkedin.com"  target="_blank"><img src="../Images/linkedin.png" alt="LinkedIn"></a></li>
+                    <li><a href="https://www.facebook.com"  target="_blank"><img src="../Images/facebook.png" alt="Facebook"></a></li>
+                </ul>
+            </div>
         </div>
-        <div class="footer-section">
-            <h6>Ayuda</h6>
-            <ul>
-                <li><a href="@Url.Action("Preguntas","Home")">Preguntas</a></li>
-                <li><a href="@Url.Action("Foros","Home")">Foros</a></li>
-            </ul>
-        </div>
-        <div class="footer-section">
-            <h6>Contáctanos</h6>
-            <ul>
-                <li><a href="@Url.Action("Emprendimiento","Home")">Afiliá tu emprendimiento</a></li>
-            </ul>
-        </div>
-        <div class="footer-section follow-us">
-            <h6>Seguinos</h6>
-            <ul class="social-icons">
-                <li><a href="https://www.instagram.com"  target="_blank"><img src="../Images/instagram.png" alt="Instagram"></a></li>
-                <li><a href="https://x.com"  target="_blank"><img src="../Images/twitter.png" alt="Twitter"></a></li>
-                <li><a href="https://www.linkedin.com"  target="_blank"><img src="../Images/linkedin.png" alt="LinkedIn"></a></li>
-                <li><a href="https://www.facebook.com"  target="_blank"><img src="../Images/facebook.png" alt="Facebook"></a></li>
-            </ul>
-        </div>
-    </div>
-</footer>
+    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

@@ -395,7 +395,7 @@ public class BD
     }
 
     public static List<Pedido> ObtenerPedidosPorUsuario(int IdUsuario)
-{
+    {
     using (SqlConnection db = new SqlConnection(_connectionString))
     {
         string sql = @"
@@ -450,6 +450,18 @@ public class BD
                 IdPedido,
                 pEstado = nuevoEstado
             });
+        }
+    }
+
+    public static void BorrarDetalleComida(int IdPedido, string nuevoEstado)
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = @"
+                DELETE FROM DetallePedido  
+                WHERE IdPedido = @IdPedido";
+            
+            db.Execute(sql);
         }
     }
 }
