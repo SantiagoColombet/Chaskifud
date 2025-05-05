@@ -9,11 +9,10 @@
     {
         private readonly ILogger<HomeController> _logger;
         private readonly GlobalVariableService _globalVariableService;
-        // Modificar el constructor para inyectar el servicio
         public HomeController(ILogger<HomeController> logger, GlobalVariableService globalVariableService)
         {
             _logger = logger;
-            _globalVariableService = globalVariableService; // Inicializar el servicio
+            _globalVariableService = globalVariableService;
         }
 
 
@@ -447,6 +446,19 @@
             return RedirectToAction("ConfRestaurantes", new { IdRestaurante = comida.IdRestaurante });
         }
     }
+    public IActionResult MisPedidos()
+    {
+        var userJson = HttpContext.Session.GetString("user");
+        var usuario = Usuario.FromString(userJson);
+        ViewBag.Pedidos = BD.ObtenerPedidosPorUsuario(usuario.IdUsuario); 
+        return View();
     }
+    public IActionResult CambiarEstadoPedido(int IdPedido)
+    {
+        BD.ActualizarEstadoPedido(IdPedido, "Entregado");
+        return RedirectToAction("ConfRestaurantes");
+    }
+
+}
 
 

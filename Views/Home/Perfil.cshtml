@@ -29,6 +29,9 @@
                 <a href='@Url.Action("Logout", "Auth")' class="btn-logout">
                     <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
                 </a>
+                <a href='@Url.Action("MisPedidos", "Home")' class="btn-pedidos">
+                    Ver mis pedidos
+                </a>
                 @if(!esLocal)
                 {
                     <a href='@Url.Action("PerfilEditar", "Home")' class="btn-editar">
@@ -133,7 +136,7 @@
         margin-top: 1rem;
     }
 
-    .btn-logout, .btn-editar {
+    .btn-logout, .btn-editar, .btn-pedidos {
         padding: 0.5rem 1rem;
         border-radius: 5px;
         text-decoration: none;
@@ -149,6 +152,11 @@
 
     .btn-editar {
         background: #2196F3;
+        color: white;
+    }
+
+    .btn-pedidos {
+        background: #2bdb3a;
         color: white;
     }
 

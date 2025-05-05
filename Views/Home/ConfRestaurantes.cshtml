@@ -95,7 +95,7 @@
     </div>
 
     <div class="pedidos-container">
-        <h3>Pedidos Activos</h3>
+        <h3>Pedidos</h3>
         
         @if (ViewBag.Pedidos != null && ViewBag.Pedidos.Count > 0)
         {
@@ -108,7 +108,15 @@
                         </span>
                         <span>Pedido #@pedido.IdPedido</span>
                     </div>
-                    
+                    @if (pedido.Estado == "Pendiente")
+                    {
+                        <form method="post" action='@Url.Action("CambiarEstadoPedido", "Home")'>
+                            <input type="hidden" name="IdPedido" value="@pedido.IdPedido">
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="fas fa-check-circle"></i> Marcar como Entregado
+                            </button>
+                        </form>
+                    }
                     <div class="pedido-body">
                         <p>Total: $@pedido.Total</p>
                         <div class="detalles-pedido">
@@ -121,6 +129,7 @@
                             }
                         </div>
                     </div>
+
                 </div>
             }
         }
@@ -141,24 +150,6 @@
 
         $(".close").click(function() {
             $("#modalAgregarComida").hide();
-        });
-        
-        $('.comida-form').submit(function(e) {
-            var precio = $(this).find('.precio-input').val();
-            if (precio <= 0) {
-                alert('El precio debe ser mayor que cero');
-                return false;
-            }
-            return true;
-        });
-
-        $("#formNuevaComida").submit(function(e) {
-            var precio = $("input[name='Precio']").val();
-            if (precio <= 0) {
-                alert("El precio debe ser mayor que cero");
-                return false;
-            }
-            return true;
         });
     });
 

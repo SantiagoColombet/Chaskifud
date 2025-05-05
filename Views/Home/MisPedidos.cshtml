@@ -1,0 +1,25 @@
+<div class="pedidos-container">
+@foreach (var pedido in ViewBag.Pedidos)
+{
+    <div class="pedido-card">
+        <div class="pedido-header">
+            <span class="badge @(pedido.Estado == "Pendiente" ? "bg-warning" : "bg-success")">
+                @pedido.Estado
+            </span>
+            <span>Pedido #@pedido.IdPedido</span>
+        </div>
+        <div class="pedido-body">
+            <div class="detalles-pedido">
+                    <p>Total: $@pedido.Total</p>
+                @foreach (var detalle in pedido.Detalles)
+                {
+                    <div class="detalle-item">
+                        <span>@detalle.Cantidad x @BD.ObtenerNombreComida(detalle.IdComida)</span>
+                        <span>$@(detalle.Precio * detalle.Cantidad)</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+</div>

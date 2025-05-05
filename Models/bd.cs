@@ -290,24 +290,24 @@ public class BD
         {
             string sql = @"
            INSERT INTO Comida (
-    IdRestaurante, 
-    Nombre, 
-    Descripcion, 
-    Precio, 
-    IdCategoriaComida, 
-    IdRestriccionAlimenticia, 
-    Imagen
-) 
-VALUES (
-    @pIdRestaurante, 
-    @pNombre, 
-    @pDescripcion, 
-    @pPrecio, 
-    @pIdCategoriaComida, 
-    @pIdRestriccionAlimenticia, 
-    @pImagen
-);
-";
+            IdRestaurante, 
+            Nombre, 
+            Descripcion, 
+            Precio, 
+            IdCategoriaComida, 
+            IdRestriccionAlimenticia, 
+            Imagen
+        ) 
+        VALUES (
+            @pIdRestaurante, 
+            @pNombre, 
+            @pDescripcion, 
+            @pPrecio, 
+            @pIdCategoriaComida, 
+            @pIdRestriccionAlimenticia, 
+            @pImagen
+        );
+        ";
 
             db.Execute(sql, new
             {
@@ -372,26 +372,84 @@ VALUES (
                 WHERE p.IdRestaurante = @pIdRestaurante
                 ORDER BY p.IdPedido DESC";
 
-            var pedidos = db.Query<Pedido, DetallePedido, Pedido>(sql,
-                (pedido, detalle) => {
-                    pedido.Detalles.Add(detalle);
-                    return pedido;
-                },
-                new { pIdRestaurante = IdRestaurante },
-                splitOn: "IdPedido"
-            ).ToList();
+        var pedidosDict = new Dictionary<int, Pedido>();
+        
+        db.Query<Pedido, DetallePedido, Pedido>(sql,
+            (pedido, detalle) => 
+            {
+                if (!pedidosDict.TryGetValue(pedido.IdPedido, out var pedidoEntry))
+                {
+                    pedidoEntry = pedido;
+                    pedidoEntry.Detalles = new List<DetallePedido>();
+                    pedidosDict.Add(pedidoEntry.IdPedido, pedidoEntry);
+                }
+                pedidoEntry.Detalles.Add(detalle);
+                return pedidoEntry;
+            },
+            new { pIdRestaurante = IdRestaurante },
+            splitOn: "IdPedido"
+        );
 
-            return pedidos.GroupBy(p => p.IdPedido)
-                        .Select(g => g.First())
-                        .ToList();
+        return pedidosDict.Values.ToList();
         }
     }
-    public static string ObtenerNombreComida(int IdComida)
+
+    public static List<Pedido> ObtenerPedidosPorUsuario(int IdUsuario)
 {
     using (SqlConnection db = new SqlConnection(_connectionString))
     {
-        string sql = "SELECT Nombre FROM Comida WHERE IdComida = @pIdComida";
-        return db.QueryFirstOrDefault<string>(sql, new { pIdComida = IdComida });
+        string sql = @"
+            SELECT p.*, dp.* 
+            FROM Pedidos p
+            INNER JOIN DetallesPedido dp ON p.IdPedido = dp.IdPedido
+            WHERE p.IdUsuario = @pIdUsuario
+            ORDER BY p.IdPedido DESC";
+
+        var pedidosDict = new Dictionary<int, Pedido>();
+        
+        db.Query<Pedido, DetallePedido, Pedido>(sql,
+            (pedido, detalle) => 
+            {
+                if (!pedidosDict.TryGetValue(pedido.IdPedido, out var pedidoEntry))
+                {
+                    pedidoEntry = pedido;
+                    pedidoEntry.Detalles = new List<DetallePedido>();
+                    pedidosDict.Add(pedidoEntry.IdPedido, pedidoEntry);
+                }
+                pedidoEntry.Detalles.Add(detalle);
+                return pedidoEntry;
+            },
+            new { pIdUsuario = IdUsuario },
+            splitOn: "IdPedido"
+        );
+
+        return pedidosDict.Values.ToList();
     }
 }
+
+    public static string ObtenerNombreComida(int IdComida)
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = "SELECT Nombre FROM Comida WHERE IdComida = @pIdComida";
+            return db.QueryFirstOrDefault<string>(sql, new { pIdComida = IdComida });
+        }
+    }
+
+
+    public static void ActualizarEstadoPedido(int IdPedido, string nuevoEstado)
+    {
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = @"
+                UPDATE Pedidos 
+                SET Estado = @pEstado 
+                WHERE IdPedido = @IdPedido";
+            
+            db.Execute(sql, new {
+                IdPedido,
+                pEstado = nuevoEstado
+            });
+        }
+    }
 }

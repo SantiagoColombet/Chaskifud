@@ -8,24 +8,7 @@
             </div>
             <h1 class="payment-title">¡Pedido Realizado!</h1>
             <p class="payment-message">Gracias por tu pedido. Hemos procesado tu solicitud exitosamente.</p>
-            <a href='@Url.Action("Index", "Home")' class="payment-button">Ver mi pediddo</a>
+            <a href='@Url.Action("MisPedidos", "Home")' class="payment-button">Ver mi pediddo</a>
         </div>
-    </div>
-    
-    <div class="estado-pedido">
-        <!-- <h3>(esto hay que moverlo a una pagina aparte)Estado del pedido #@Model.IdPedido</h3>
-        <div class="progreso">
-            <div class="@(ViewBag.Pedido.Estado == "Recibido" ? "activo" : "")">Recibido</div>
-            <div class="@(ViewBag.Pedido.Estado == "Haciendo la comida" ? "activo" : "")">En preparación</div>
-            <div class="@(ViewBag.Pedido.Estado == "Listo para retirar" ? "activo" : "")">Listo para retirar</div>
-        </div>
-        <h4>Detalles del pedido:</h4>
-        <ul>
-            @foreach (var item in ViewBag.ListaComida)
-            {
-                <li>@item.Nombre - $@item.Precio</li>
-            }
-        </ul> -->
-        <p class="total">Total: $@Model.Total</p>
     </div>
 </div>

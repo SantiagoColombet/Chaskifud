@@ -19,56 +19,54 @@
 <body>
     <header>
         <nav class="navbar">
+            <a href='@Url.Action("Index", "Home")' class="logo-container"><img src = "../Images/C_Chaskifud.png"></a>
             <ul class="nav-links">
+
                 @if (Context.Session.GetString("local") == null) 
                 {
-                    <li><a href="@Url.Action("Index", "Home")">Inicio</a></li>
-                    <li><a href="@Url.Action("Mapa", "Home")">Mapa</a></li>
-                    <li><a href="@Url.Action("Restaurante", "Home")">Restaurantes</a></li>
-                    
-                    @if (Context.Session.GetString("user") != null)
-                    {
-                        <li><a href="@Url.Action("Carrito", "Home")">Carrito</a></li>
-                    }
+                    <li><a href= '@Url.Action("Index","Home")' >Inicio</a></li>
+                    <li><a href= '@Url.Action("Mapa","Home")' >Mapa</a></li>
+                    <li><a href='@Url.Action("Nosotros", "Home")'>Nosotros</a></li>
+                    <li><a href='@Url.Action("Restaurante", "Home")'>Locales</a></li>
                 }
                 else 
                 {
-                    <li><a href="@Url.Action("ConfRestaurantes", "Home")">Home</a></li>
+                    <li><a href="@Url.Action("ConfRestaurantes", "Home")">Inicio</a></li>
                 }
             </ul>
-        <div class="profile">
-            @if (Context.Session.GetString("local") != null)
-            {
-                <div class="dropdown">
-                    <a class="dropdown-toggle" data-bs-toggle="dropdown">
+            <div class="profile">
+                @if (Context.Session.GetString("local") != null)
+                {
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown">
+                            <img src="../Images/@GlobalVariableService.nombreUsuario" alt="Perfil" id="imagen_perfil">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href='@Url.Action("Perfil", "Home")'>
+                                <i class="fas fa-user"></i> Perfil
+                            </a></li>
+                            <li><a class="dropdown-item" href='@Url.Action("Logout", "Auth")'>
+                                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                            </a></li>
+                        </ul>
+                    </div>
+                }
+                else if (GlobalVariableService.nombreUsuario != "anonimo.png")
+                {
+                    <a href='@Url.Action("Perfil", "Home")'>
                         <img src="../Images/@GlobalVariableService.nombreUsuario" alt="Perfil" id="imagen_perfil">
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href='@Url.Action("Perfil", "Home")'>
-                            <i class="fas fa-user"></i> Perfil
-                        </a></li>
-                        <li><a class="dropdown-item" href='@Url.Action("Logout", "Auth")'>
-                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-                        </a></li>
-                    </ul>
-                </div>
-            }
-            else if (GlobalVariableService.nombreUsuario != "anonimo.png")
-            {
-                <a href='@Url.Action("Perfil", "Home")'>
-                    <img src="../Images/@GlobalVariableService.nombreUsuario" alt="Perfil" id="imagen_perfil">
-                </a>
-                <a href='@Url.Action("Carrito", "Home")'>
-                    <img src="../Images/carrito-de-compras.png" alt="Carrito">
-                </a>
-            }
-            else
-            {
-                <a href='@Url.Action("Login", "Auth")'>
-                    <img src="../Images/anonimo.png" alt="Perfil" id="imagen_perfil">
-                </a>
-            }
-        </div>
+                    <a href='@Url.Action("Carrito", "Home")'>
+                        <img src="../Images/carrito-de-compras.png" alt="Carrito">
+                    </a>
+                }
+                else
+                {
+                    <a href='@Url.Action("Login", "Auth")'>
+                        <img src="../Images/anonimo.png" alt="Perfil" id="imagen_perfil">
+                    </a>
+                }
+            </div>
         </nav>  
     </header>
         @RenderBody()
